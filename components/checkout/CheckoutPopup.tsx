@@ -209,7 +209,7 @@ export default function CheckoutPopup() {
     return (
       <Overlay onClose={handleClose} cartOpen={cartOpen}>
         <Shell>
-          <Header onClose={handleClose} brand="THRIDHA VARNAM" />
+          <Header onClose={handleClose} brand="HOUSE OF GNANRUDH" />
           <div className="p-8 text-center">
             <div className="text-sm font-bold text-ink">Your bag is empty.</div>
             <p className="mt-1.5 text-xs text-ink/65">Add a saree to begin checkout.</p>
@@ -528,7 +528,7 @@ function Header({
       <div className="flex items-center gap-3">
         <img
           src="/brand/logomark.svg"
-          alt="Thridha Varnam"
+          alt="House Of GnanRudh"
           width={28}
           height={28}
           className="h-7 w-auto shrink-0 select-none"

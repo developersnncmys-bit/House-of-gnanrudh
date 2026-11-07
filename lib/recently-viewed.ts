@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const STORAGE_KEY = 'tridhavarnam-recently-viewed';
+const STORAGE_KEY = 'gnanrudh-recently-viewed';
 const MAX_ITEMS = 12;
 
 function read(): string[] {

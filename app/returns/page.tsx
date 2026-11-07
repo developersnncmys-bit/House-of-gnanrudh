@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import {
   PolicyBlock,
   PolicyContactStrip,
@@ -6,9 +6,9 @@ import {
 } from '@/components/policy/PolicyChrome';
 
 export const metadata: Metadata = {
-  title: 'Return, Replacement & Refund Policy · Thridha Varnam',
+  title: 'Return, Replacement & Refund Policy · House Of GnanRudh',
   description:
-    'Thridha Varnam return, replacement and refund policy — eligibility, 48-hour window, mandatory unboxing video, refund timelines and contact information.',
+    'House Of GnanRudh return, replacement and refund policy — eligibility, 48-hour window, mandatory unboxing video, refund timelines and contact information.',
 };
 
 export default function ReturnsPage() {
@@ -22,7 +22,7 @@ export default function ReturnsPage() {
 
       <section className="max-w-[1100px] mx-auto px-6 lg:px-10 py-10">
         <p className="text-sm text-gray-700 leading-relaxed max-w-3xl">
-          At <strong>THRIDHA VARNAM</strong>, every product is carefully
+          At <strong>HOUSE OF GNANRUDH</strong>, every product is carefully
           inspected and securely packed before dispatch. Please read our
           Return, Replacement &amp; Refund Policy carefully before placing
           your order.
@@ -72,7 +72,7 @@ export default function ReturnsPage() {
             </li>
             <li>Be recorded without any cuts, edits, or pauses.</li>
           </ul>
-          <div className="border-l-4 border-[#75001F] bg-gray-50 px-4 py-3 text-sm text-gray-800">
+          <div className="border-l-4 border-[#082052] bg-gray-50 px-4 py-3 text-sm text-gray-800">
             <strong>Important:</strong> Return, replacement, or refund
             requests without a valid unboxing video may not be accepted,
             except where required by applicable consumer protection laws.
@@ -98,17 +98,17 @@ export default function ReturnsPage() {
             <li>
               <strong>Email:</strong>{' '}
               <a
-                href="mailto:support@thridhavarnam.com"
-                className="text-[#75001F] underline underline-offset-2 font-semibold"
+                href="mailto:support@gnanrudh.com"
+                className="text-[#082052] underline underline-offset-2 font-semibold"
               >
-                support@thridhavarnam.com
+                support@gnanrudh.com
               </a>
             </li>
             <li>
               <strong>WhatsApp:</strong>{' '}
               <a
                 href="tel:+919949528787"
-                className="text-[#75001F] underline underline-offset-2 font-semibold"
+                className="text-[#082052] underline underline-offset-2 font-semibold"
               >
                 +91 99495 28787
               </a>
@@ -181,7 +181,7 @@ export default function ReturnsPage() {
             <li>Manufacturing defect</li>
           </ul>
           <p className="text-sm text-gray-700 leading-relaxed mb-3">
-            THRIDHA VARNAM will arrange pickup where available or reimburse
+            HOUSE OF GNANRUDH will arrange pickup where available or reimburse
             reasonable return shipping charges.
           </p>
           <p className="text-sm text-gray-700 leading-relaxed">
@@ -240,7 +240,7 @@ export default function ReturnsPage() {
 
         <PolicyBlock title="13. False or Fraudulent Claims">
           <p className="text-sm text-gray-700 leading-relaxed mb-3">
-            THRIDHA VARNAM reserves the right to reject any return,
+            HOUSE OF GNANRUDH reserves the right to reject any return,
             replacement, or refund request if:
           </p>
           <ul className="text-sm text-gray-700 space-y-1.5 list-disc pl-5">

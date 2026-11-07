@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 export default function TrustBanner() {
   return (
@@ -15,7 +15,7 @@ export default function TrustBanner() {
 function Cell({ icon, title, body }: { icon: React.ReactNode; title: string; body: string }) {
   return (
     <div className="flex items-center gap-3 p-4 border-b md:border-b-0 md:border-r last:border-r-0 last:border-b-0 border-gray-200">
-      <div className="shrink-0 text-[#75001F]">{icon}</div>
+      <div className="shrink-0 text-[#082052]">{icon}</div>
       <div>
         <div className="text-sm font-bold text-gray-900">{title}</div>
         <div className="text-xs text-gray-600">{body}</div>

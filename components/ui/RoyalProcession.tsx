@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
@@ -129,8 +129,8 @@ export default function RoyalProcession() {
 /*  SVG                                                              */
 /* ---------------------------------------------------------------- */
 
-const MAROON = '#4D0015';
-const PARCH = '#F7EAD9';
+const MAROON = '#082052';
+const PARCH = '#FDF6EC';
 const GOLD = '#E0AE6D';
 
 function ElephantPair() {

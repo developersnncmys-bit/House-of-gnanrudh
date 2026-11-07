@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { TIERS, STANDARD_COLORWAYS } from '@/lib/sarees';
 import type { Tier, Weave } from '@/lib/sarees';
@@ -124,7 +124,7 @@ export default function FilterRail({
           <button
             type="button"
             onClick={onClear}
-            className="text-xs font-bold text-[#75001F] hover:underline uppercase"
+            className="text-xs font-bold text-[#082052] hover:underline uppercase"
           >
             Clear ({activeCount})
           </button>

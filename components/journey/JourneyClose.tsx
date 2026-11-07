@@ -121,7 +121,7 @@ export default function JourneyClose() {
         <header className="flex items-start justify-between gap-8">
           <div data-jc-mark>
             <div className="text-display text-xl md:text-2xl text-[#F2C99E] leading-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]">
-              Thridha Varnam
+              House Of GnanRudh
             </div>
             <div data-jc-rule className="gold-rule w-10 my-1.5" />
             <div className="eyebrow text-[0.5rem] text-[#F2C99E]/80 tracking-[0.4em]">
@@ -170,7 +170,7 @@ export default function JourneyClose() {
             >
               <Link
                 href="/shop"
-                className="group relative inline-flex items-center justify-between gap-8 bg-[#E0AE6D] text-[#3F3F3F] pl-6 pr-5 py-[0.9rem] hover:bg-[#F2C99E] transition-colors duration-500 shadow-[0_10px_40px_-12px_rgba(201,169,97,0.55)] whitespace-nowrap"
+                className="group relative inline-flex items-center justify-between gap-8 bg-[#E0AE6D] text-ink pl-6 pr-5 py-[0.9rem] hover:bg-[#F2C99E] transition-colors duration-500 shadow-[0_10px_40px_-12px_rgba(201,169,97,0.55)] whitespace-nowrap"
               >
                 <span className="eyebrow text-[0.6rem] tracking-[0.35em]">
                   See the pieces

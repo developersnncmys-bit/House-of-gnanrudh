@@ -1,4 +1,4 @@
-export type Tier = 'bridal' | 'festive' | 'everyday';
+﻿export type Tier = 'bridal' | 'festive' | 'everyday';
 
 export type Weave =
   | 'Banarasi'
@@ -100,7 +100,7 @@ export const SAREES: Saree[] = [
     story:
       'A bridal piece woven on a pit loom for one hundred and forty days. The pallu carries a kalga-and-bel pattern set in pure silver zari, dipped twice in gold.',
     image: '/images/c2.jpg',
-    palette: ['#6B0E1F', '#C9A961', '#8C6B2F'],
+    palette: ['#082052', '#C9A961', '#8C6B2F'],
     details: {
       length: '6.3 m with running blouse',
       blouse: '0.8 m attached blouse piece',
@@ -140,7 +140,7 @@ export const SAREES: Saree[] = [
     story:
       'Double-ikat — both warp and weft dyed before the loom ever moves. Eleven months on a hand-frame; the colour will not fade in three centuries.',
     image: '/images/c4.jpg',
-    palette: ['#6B0E1F', '#0E4D5C', '#E2C98A'],
+    palette: ['#082052', '#0E4D5C', '#E2C98A'],
     details: {
       length: '6.0 m',
       blouse: '0.8 m matching blouse',
@@ -200,7 +200,7 @@ export const SAREES: Saree[] = [
     story:
       'A bridal fusion drape in deep magenta — a soft-silk Kanjivaram body finished with a Banarasi mor (peacock) pallu in twenty-eight hand-dyed colours. Two traditions, one fold, eleven months on the loom.',
     image: '/pattu%20sarees/pa2.webp',
-    palette: ['#6B0E1F', '#0E4D5C', '#C9A961'],
+    palette: ['#082052', '#0E4D5C', '#C9A961'],
     details: {
       length: '5.5 m',
       blouse: '0.8 m attached',
@@ -220,7 +220,7 @@ export const SAREES: Saree[] = [
     story:
       'A Salvi-family double-ikat — fourteen months from yarn to finish, with both warp and weft tied off before the dye. The elephant-and-parrot bhat is woven thread for thread on a slanting hand-frame.',
     image: '/Byweaves/Patola.webp',
-    palette: ['#6B0E1F', '#E2C98A', '#1E1B3A'],
+    palette: ['#082052', '#E2C98A', '#1E1B3A'],
     details: {
       length: '6.0 m',
       blouse: '0.8 m matching blouse',
@@ -260,7 +260,7 @@ export const SAREES: Saree[] = [
     story:
       'A wedding mixed-pattu in deep sindoor — a Kanjivaram silk body finished with a Banarasi gold-zari pallu and a Patola-inspired bandhani border. Three traditions, one fold.',
     image: '/pattu%20sarees/pa4.webp',
-    palette: ['#6B0E1F', '#C9A961', '#1E1B3A'],
+    palette: ['#082052', '#C9A961', '#1E1B3A'],
     details: {
       length: '6.0 m',
       blouse: '0.8 m attached',
@@ -322,7 +322,7 @@ export const SAREES: Saree[] = [
     story:
       'A lighter Banarasi in deep jamuni — the all-over jaal woven with cut-work bootis that hold the light without weighing on the shoulder.',
     image: '/images/c8.jpg',
-    palette: ['#1E1B3A', '#C9A961', '#6B0E1F'],
+    palette: ['#1E1B3A', '#C9A961', '#082052'],
     details: {
       length: '6.3 m',
       blouse: '0.8 m attached',
@@ -362,7 +362,7 @@ export const SAREES: Saree[] = [
     story:
       'A vermillion Banarasi katan silk with an all-over jangla jaal — the kind that catches a temple-lamp and refuses to let go. Slim border, generous gold pallu.',
     image: '/newarrivals/sindhoori%20banarasi.webp',
-    palette: ['#6B0E1F', '#C9A961', '#8C6B2F'],
+    palette: ['#082052', '#C9A961', '#8C6B2F'],
     details: {
       length: '6.3 m',
       blouse: '0.8 m attached',
@@ -382,7 +382,7 @@ export const SAREES: Saree[] = [
     story:
       'A sunset-orange Kanjivaram with a maroon korvai border — the rudraksha-and-mango motif runs the length of the pallu, woven on a two-shuttle loom.',
     image: '/Byweaves/kanjeevaram.webp',
-    palette: ['#8C6B2F', '#6B0E1F', '#C9A961'],
+    palette: ['#8C6B2F', '#082052', '#C9A961'],
     details: {
       length: '6.3 m',
       blouse: '0.8 m contrast blouse',
@@ -402,7 +402,7 @@ export const SAREES: Saree[] = [
     story:
       'A jasmine-white crepe Mysore with a deep maroon border — the everyday classic of the Karnataka temple-town. KSIC hologram on the inner pallu.',
     image: '/Byweaves/Mysore%20silk.webp',
-    palette: ['#EDE3D0', '#6B0E1F', '#C9A961'],
+    palette: ['#EDE3D0', '#082052', '#C9A961'],
     details: {
       length: '5.5 m',
       blouse: '0.8 m matching',
@@ -442,7 +442,7 @@ export const SAREES: Saree[] = [
     story:
       'A Rajkot single-ikat Patola — the weft alone is dyed before the loom, which keeps the eight-month timeline at four and the price at festive rather than heirloom. Honest workmanship, faithful colour.',
     image: '/newarrivals/rangraj%20patola.webp',
-    palette: ['#6B0E1F', '#C9A961', '#0E4D5C'],
+    palette: ['#082052', '#C9A961', '#0E4D5C'],
     details: {
       length: '5.5 m',
       blouse: '0.8 m matching',
@@ -462,7 +462,7 @@ export const SAREES: Saree[] = [
     story:
       'An indigo Gadwal with a deep cotton body and a silk-zari pallu. The interlock join is finished by hand; the pallu carries the temple-corner motif in gold-coloured resham and zari.',
     image: '/Gadwal%20sarees/g2.webp',
-    palette: ['#1E1B3A', '#C9A961', '#6B0E1F'],
+    palette: ['#1E1B3A', '#C9A961', '#082052'],
     details: {
       length: '6.0 m',
       blouse: '0.8 m attached',
@@ -502,7 +502,7 @@ export const SAREES: Saree[] = [
     story:
       'A festive Gadwal in jasmine ivory with a wine-red silk pallu — the cotton body breathes through the long evening, the pallu catches every temple lamp. Interlock join finished by hand.',
     image: '/Gadwal%20sarees/g3.webp',
-    palette: ['#EDE3D0', '#6B0E1F', '#C9A961'],
+    palette: ['#EDE3D0', '#082052', '#C9A961'],
     details: {
       length: '5.5 m',
       blouse: '0.8 m attached',
@@ -522,7 +522,7 @@ export const SAREES: Saree[] = [
     story:
       'A cocktail-evening fancy saree in midnight blue with sequinned florals scattered across the pallu — a contemporary silhouette built for the after-dark portrait.',
     image: '/Partysarees/p3.webp',
-    palette: ['#1E1B3A', '#C9A961', '#6B0E1F'],
+    palette: ['#1E1B3A', '#C9A961', '#082052'],
     details: {
       length: '5.5 m',
       blouse: '0.8 m attached',
@@ -584,7 +584,7 @@ export const SAREES: Saree[] = [
     story:
       'Crepe Mysore in star-blue with a quiet contrast pallu — the soft-shouldered drape that has been the Karnataka woman’s morning friend for a hundred years.',
     image: '/images/c12.jpg',
-    palette: ['#1E1B3A', '#E2C98A', '#6B0E1F'],
+    palette: ['#1E1B3A', '#E2C98A', '#082052'],
     details: {
       length: '5.5 m',
       blouse: '0.8 m matching',
@@ -604,7 +604,7 @@ export const SAREES: Saree[] = [
     story:
       'A daily Banarasi — fewer threads, faster loom, the same quiet glow. Built for the evening that becomes a memory before you notice.',
     image: '/images/c13.jpg',
-    palette: ['#8C6B2F', '#6B0E1F', '#FBF6EE'],
+    palette: ['#8C6B2F', '#082052', '#FBF6EE'],
     details: {
       length: '6.0 m',
       blouse: '0.8 m attached',
@@ -644,7 +644,7 @@ export const SAREES: Saree[] = [
     story:
       'A handloom bandha Pochampally in maroon and ivory — the geometric ikat grid tied off thread by thread before the dye. Crisp cotton-silk; gets softer with every wash.',
     image: '/pochampally%20sarees/po2.webp',
-    palette: ['#6B0E1F', '#EDE3D0', '#3A2A22'],
+    palette: ['#082052', '#EDE3D0', '#3A2A22'],
     details: {
       length: '5.5 m',
       blouse: '0.8 m attached',
@@ -700,7 +700,7 @@ export const REGIONS = [
     name: 'Banarasi',
     place: 'Varanasi · Uttar Pradesh',
     era: 'since the Mughal court · 14th century',
-    palette: ['#6B0E1F', '#C9A961', '#1B0E0A'],
+    palette: ['#082052', '#C9A961', '#1B0E0A'],
     fact:
       'A bridal Banarasi can use up to 5,600 thread wires set by hand on a pit loom. Akbar’s court is recorded as keeping more than a thousand weavers — the saree was, for a time, a kind of currency.',
     image: '/story/banarasi story.webp',
@@ -710,7 +710,7 @@ export const REGIONS = [
     name: 'Kanjeevaram',
     place: 'Kanchipuram · Tamil Nadu',
     era: 'since the Chola dynasty · 9th century',
-    palette: ['#0E4D5C', '#C9A961', '#6B0E1F'],
+    palette: ['#0E4D5C', '#C9A961', '#082052'],
     fact:
       'The body, the border, and the pallu are woven separately and then interlocked by hand at a join called the petni — meaning a Kanjeevaram is, in truth, three sarees fused into one.',
     image: '/story/kanjeevaram story.webp',
@@ -740,7 +740,7 @@ export const REGIONS = [
     name: 'Pochampally',
     place: 'Bhoodan Pochampally · Telangana',
     era: 'since the 1950s land-gift villages',
-    palette: ['#1E1B3A', '#6B0E1F', '#EDE3D0'],
+    palette: ['#1E1B3A', '#082052', '#EDE3D0'],
     fact:
       'The Silk City of India. Every Pochampally is resist-tied and dyed before the loom even moves — the geometry only reveals itself once warp meets weft. A UNESCO-listed tradition.',
     image: '/story/banarasi story.webp',
@@ -760,7 +760,7 @@ export const REGIONS = [
     name: 'Patola',
     place: 'Patan · Gujarat',
     era: 'since the 12th century',
-    palette: ['#6B0E1F', '#0E4D5C', '#E2C98A'],
+    palette: ['#082052', '#0E4D5C', '#E2C98A'],
     fact:
       'In a Patola, both warp and weft are tie-dyed before weaving — a technique called double ikat. Only three families in the world still know it. Six months to four years per saree, and the colour does not fade in three hundred years.',
     image: '/story/patola.webp',

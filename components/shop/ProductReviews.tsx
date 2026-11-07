@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState } from 'react';
 import { useReviews, type Review } from '@/lib/reviews';
@@ -36,7 +36,7 @@ export default function ProductReviews({
             <button
               type="button"
               onClick={() => setOpen(true)}
-              className="bg-gray-900 text-white px-6 py-2.5 text-sm font-bold uppercase tracking-wide hover:bg-[#75001F] transition-colors"
+              className="bg-gray-900 text-white px-6 py-2.5 text-sm font-bold uppercase tracking-wide hover:bg-[#082052] transition-colors"
             >
               Write a Review
             </button>
@@ -157,7 +157,7 @@ function WriteReviewModal({
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
           <div>
             <label className="block text-xs font-bold text-gray-900 uppercase tracking-wide mb-1.5">
-              Your Rating <span className="text-[#75001F]">*</span>
+              Your Rating <span className="text-[#082052]">*</span>
             </label>
             <div className="flex items-center gap-1" onMouseLeave={() => setHover(0)}>
               {[1, 2, 3, 4, 5].map((n) => (
@@ -178,13 +178,13 @@ function WriteReviewModal({
               )}
             </div>
             {ratingError && (
-              <p className="text-xs text-[#75001F] mt-1">Please select a rating</p>
+              <p className="text-xs text-[#082052] mt-1">Please select a rating</p>
             )}
           </div>
 
           <div>
             <label htmlFor="reviewer-name" className="block text-xs font-bold text-gray-900 uppercase tracking-wide mb-1.5">
-              Name <span className="text-[#75001F]">*</span>
+              Name <span className="text-[#082052]">*</span>
             </label>
             <input
               id="reviewer-name"
@@ -193,11 +193,11 @@ function WriteReviewModal({
               onChange={(e) => setName(e.target.value)}
               maxLength={60}
               className={`w-full border px-3 py-2 text-sm focus:outline-none focus:border-gray-900 ${
-                nameError ? 'border-[#75001F]' : 'border-gray-300'
+                nameError ? 'border-[#082052]' : 'border-gray-300'
               }`}
             />
             {nameError && (
-              <p className="text-xs text-[#75001F] mt-1">Please enter your name</p>
+              <p className="text-xs text-[#082052] mt-1">Please enter your name</p>
             )}
           </div>
 
@@ -229,7 +229,7 @@ function WriteReviewModal({
             </button>
             <button
               type="submit"
-              className="flex-1 bg-gray-900 text-white py-2.5 text-sm font-bold uppercase tracking-wide hover:bg-[#75001F] transition-colors"
+              className="flex-1 bg-gray-900 text-white py-2.5 text-sm font-bold uppercase tracking-wide hover:bg-[#082052] transition-colors"
             >
               Submit Review
             </button>

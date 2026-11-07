@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useScrollLock } from '@/lib/scroll-lock';
@@ -324,7 +324,7 @@ export default function ShopView() {
               <button
                 type="button"
                 onClick={onClearFilters}
-                className="text-xs font-bold text-[#75001F] hover:underline ml-1 uppercase"
+                className="text-xs font-bold text-[#082052] hover:underline ml-1 uppercase"
               >
                 Clear All
               </button>
@@ -385,7 +385,7 @@ export default function ShopView() {
                 <button
                   type="button"
                   onClick={onClearFilters}
-                  className="inline-block bg-gray-900 text-white px-6 py-2.5 text-sm font-bold uppercase tracking-wide hover:bg-[#75001F] transition-colors"
+                  className="inline-block bg-gray-900 text-white px-6 py-2.5 text-sm font-bold uppercase tracking-wide hover:bg-[#082052] transition-colors"
                 >
                   Clear All Filters
                 </button>
@@ -443,7 +443,7 @@ export default function ShopView() {
             <button
               type="button"
               onClick={() => setFilterDrawerOpen(false)}
-              className="mt-4 w-full bg-gray-900 text-white py-3 text-sm font-bold uppercase tracking-wide hover:bg-[#75001F] transition-colors"
+              className="mt-4 w-full bg-gray-900 text-white py-3 text-sm font-bold uppercase tracking-wide hover:bg-[#082052] transition-colors"
             >
               Show {filtered.length} {filtered.length === 1 ? 'item' : 'items'}
             </button>
@@ -462,7 +462,7 @@ function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }
         type="button"
         onClick={onRemove}
         aria-label={`Remove filter ${label}`}
-        className="text-gray-500 hover:text-[#75001F] text-base leading-none ml-0.5"
+        className="text-gray-500 hover:text-[#082052] text-base leading-none ml-0.5"
       >
         ×
       </button>

@@ -12,6 +12,17 @@ const nextConfig = {
     // serve files directly from /public.
     unoptimized: true,
   },
+  // Tree-shake `react-icons` per-glyph. Without this, every
+  // `import { LuSearch, LuHeart } from 'react-icons/lu'` pulls in the
+  // whole Lucide index (~1200 icons) which Next walks on every dev
+  // compile. The transform below rewrites each named import into its
+  // own file path so only what's actually referenced is bundled.
+  modularizeImports: {
+    'react-icons/?(((\\w*)?/?)*)': {
+      transform: 'react-icons/{{ matches.[1] }}/{{member}}',
+      skipDefaultConversion: true,
+    },
+  },
 };
 
 export default nextConfig;

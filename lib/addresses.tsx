@@ -47,7 +47,7 @@ type AddressContextValue = AddressState & {
   selectAddress: (id: string) => void;
 };
 
-const STORAGE_KEY = 'tridhavarnam-addresses-v1';
+const STORAGE_KEY = 'gnanrudh-addresses-v1';
 const Ctx = createContext<AddressContextValue | null>(null);
 
 function readStorage(): AddressState {

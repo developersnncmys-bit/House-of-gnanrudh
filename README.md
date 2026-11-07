@@ -1,4 +1,4 @@
-# Tridhavarnam · Heirloom Weaves
+# House Of GnanRudh · Heirloom Weaves
 
 A luxurious e-commerce experience for traditional Indian silk sarees — Banarasi,
 Kanjivaram, Mysore, Paithani, Patola, Baluchari. Built with Next.js 14, GSAP

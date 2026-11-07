@@ -87,7 +87,7 @@ export default function PromoSplash() {
           <div className="flex flex-col items-start">
             <img
               src="/brand/cream-logo-horizontal.svg"
-              alt="Thridha Varnam"
+              alt="House Of GnanRudh"
               width={160}
               height={48}
               className="h-10 md:h-12 w-auto select-none"

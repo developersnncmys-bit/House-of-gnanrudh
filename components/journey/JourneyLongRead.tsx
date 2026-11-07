@@ -293,7 +293,7 @@ export default function JourneyLongRead() {
       aria-label="The deep archive: six weaving traditions of India"
     >
       <div className="absolute top-8 left-10 z-30 pointer-events-none">
-        <div className="text-display text-xl text-ivory leading-none">Thridha Varnam</div>
+        <div className="text-display text-xl text-ivory leading-none">House Of GnanRudh</div>
         <div className="gold-rule w-8 my-1" />
         <div className="eyebrow text-gold-soft text-[0.55rem]">The Journey · Deep Archive</div>
       </div>

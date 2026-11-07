@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useMemo, useState } from 'react';
 import { type SAREES, formatINR, getColorways } from '@/lib/sarees';
@@ -90,7 +90,7 @@ export default function ProductInfo({
             onClick={() => toggleWishlist(saree.id)}
             aria-label={saved ? 'Remove from wishlist' : 'Add to wishlist'}
             aria-pressed={saved}
-            className="p-2 text-gray-700 hover:text-[#75001F] transition-colors"
+            className="p-2 text-gray-700 hover:text-[#082052] transition-colors"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill={saved ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M20.8 6.6a5.5 5.5 0 0 0-9-1.7l-.8.8-.8-.8a5.5 5.5 0 1 0-7.8 7.8l8.6 8.5 8.6-8.5a5.5 5.5 0 0 0 1.2-6.1Z" />
@@ -137,7 +137,7 @@ export default function ProductInfo({
             <span className="text-base text-gray-500 line-through tabular-nums">
               MRP {formatINR(mrp)}
             </span>
-            <span className="text-base font-bold text-[#75001F] tabular-nums">
+            <span className="text-base font-bold text-[#082052] tabular-nums">
               ({discount}% OFF)
             </span>
           </>
@@ -226,14 +226,14 @@ export default function ProductInfo({
                 setShowPreDrapeInfo((v) => !v);
               }}
               aria-expanded={showPreDrapeInfo}
-              className="ml-2 text-xs text-[#75001F] hover:underline"
+              className="ml-2 text-xs text-[#082052] hover:underline"
             >
               {showPreDrapeInfo ? 'Hide' : 'Learn More'}
             </button>
           </div>
         </label>
         {showPreDrapeInfo && (
-          <div className="mb-3 ml-7 mr-1 p-3 bg-gray-50 border-l-2 border-[#75001F] text-xs text-gray-700 leading-relaxed space-y-1.5">
+          <div className="mb-3 ml-7 mr-1 p-3 bg-gray-50 border-l-2 border-[#082052] text-xs text-gray-700 leading-relaxed space-y-1.5">
             <p>
               Our atelier pre-pleats and stitches your saree into a ready-to-wear drape — you step in and zip up, no pinning, no folding.
             </p>
@@ -261,7 +261,7 @@ export default function ProductInfo({
         <button
           type="button"
           onClick={handleBuyItNow}
-          className="w-full bg-[#4D0015] text-white py-3.5 text-sm font-bold uppercase tracking-wide hover:bg-[#75001F] transition-colors"
+          className="w-full bg-[#082052] text-white py-3.5 text-sm font-bold uppercase tracking-wide hover:bg-[#082052] transition-colors"
         >
           Buy It Now
         </button>
@@ -269,7 +269,7 @@ export default function ProductInfo({
 
       {/* Viewer note */}
       <div className="mt-4 flex items-center gap-2 text-sm text-gray-700">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#75001F]" aria-hidden>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#082052]" aria-hidden>
           <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z" />
           <circle cx="12" cy="12" r="3" />
         </svg>

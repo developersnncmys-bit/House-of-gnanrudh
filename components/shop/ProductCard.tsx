@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -37,7 +37,7 @@ export default function ProductCard({
         />
 
         {discount > 0 && (
-          <div className="absolute top-2 left-2 bg-[#75001F] text-white px-2 py-0.5 text-[0.65rem] font-bold tracking-wide z-10">
+          <div className="absolute top-2 left-2 bg-[#082052] text-white px-2 py-0.5 text-[0.65rem] font-bold tracking-wide z-10">
             {discount}% OFF
           </div>
         )}
@@ -48,17 +48,8 @@ export default function ProductCard({
           size={14}
         />
 
-        {/* Brand watermark — cream T+V monogram, bottom-left corner. */}
-        <img
-          src="/brand/logomark-cream.svg"
-          alt=""
-          aria-hidden
-          draggable={false}
-          className="absolute bottom-2 left-2 w-5 h-5 md:w-6 md:h-6 opacity-75 pointer-events-none select-none z-10"
-        />
-
         {badges.length > 0 && (
-          <div className="absolute bottom-2 left-10 right-2 flex flex-wrap gap-1 pointer-events-none">
+          <div className="absolute bottom-2 left-2 right-2 flex flex-wrap gap-1 pointer-events-none">
             {badges.map((b) => (
               <span
                 key={b}
@@ -72,7 +63,7 @@ export default function ProductCard({
       </div>
 
       <div className="p-2.5">
-        <h3 className="text-sm text-gray-900 leading-snug line-clamp-2 mb-1.5 group-hover:text-[#75001F] transition-colors">
+        <h3 className="text-sm text-gray-900 leading-snug line-clamp-2 mb-1.5 group-hover:text-[#082052] transition-colors">
           {saree.name}
         </h3>
         <div className="flex items-baseline gap-2 flex-wrap">
@@ -84,7 +75,7 @@ export default function ProductCard({
               <span className="text-xs text-gray-500 line-through tabular-nums">
                 {formatINR(mrp)}
               </span>
-              <span className="text-xs font-bold text-[#75001F] tabular-nums">
+              <span className="text-xs font-bold text-[#082052] tabular-nums">
                 {discount}% OFF
               </span>
             </>

@@ -245,8 +245,8 @@ export default function ThankYouView() {
             </span>.
           </span>
           <div className="flex items-center gap-3">
-            <a href="mailto:support@thridhavarnam.com" className="font-semibold text-ink hover:text-maroon underline underline-offset-2">
-              support@thridhavarnam.com
+            <a href="mailto:support@gnanrudh.com" className="font-semibold text-ink hover:text-maroon underline underline-offset-2">
+              support@gnanrudh.com
             </a>
             <a href="tel:+919949528787" className="font-semibold text-ink hover:text-maroon underline underline-offset-2 tabular-nums">
               +91 99495 28787

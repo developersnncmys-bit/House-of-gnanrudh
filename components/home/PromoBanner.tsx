@@ -1,90 +1,139 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { SAREES, formatINR } from '@/lib/sarees';
+import { navHref } from '@/lib/soft-launch';
 
-const buckets = [
-  {
-    label: 'Under ₹5,000',
-    sub: 'Everyday Drapes',
-    href: '/shop?max=5000',
-    sampleId: 'mangalagiri-tulsi',
-  },
-  {
-    label: 'Under ₹10,000',
-    sub: 'Light Festive',
-    href: '/shop?max=10000',
-    sampleId: 'banarasi-saanjh',
-  },
-  {
-    label: 'Under ₹25,000',
-    sub: 'Festive Picks',
-    href: '/shop?max=25000',
-    sampleId: 'fancy-haldi',
-  },
-  {
-    label: '₹25,000 & above',
-    sub: 'Bridal · Heirloom',
-    href: '/shop?tier=bridal',
-    sampleId: 'banarasi-raktarani',
-  },
-];
+/**
+ * PromoBanner — Pothys sale-banner layout:
+ *   [ model photo ]  [ dark centre panel with heading + CTA ]  [ model photo ]
+ *
+ * The centre panel carries the section's heading + description + call
+ * to action — nothing lives above or below this strip. Flanked by two
+ * full-bleed model photographs so the whole band reads as a single
+ * promotional banner, not a card grid.
+ */
+
+const leftImage = '/bg-explore.png';
+const rightImage = '/bg-explore.png';
+
+const promo = {
+  eyebrow: 'The House Collection',
+  headline: 'Explore Collections',
+  description:
+    'Celebrate tradition with our exquisite range of sarees — from everyday drapes to heirloom silks, hand-woven for every occasion in a woman’s wardrobe.',
+  ctaLabel: 'Explore Now',
+  ctaHref: '/shop',
+};
 
 export default function PromoBanner() {
+  const ctaHref = navHref(promo.ctaHref);
   return (
-    <section className="bg-ivory py-10 md:py-14">
-      <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
-        <div className="flex items-center justify-between mb-6 md:mb-8 flex-wrap gap-3">
-          <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink">
-            Shop by price
-          </h2>
-          <Link
-            href="/shop"
-            className="text-sm font-semibold text-ink hover:text-maroon transition-colors underline underline-offset-4"
-          >
-            View All
-          </Link>
-        </div>
+    <section className="bg-white py-8 md:py-12">
+      {/* Full-bleed grid — no max-width container so the flanking
+          model photos run edge-to-edge with the viewport. The centre
+          maroon panel's own padding handles its internal breathing room. */}
+      <div className="grid md:grid-cols-[1fr_1.4fr_1fr] min-h-[420px] md:min-h-[500px] lg:min-h-[560px] overflow-hidden">
+          {/* LEFT — arch background with model photograph laid on top,
+              anchored at the bottom so she stands inside the mihrab
+              cut-out. Hidden on mobile so the centre panel owns the
+              viewport width. */}
+          <div className="relative hidden md:block">
+            <Image
+              src={leftImage}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 0vw, 28vw"
+              className="object-cover"
+              style={{ objectPosition: '50% 0%' }}
+            />
+            {/* Model is wrapped in a smaller, bottom-anchored box so
+                the figure shrinks (h-[80%]) while still touching the
+                bottom edge of the panel. */}
+            <div className="absolute inset-x-0 bottom-0 h-[80%] pointer-events-none">
+              <Image
+                src="/homebanner/women1.png"
+                alt=""
+                fill
+                sizes="(max-width: 768px) 0vw, 22vw"
+                className="object-contain object-bottom"
+              />
+            </div>
+          </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-          {buckets.map((b) => {
-            const sample = SAREES.find((s) => s.id === b.sampleId);
-            return (
-              <Link
-                key={b.label}
-                href={b.href}
-                className="group relative aspect-[3/4] overflow-hidden bg-maroon-deep rounded-sm"
+          {/* CENTRE — image-backed panel carrying the heading, copy
+              and CTA. The bg-behind photograph fills the panel and
+              the text stacks over it. */}
+          <div className="relative text-ivory flex flex-col items-center justify-center text-center px-6 md:px-10 py-16 md:py-20 overflow-hidden">
+            <Image
+              src="/homebanner/bg-behind.png"
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 44vw"
+              className="object-cover"
+              priority={false}
+            />
+            <div className="relative w-full max-w-md">
+              <h2
+                className="text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.05]"
+                style={{
+                  fontFamily:
+                    'var(--font-hero), "Cookie", "Brush Script MT", cursive',
+                  // Metallic-gold text — same multi-stop gradient used
+                  // on the Hero banner + Bridal Edit headings so the
+                  // three script headlines read as one visual set.
+                  backgroundImage:
+                    'linear-gradient(135deg, #8A5A1F 0%, #C8923F 20%, #F2C99E 45%, #FFF2D6 50%, #F2C99E 55%, #C8923F 80%, #8A5A1F 100%)',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  color: 'transparent',
+                  filter:
+                    'drop-shadow(0 2px 6px rgba(0,0,0,0.45)) drop-shadow(0 0 1px rgba(242,201,158,0.3))',
+                }}
               >
-                {sample && (
-                  <Image
-                    src={sample.image}
-                    alt={sample.name}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1B0E0A]/90 via-[#1B0E0A]/30 to-transparent" />
-                <div className="absolute inset-0 p-5 flex flex-col justify-end text-ivory">
-                  <div className="text-xs font-medium text-ivory/75 mb-1 uppercase tracking-wide">
-                    {b.sub}
-                  </div>
-                  <div className="text-xl md:text-2xl font-bold leading-tight mb-3">
-                    {b.label}
-                  </div>
-                  {sample && (
-                    <div className="text-xs text-ivory/85 mb-3">
-                      Starting at <span className="font-bold">{formatINR(sample.price)}</span>
-                    </div>
-                  )}
-                  <span className="inline-flex items-center justify-center bg-ivory no-pattern text-ink px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-sm self-start group-hover:bg-gold transition-colors">
-                    Shop Now
-                  </span>
-                </div>
+                {promo.headline}
+              </h2>
+
+              <p className="mt-5 text-sm md:text-base text-ivory/85 leading-relaxed">
+                {promo.description}
+              </p>
+            </div>
+
+            {/* CTA — sharp-cornered white rectangle under the copy. */}
+            {ctaHref ? (
+              <Link
+                href={ctaHref}
+                className="relative mt-8 inline-flex items-center justify-center bg-white text-ink px-10 py-3.5 text-xs md:text-sm font-bold uppercase tracking-[0.2em] hover:bg-gold hover:text-ink transition-colors"
+              >
+                {promo.ctaLabel}
               </Link>
-            );
-          })}
+            ) : (
+              <span className="relative mt-8 inline-flex items-center justify-center bg-white text-ink px-10 py-3.5 text-xs md:text-sm font-bold uppercase tracking-[0.2em] cursor-default">
+                {promo.ctaLabel}
+              </span>
+            )}
+          </div>
+
+          {/* RIGHT — mirror arch + model, same recipe as the left. */}
+          <div className="relative hidden md:block">
+            <Image
+              src={rightImage}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 0vw, 28vw"
+              className="object-cover"
+              style={{ objectPosition: '50% 0%' }}
+            />
+            <div className="absolute inset-x-0 bottom-0 h-[80%] pointer-events-none">
+              <Image
+                src="/homebanner/women2.png"
+                alt=""
+                fill
+                sizes="(max-width: 768px) 0vw, 22vw"
+                className="object-contain object-bottom"
+              />
+            </div>
+          </div>
         </div>
-      </div>
     </section>
   );
 }

@@ -1,15 +1,16 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
-import AudioToggle from '@/components/AudioToggle';
 import BackToTop from '@/components/BackToTop';
+import Preloader from '@/components/Preloader';
 import LoginModal from '@/components/auth/LoginModal';
 import AddressModal from '@/components/checkout/AddressModal';
 import CartDrawer from '@/components/shop/CartDrawer';
 import CheckoutPopup from '@/components/checkout/CheckoutPopup';
+import { useAudio } from '@/components/AudioProvider';
 import { LoginModalProvider } from '@/lib/login-modal';
 import { AddressProvider } from '@/lib/addresses';
 import { OrdersProvider } from '@/lib/orders';
@@ -18,6 +19,18 @@ import { CheckoutModalProvider } from '@/lib/checkout-modal';
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { markEntered } = useAudio();
+
+  // Show the Preloader only when the initial pathname is `/home`. The
+  // root `/` server-redirects there, so the splash plays on first visit
+  // to the site. SiteShell stays mounted across SPA navigations, so
+  // `useState` with an initializer captures the entry route exactly
+  // once; refreshing `/shop` etc. mounts SiteShell fresh with a non-
+  // `/home` pathname and skips the preloader entirely.
+  const [showPreloader] = useState(() => pathname === '/home');
+  useEffect(() => {
+    markEntered();
+  }, [markEntered]);
 
   // Disable the browser's automatic scroll restoration once on mount —
   // we drive scroll position ourselves below. history.scrollRestoration
@@ -51,17 +64,19 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   // panel — no global nav and no footer.
   const immersive = pathname === '/' || pathname === '/journey';
   const showFooter = !immersive;
-  // Nav stacks promo strip (~34px) + main row (logo + py-2) + weaves sub-row
-  // (~32px, md+ only — hidden on mobile so the hamburger owns nav there).
-  //   base:  34 + 64           ≈  98 → pt-[108px]
-  //   sm:    34 + 72           ≈ 106 → pt-[116px]
-  //   md:    34 + 80 + 32      ≈ 146 → pt-[160px]
-  //   lg:    34 + 96 + 32      ≈ 162 → pt-[176px]
-  // `bg-ivory no-pattern` paints the spacer strip between the fixed nav
-  // and a page's first section as plain cream.
+  // Nav stacks promo strip (~44px min) + main row (logo + py-3) + 1px
+  // bottom border. Sub-row has been removed — all nav links sit in the
+  // main row. Logo scales h-7 → h-10 across breakpoints.
+  //   base:  44 + (28 + 24) + 1 ≈  97 → pt-[97px]
+  //   sm:    44 + (32 + 24) + 1 ≈ 101 → pt-[101px]
+  //   md:    44 + (36 + 24) + 1 ≈ 105 → pt-[105px]
+  //   lg:    44 + (40 + 24) + 1 ≈ 109 → pt-[109px]
+  // Spacer is plain white so it matches the nav's own background (nav is
+  // bg-white). Using bg-ivory here would paint a visible cream stripe
+  // between the nav's bottom border and the first page section.
   const mainClass = immersive
     ? ''
-    : 'pt-[108px] sm:pt-[116px] md:pt-[160px] lg:pt-[176px] bg-ivory no-pattern';
+    : 'pt-[97px] sm:pt-[101px] md:pt-[105px] lg:pt-[109px] bg-white';
 
   return (
     <LoginModalProvider>
@@ -72,12 +87,12 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
             <Nav />
             <main className={mainClass}>{children}</main>
             {showFooter && <Footer />}
-            <AudioToggle />
             {!immersive && <BackToTop />}
             <LoginModal />
             <CartDrawer />
             <CheckoutPopup />
             <AddressModal />
+            {showPreloader && <Preloader />}
           </CheckoutModalProvider>
         </CartDrawerProvider>
         </OrdersProvider>

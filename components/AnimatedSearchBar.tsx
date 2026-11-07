@@ -31,7 +31,7 @@ const TYPE_MS = 70;
 const ERASE_MS = 35;
 const HOLD_MS = 1400;
 
-export default function AnimatedSearchBar() {
+export default function AnimatedSearchBar({ autoFocus = false }: { autoFocus?: boolean } = {}) {
   const router = useRouter();
   const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
@@ -41,6 +41,12 @@ export default function AnimatedSearchBar() {
   const phaseRef = useRef<'typing' | 'holding' | 'erasing'>('typing');
   const timerRef = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (!autoFocus) return;
+    const t = window.setTimeout(() => inputRef.current?.focus(), 320);
+    return () => window.clearTimeout(t);
+  }, [autoFocus]);
 
   // Pause the animation if the user has typed anything or focused the input.
   const shouldAnimate = !focused && value.length === 0;

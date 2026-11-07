@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
@@ -22,7 +22,7 @@ function leaveStory(href: string) {
 }
 
 // A curated selection of heirloom weaves shown in the story section.
-// Thridha Varnam carries more than this — these are the chapters the
+// House Of GnanRudh carries more than this — these are the chapters the
 // house opens with. Local to this component; the /journey deep-archive
 // still reads from REGIONS in lib/sarees.ts. Some imagery is placeholder
 // until the photographs for Pochampally, Gadwal and Mangalagiri arrive —
@@ -50,7 +50,7 @@ const CATEGORIES: Category[] = [
     state: 'Tamil Nadu',
     era: 'since the Chola dynasty · 9th century',
     image: '/story/kanjeevaram.webp',
-    palette: ['#0E4D5C', '#C9A961', '#6B0E1F'],
+    palette: ['#0E4D5C', '#C9A961', '#082052'],
     intro:
       'Three sarees, fused at the petni, lived as one — the temple-edged drape of the south.',
     origins:
@@ -92,7 +92,7 @@ const CATEGORIES: Category[] = [
     state: 'Telangana',
     era: 'GI tag · 2005',
     image: '/story/banarasi.webp', // TODO: replace with Pochampally photograph — banarasi.png is a temporary placeholder; no dedicated Pochampally image exists in /public/story yet.
-    palette: ['#6B0E1F', '#0E4D5C', '#E2C98A'],
+    palette: ['#082052', '#0E4D5C', '#E2C98A'],
     intro:
       'The first handloom in India to win a name of its own — geometry set in the thread, not on the surface.',
     origins:
@@ -134,7 +134,7 @@ const CATEGORIES: Category[] = [
     state: 'Andhra Pradesh',
     era: 'written of since the 15th century',
     image: '/story/Mangalgiri.webp',
-    palette: ['#0E4D5C', '#C9A961', '#6B0E1F'],
+    palette: ['#0E4D5C', '#C9A961', '#082052'],
     intro:
       'Calm in the body, gold at the hem — the temple cotton of the Krishna river.',
     origins:
@@ -237,8 +237,8 @@ export default function HeritageScroll() {
     <>
       <section
         ref={sectionRef}
-        className="relative bg-[#4D0015] text-ivory overflow-hidden"
-        aria-label="Thridha Varnam — stories from the loom"
+        className="relative bg-[#082052] text-ivory overflow-hidden"
+        aria-label="House Of GnanRudh — stories from the loom"
       >
         {/* Faint film-grain over everything */}
         <div
@@ -282,7 +282,7 @@ export default function HeritageScroll() {
               <div className="overflow-hidden h-20 md:h-24 lg:h-28 shrink-0">
                 <img
                   src="/brand/cream-logo-horizontal.svg"
-                  alt="Thridha Varnam"
+                  alt="House Of GnanRudh"
                   width={420}
                   height={420}
                   className="h-36 md:h-44 lg:h-52 w-auto select-none -mt-8 md:-mt-10 lg:-mt-12"
@@ -339,7 +339,7 @@ export default function HeritageScroll() {
                   data-h-lede
                   className="font-sans text-[0.95rem] md:text-base text-ivory/80 leading-relaxed font-light"
                 >
-                  Thridha Varnam is a premium saree house — a celebration of
+                  House Of GnanRudh is a premium saree house — a celebration of
                   the beauty, grace, and cultural richness of Indian
                   womanhood. Every drape, carefully curated, is rooted in
                   tradition and made for today. Below, a few of the weaves
@@ -364,7 +364,7 @@ export default function HeritageScroll() {
                   // cream inner ring evoke the gopuram/mehrab vocabulary
                   // from the reference. `overflow-hidden` clips the
                   // photograph to the arch shape.
-                  className="group relative aspect-[3/5] overflow-hidden bg-[#2A0010] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E0AE6D] focus-visible:ring-offset-2 focus-visible:ring-offset-[#4D0015] border border-[#F2C99E]/25 hover:border-[#F2C99E]/50 transition-colors duration-500"
+                  className="group relative aspect-[3/5] overflow-hidden bg-[#5A0010] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E0AE6D] focus-visible:ring-offset-2 focus-visible:ring-offset-[#082052] border border-[#F2C99E]/25 hover:border-[#F2C99E]/50 transition-colors duration-500"
                   style={{
                     borderTopLeftRadius: '50% 28%',
                     borderTopRightRadius: '50% 28%',
@@ -656,7 +656,7 @@ function ChapterModal({
           <div data-m-body className="flex flex-wrap items-center gap-5">
             <Link
               href="/shop"
-              className="group relative inline-flex items-center justify-between gap-6 bg-[#E0AE6D] text-[#3F3F3F] pl-5 pr-4 py-3 hover:bg-[#F2C99E] transition-colors duration-500 shadow-[0_10px_30px_-12px_rgba(201,169,97,0.55)] whitespace-nowrap"
+              className="group relative inline-flex items-center justify-between gap-6 bg-[#E0AE6D] text-ink pl-5 pr-4 py-3 hover:bg-[#F2C99E] transition-colors duration-500 shadow-[0_10px_30px_-12px_rgba(201,169,97,0.55)] whitespace-nowrap"
             >
               <span className="eyebrow text-[0.55rem] tracking-[0.35em]">
                 See the pieces

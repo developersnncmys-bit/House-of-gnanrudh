@@ -2,8 +2,22 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import {
+  LuUser,
+  LuCreditCard,
+  LuPackage,
+  LuMapPin,
+  LuHeart,
+  LuLogOut,
+} from 'react-icons/lu';
 import { useAuth } from '@/lib/auth';
 import { useLoginModal } from '@/lib/login-modal';
+
+// Soft-launch gate — mirrors the flag in `components/Nav.tsx`. When
+// true, the account icon still renders (same look) but clicks do
+// nothing: no login modal, no dropdown, no sign-out. Flip to false to
+// restore full behaviour. See memory: project_pages_unlinked_soft_launch.
+const SOFT_LAUNCH = true;
 
 /**
  * AccountMenu — the user icon in the nav.
@@ -21,6 +35,24 @@ export default function AccountMenu() {
   const { openLogin } = useLoginModal();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
+
+  // Soft-launch: render an inert account button that keeps the same
+  // hover animation as the cart/wishlist icons, so the utility row
+  // reads consistently. onClick is a no-op; the login modal stays
+  // mounted globally in SiteShell but no trigger reaches it from here.
+  if (SOFT_LAUNCH) {
+    return (
+      <button
+        type="button"
+        aria-label="Account"
+        className="group p-2 text-ink hover:text-scarlet transition-colors cursor-default"
+      >
+        <span className="inline-flex transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-110 origin-center">
+          <IconUser />
+        </span>
+      </button>
+    );
+  }
 
   // Close on outside click / Escape so the menu behaves like a real popover.
   useEffect(() => {
@@ -48,7 +80,7 @@ export default function AccountMenu() {
         type="button"
         onClick={() => openLogin()}
         aria-label="Account · login or sign up"
-        className="group p-2 text-ink hover:text-maroon transition-colors"
+        className="group p-2 text-ink hover:text-scarlet transition-colors"
       >
         <span className="inline-flex transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-110 origin-center">
           <IconUser />
@@ -67,7 +99,7 @@ export default function AccountMenu() {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label={`Account menu for ${user!.name}`}
-        className="group relative p-2 text-ink hover:text-maroon transition-colors"
+        className="group relative p-2 text-ink hover:text-scarlet transition-colors"
       >
         <span
           className={`inline-flex transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-110 origin-center ${
@@ -159,56 +191,28 @@ function MenuItem({
   );
 }
 
+// Icon set — Lucide via react-icons. See the matching note in Nav.tsx
+// about why we use a real library instead of hand-drawn paths.
 function IconUser() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <circle cx="12" cy="8" r="4" />
-      <path d="M4 21a8 8 0 0 1 16 0" />
-    </svg>
-  );
+  return <LuUser size={20} strokeWidth={2} aria-hidden />;
 }
 
 function IconCard() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <rect x="3" y="5" width="18" height="14" rx="2" />
-      <path d="M3 10h18" />
-    </svg>
-  );
+  return <LuCreditCard size={16} strokeWidth={1.7} aria-hidden />;
 }
 
 function IconBox() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M3 7.5 12 3l9 4.5v9L12 21 3 16.5v-9Z" />
-      <path d="M3 7.5 12 12l9-4.5M12 12v9" />
-    </svg>
-  );
+  return <LuPackage size={16} strokeWidth={1.7} aria-hidden />;
 }
 
 function IconPin() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z" />
-      <circle cx="12" cy="9" r="2.5" />
-    </svg>
-  );
+  return <LuMapPin size={16} strokeWidth={1.7} aria-hidden />;
 }
 
 function IconHeart() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M20.8 6.6a5.5 5.5 0 0 0-9-1.7l-.8.8-.8-.8a5.5 5.5 0 1 0-7.8 7.8l8.6 8.5 8.6-8.5a5.5 5.5 0 0 0 1.2-6.1Z" />
-    </svg>
-  );
+  return <LuHeart size={16} strokeWidth={1.7} aria-hidden />;
 }
 
 function IconSignOut() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M15 17l5-5-5-5" />
-      <path d="M20 12H9" />
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-    </svg>
-  );
+  return <LuLogOut size={16} strokeWidth={1.7} aria-hidden />;
 }

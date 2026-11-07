@@ -1,6 +1,6 @@
 /**
  * VisionMission — kit-verbatim Vision & Mission paragraph, matching
- * page 4 of the official Thridha Varnam brand identity PDF (2026-06-15)
+ * page 4 of the official House Of GnanRudh brand identity PDF (2026-06-15)
  * as strictly as possible.
  *
  * Kit page 4 rules being honoured:
@@ -19,21 +19,6 @@
 export default function VisionMission() {
   return (
     <section className="relative bg-maroon-deep text-ivory overflow-hidden">
-      {/* Heritage pattern wash — cream-tinted brand tile at very low
-          opacity so it reads as a woven backdrop, never as decoration. */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: "url('/brand/pattern-title.svg')",
-          backgroundRepeat: 'repeat',
-          backgroundSize: '480px auto',
-          opacity: 0.06,
-          filter:
-            'brightness(0) saturate(100%) invert(95%) sepia(15%) saturate(450%) hue-rotate(355deg)',
-        }}
-      />
-
       <div className="relative max-w-[1100px] mx-auto px-6 lg:px-10 py-20 md:py-24 lg:py-28">
         {/* Heading — Black Mango at font-medium (weight 500), matches
             the kit's lighter display treatment on page 4. */}
@@ -45,7 +30,7 @@ export default function VisionMission() {
             full ivory tone (no opacity reduction — kit body sits at
             full cream, not muted), generous line-height for reading. */}
         <p className="mt-8 md:mt-10 text-base md:text-[1.05rem] lg:text-[1.1rem] leading-[1.85] text-ivory max-w-[78ch] font-normal">
-          At Thridha Varnam, our vision is to become a celebrated saree brand
+          At House Of GnanRudh, our vision is to become a celebrated saree brand
           that preserves the richness of Indian heritage while inspiring women
           to embrace elegance, culture, and confidence. Our mission is to offer
           premium sarees that blend timeless craftsmanship with modern

@@ -11,7 +11,7 @@ export type Review = {
   createdAt: number;
 };
 
-const STORAGE_KEY = 'tridhavarnam-reviews-v1';
+const STORAGE_KEY = 'gnanrudh-reviews-v1';
 
 function readAll(): Review[] {
   if (typeof window === 'undefined') return [];

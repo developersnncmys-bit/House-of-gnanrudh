@@ -3,15 +3,14 @@ import Tiers from '@/components/home/Tiers';
 import BestSellers from '@/components/home/BestSellers';
 import Featured from '@/components/home/Featured';
 import PromoBanner from '@/components/home/PromoBanner';
+import ShopByPrice from '@/components/home/ShopByPrice';
 import WeaveRail from '@/components/home/WeaveRail';
-import ParallaxBanner from '@/components/home/ParallaxBanner';
 import CraftStory from '@/components/home/CraftStory';
 import Testimonials from '@/components/home/Testimonials';
 import PressStrip from '@/components/home/PressStrip';
 import InstagramFeed from '@/components/home/InstagramFeed';
 import Worldwide from '@/components/home/Worldwide';
-import BrandVerse from '@/components/home/BrandVerse';
-import SectionOrnament from '@/components/ui/SectionOrnament';
+import BrandSeoBlock from '@/components/home/BrandSeoBlock';
 
 export default function HomePage() {
   return (
@@ -20,17 +19,15 @@ export default function HomePage() {
       <Tiers />
       <BestSellers />
       <Featured />
-      <SectionOrnament />
       <PromoBanner />
+      <ShopByPrice />
       <WeaveRail />
-      <ParallaxBanner />
-      <BrandVerse />
       <CraftStory />
-      <SectionOrnament />
       <Testimonials />
       <PressStrip />
       <InstagramFeed />
       <Worldwide />
+      <BrandSeoBlock />
     </>
   );
 }

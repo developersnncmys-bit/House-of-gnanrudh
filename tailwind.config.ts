@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss';
+﻿import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -13,18 +13,20 @@ const config: Config = {
         // Tokens keep their existing names so every `bg-ink`,
         // `text-maroon`, `bg-ivory`, etc. across the codebase picks
         // up the new brand colours without any per-component edits.
-        ivory: '#F7EAD9',        // Cream — primary page background
-        parchment: '#F7EAD9',    // Alias for ivory (kept for back-compat)
+        ivory: '#FDF6EC',        // Light cream — primary page background
+        parchment: '#FDF6EC',    // Alias for ivory (kept for back-compat)
         bone: '#F9F9F9',         // Off-white — alt surface (cards on cream)
-        ink: '#3F3F3F',          // Charcoal — body text on light
+        ink: '#000000',          // Black — body text / icons on light
         ash: '#5D3E14',          // Espresso brown — rare accent
         whisper: '#6E5B4F',      // Quiet mid-tone, kept
 
-        // Wine / maroon scale
+        // Brand maroon scale — flipped from crimson to cream per brand
+        // update. All three tokens aliased to the same value so the
+        // former red-on-maroon-deep contrasts collapse into a flat cream.
         maroon: {
-          DEFAULT: '#75001F',    // Deep wine — primary brand, logo, CTAs
-          deep: '#4D0015',       // Deepest wine — display headings
-          soft: '#A3002C',       // Mid maroon — accents, hover, badges
+          DEFAULT: '#a11922',
+          deep: '#8B1B23',
+          soft: '#8b1f26',
         },
 
         // Gold / bronze scale (warm accent)
@@ -34,6 +36,12 @@ const config: Config = {
           soft: '#F2C99E',       // Lighter tan (derived for soft chips)
         },
 
+        // Scarlet — nav hover accent. Reserved for the top nav row
+        // (link hover + utility icon hover) so the pointer-feedback
+        // reads as a distinct attention colour against the maroon
+        // brand primary used for active state and CTAs.
+        scarlet: '#FF2400',
+
         // ── System / semantic (NOT in brand kit) ───────────────────────
         // Kept so success states remain visually distinct from the
         // brand maroon used by errors / cancellations. If the brand
@@ -42,16 +50,14 @@ const config: Config = {
         indigo: '#1E1B3A',       // Cool dark accent — legacy, used by intro illustrations
       },
       fontFamily: {
-        // Brand typography per Thridha Varnam kit:
-        //   display / serif → Black Mango (local, public/fonts/)
-        //   sans            → Plus Jakarta Sans (Google Fonts)
-        // `Black Mango` is the explicit @font-face name registered in
-        // globals.css. The `var(--font-display)` is the next/font/local
-        // variable from app/layout.tsx — kept as a fallback in case
-        // Next.js's font pipeline is preferred. Either resolves to
-        // the same font files.
-        display: ['"Black Mango"', 'var(--font-display)', 'Georgia', 'serif'],
-        serif: ['"Black Mango"', 'var(--font-display)', 'Georgia', 'serif'],
+        // Brand typography:
+        //   display / serif → Fraunces (Google Fonts)
+        //   sans            → Raleway (Google Fonts)
+        // `var(--font-display)` is the next/font variable registered in
+        // app/layout.tsx; the quoted family name is a hard fallback if
+        // the Next font pipeline hasn't loaded yet.
+        display: ['var(--font-display)', '"Fraunces"', 'Georgia', 'serif'],
+        serif: ['var(--font-display)', '"Fraunces"', 'Georgia', 'serif'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {

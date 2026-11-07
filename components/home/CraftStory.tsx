@@ -1,110 +1,187 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { SAREES, formatINR } from '@/lib/sarees';
+import SectionHeader from '@/components/home/SectionHeader';
+import { navHref } from '@/lib/soft-launch';
 
-type Edit = {
-  badge: string;
-  title: string;
-  description: string;
-  href: string;
-  productIds: string[];
+/**
+ * CraftStory — bridal collection section.
+ *   • Shared SectionHeader sits ABOVE the banner (lotus + title +
+ *     description) so the section reads like every other home block.
+ *   • Below it, a full-bleed landscape photo carries a short promo
+ *     tagline on the right plus a Shop Now CTA.
+ */
+
+type Feature = {
+  headline: string;
+  subhead: string;
+  ctaLabel: string;
+  ctaHref: string;
+  image: string;
+  imagePosition?: string;
 };
 
-const edits: Edit[] = [
+const feature: Feature = {
+  headline: 'Heirloom Bridal Silks',
+  subhead: 'Curated drapes for the bride and her moment.',
+  ctaLabel: 'Shop Now',
+  ctaHref: '/shop?tier=bridal',
+  image: '/homebanner/banner3.png',
+  imagePosition: '85% 40%',
+};
+
+// Four bridal-occasion sub-edits, mirrored on the Kalki "Wedding
+// Wardrobe" pattern — portrait card per occasion with the title and
+// SHOP NOW CTA overlaid at the bottom over a soft gradient veil.
+type Occasion = {
+  title: string;
+  href: string;
+  image: string;
+  imagePosition?: string;
+};
+
+const occasions: Occasion[] = [
   {
-    badge: 'Bridal',
-    title: 'For the day you keep',
-    description: 'Heirloom Banarasi, Kanjeevaram & Patola for the bride.',
-    href: '/shop?tier=bridal',
-    productIds: ['banarasi-raktarani', 'kanjivaram-mayura', 'patola-rasleela'],
+    title: 'Haldi Hues',
+    href: '/shop?tier=bridal&occasion=haldi',
+    image: '/bestsellers/haldi%20paithani2.webp',
+    imagePosition: '50% 30%',
   },
   {
-    badge: 'Festive',
-    title: 'For the lit hour',
-    description: 'Mysore Silk, Gadwal & Pochampally for the season ahead.',
-    href: '/shop?tier=festive',
-    productIds: ['fancy-haldi', 'mysore-chandrika', 'banarasi-jamawar'],
+    title: 'Mehendi Moments',
+    href: '/shop?tier=bridal&occasion=mehendi',
+    image: '/bestsellers/Mayura%20kanjee.webp',
+    imagePosition: '50% 25%',
   },
   {
-    badge: 'Everyday',
-    title: 'For the morning drape',
-    description: 'Light Mangalagiri cottons & soft crepe Mysore. Always in stock.',
-    href: '/shop?tier=everyday',
-    productIds: ['pochampally-aakash', 'mangalagiri-tulsi', 'mysore-tara'],
+    title: 'Wedding Day',
+    href: '/shop?tier=bridal&occasion=wedding',
+    image: '/photos/bridal.webp',
+    imagePosition: '50% 20%',
+  },
+  {
+    title: 'The Reception',
+    href: '/shop?tier=bridal&occasion=reception',
+    image: '/images/c12.jpg',
+    imagePosition: '50% 25%',
   },
 ];
 
 export default function CraftStory() {
+  const ctaHref = navHref(feature.ctaHref);
   return (
-    <section className="bg-ivory py-10 md:py-14">
-      <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
-        <div className="flex items-center justify-between mb-6 md:mb-8 flex-wrap gap-3">
-          <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink">
-            Shop the edits
-          </h2>
-          <Link
-            href="/shop"
-            className="text-sm font-semibold text-ink hover:text-maroon transition-colors underline underline-offset-4"
-          >
-            View All
-          </Link>
-        </div>
+    <section className="bg-ivory">
+      <div className="max-w-[1720px] mx-auto px-6 lg:px-10 pt-10 md:pt-14">
+        <SectionHeader
+          title="The Bridal Edit"
+          description="Heirloom silks, woven to remember — temple-border Kanjeevarams, pit-loom Banarasis and double-ikat Patolas for the day you keep."
+          ornament="/photos/swan.png"
+        />
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5">
-          {edits.map((edit) => {
-            const products = edit.productIds
-              .map((id) => SAREES.find((s) => s.id === id))
-              .filter((s): s is (typeof SAREES)[number] => Boolean(s));
+      <div className="relative w-full min-h-[510px] md:min-h-[calc(75vh+30px)] overflow-hidden">
+        <Image
+          src={feature.image}
+          alt=""
+          fill
+          priority={false}
+          sizes="100vw"
+          style={{ objectPosition: feature.imagePosition }}
+          className="object-cover"
+        />
 
-            return (
-              <div
-                key={edit.title}
-                className="bg-bone rounded-sm overflow-hidden flex flex-col"
+        {/* Dark gradient on the right so the copy is always readable
+            regardless of what sits under it in the photograph. */}
+        <div className="absolute inset-0 bg-gradient-to-l from-ink/70 via-ink/30 to-transparent md:via-ink/10" />
+
+        <div className="relative z-10 min-h-[510px] md:min-h-[calc(75vh+30px)] flex items-center justify-end">
+          <div className="w-full md:w-3/5 lg:w-1/2 px-6 md:px-12 lg:px-20 py-14 text-ivory flex flex-col items-center text-center">
+            <h3
+              className="font-normal text-6xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight"
+              style={{
+                fontFamily:
+                  'var(--font-hero), "Cookie", "Brush Script MT", cursive',
+                // Metallic-gold text — multi-stop gradient from bronze to
+                // champagne to bronze, clipped to the glyphs. Drop-shadow
+                // adds the subtle sheen a flat colour can't.
+                backgroundImage:
+                  'linear-gradient(135deg, #8A5A1F 0%, #C8923F 20%, #F2C99E 45%, #FFF2D6 50%, #F2C99E 55%, #C8923F 80%, #8A5A1F 100%)',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                color: 'transparent',
+                filter:
+                  'drop-shadow(0 2px 6px rgba(0,0,0,0.45)) drop-shadow(0 0 1px rgba(242,201,158,0.3))',
+              }}
+            >
+              {feature.headline}
+            </h3>
+
+            <p className="mt-4 text-sm md:text-base text-ivory/90 leading-relaxed max-w-md">
+              {feature.subhead}
+            </p>
+
+            {ctaHref ? (
+              <Link
+                href={ctaHref}
+                className="inline-flex items-center justify-center mt-7 bg-white text-ink px-10 py-3.5 text-sm font-bold uppercase tracking-[0.2em] hover:bg-maroon-deep hover:text-ivory transition-colors"
               >
-                <div className="p-5">
-                  <div className="inline-block bg-maroon text-ivory px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wider rounded-sm mb-3">
-                    {edit.badge}
-                  </div>
-                  <h3 className="font-display text-xl font-semibold text-ink leading-tight mb-2">
-                    {edit.title}
+                {feature.ctaLabel}
+              </Link>
+            ) : (
+              <span className="inline-flex items-center justify-center mt-7 bg-white text-ink px-10 py-3.5 text-sm font-bold uppercase tracking-[0.2em] cursor-default">
+                {feature.ctaLabel}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Four occasion sub-edits beneath the main banner. Each tile is
+          a portrait photograph with the occasion title + SHOP NOW chip
+          overlaid at the bottom over a dark gradient veil. Mirrors the
+          Kalki "Wedding Wardrobe" cards. */}
+      <div className="max-w-[1720px] mx-auto px-6 lg:px-10 py-10 md:py-14">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          {occasions.map((o) => {
+            const href = navHref(o.href);
+            const inner = (
+              <>
+                <Image
+                  src={o.image}
+                  alt={o.title}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  style={{ objectPosition: o.imagePosition }}
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Dark gradient veil — stronger at the bottom so the
+                    title + CTA stay legible on any photo underneath. */}
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 bottom-0 p-5 md:p-7 flex flex-col items-center text-center">
+                  <h3 className="font-display text-xl md:text-2xl lg:text-3xl font-semibold text-ivory leading-tight">
+                    {o.title}
                   </h3>
-                  <p className="text-sm text-ink/65 leading-relaxed">
-                    {edit.description}
-                  </p>
+                  <span className="inline-flex items-center justify-center mt-4 bg-white text-ink px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] group-hover:bg-maroon-deep group-hover:text-ivory transition-colors">
+                    Shop Now
+                  </span>
                 </div>
-
-                <div className="grid grid-cols-3 gap-1 px-3">
-                  {products.map((product) => (
-                    <Link
-                      key={product.id}
-                      href={`/shop/${product.id}`}
-                      className="group relative aspect-[3/4] overflow-hidden bg-white rounded-sm"
-                    >
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        sizes="(max-width: 768px) 33vw, 12vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-x-0 bottom-0 px-2 py-1.5 bg-gradient-to-t from-[#1B0E0A]/90 to-transparent">
-                        <div className="text-[0.7rem] font-bold text-ivory leading-none">
-                          {formatINR(product.price)}
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-
-                <div className="mt-auto p-5 pt-4">
-                  <Link
-                    href={edit.href}
-                    className="inline-flex items-center justify-center w-full bg-maroon-deep text-ivory px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded-sm hover:bg-maroon transition-colors"
-                  >
-                    Shop the Edit
-                  </Link>
-                </div>
-              </div>
+              </>
+            );
+            return href ? (
+              <Link
+                key={o.title}
+                href={href}
+                className="group relative block aspect-[2/3] overflow-hidden bg-bone"
+              >
+                {inner}
+              </Link>
+            ) : (
+              <span
+                key={o.title}
+                className="group relative block aspect-[2/3] overflow-hidden bg-bone cursor-default"
+              >
+                {inner}
+              </span>
             );
           })}
         </div>

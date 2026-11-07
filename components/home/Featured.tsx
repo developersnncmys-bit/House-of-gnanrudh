@@ -5,7 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SAREES, formatINR, TIERS } from '@/lib/sarees';
 import WishlistButton from '@/components/shop/WishlistButton';
+import ViewSimilarButton from '@/components/shop/ViewSimilarButton';
 import AddToCartButton from '@/components/shop/AddToCartButton';
+import SectionHeader from '@/components/home/SectionHeader';
+import { navHref } from '@/lib/soft-launch';
 
 type Tab = 'new' | 'bridal' | 'festive' | 'everyday';
 
@@ -59,28 +62,22 @@ export default function Featured() {
   return (
     <section className="bg-bone py-10 md:py-14">
       <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
-        <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-          <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink">
-            New arrivals
-          </h2>
-          <Link
-            href="/shop"
-            className="text-sm font-semibold text-ink hover:text-maroon transition-colors underline underline-offset-4"
-          >
-            View All
-          </Link>
-        </div>
+        <SectionHeader
+          title="New Arrivals"
+          description="Fresh off the loom — the latest heirloom weaves added to the house, across bridal, festive and everyday edits."
+          link={{ href: '/shop?sort=new', label: 'View All' }}
+        />
 
         {/* Tabs */}
-        <div className="flex items-center gap-2 mb-6 md:mb-8 flex-wrap">
+        <div className="flex items-center justify-center gap-2 mb-6 md:mb-8 flex-wrap">
           {tabs.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`text-sm px-5 py-2.5 rounded-full font-semibold transition-colors ${
+              className={`text-sm px-5 py-2.5 font-semibold transition-colors ${
                 tab === t.id
                   ? 'bg-maroon-deep text-ivory'
-                  : 'bg-ivory no-pattern text-ink border border-ink/15 hover:border-ink'
+                  : 'bg-transparent text-ink border border-ink/25 hover:border-ink'
               }`}
             >
               {t.label}
@@ -96,11 +93,15 @@ export default function Featured() {
               saree.mrp > saree.price
                 ? Math.round(((saree.mrp - saree.price) / saree.mrp) * 100)
                 : 0;
+            const productHref = navHref(`/shop/${saree.id}`);
+            const CardTag = productHref ? Link : 'span';
+            const cardProps = productHref
+              ? { href: productHref, className: 'group block bg-white rounded-sm overflow-hidden' }
+              : { className: 'group block bg-white rounded-sm overflow-hidden cursor-default' };
             return (
-              <Link
+              <CardTag
                 key={saree.id}
-                href={`/shop/${saree.id}`}
-                className="group block bg-white rounded-sm overflow-hidden"
+                {...(cardProps as { href: string; className: string })}
               >
                 <div className="relative aspect-[4/5] overflow-hidden bg-bone">
                   <Image
@@ -114,30 +115,25 @@ export default function Featured() {
                     {tier.title}
                   </div>
                   {discount > 0 && (
-                    <div className="absolute top-2.5 right-2.5 bg-maroon-deep text-ivory px-2 py-1 text-[0.65rem] font-bold rounded-sm">
+                    <div className="absolute bottom-2.5 right-2.5 bg-maroon-deep text-ivory px-2 py-1 text-[0.65rem] font-bold rounded-sm">
                       {discount}% OFF
                     </div>
                   )}
                   <WishlistButton
                     productId={saree.id}
-                    className="absolute bottom-2.5 right-2.5 w-9 h-9"
+                    className="absolute top-2.5 right-2.5 w-9 h-9"
                     size={14}
                   />
-                  {/* Brand watermark — cream T+V monogram, bottom-left corner. */}
-                  <img
-                    src="/brand/logomark-cream.svg"
-                    alt=""
-                    aria-hidden
-                    draggable={false}
-                    className="absolute bottom-2.5 left-2.5 w-5 h-5 md:w-6 md:h-6 opacity-75 pointer-events-none select-none z-10"
-                  />
-                  {/* Hover Add-to-Bag bar */}
-                  <div className="absolute inset-x-0 bottom-0 px-2.5 pb-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                  {/* Hover Add-to-Bag pill — Nalli-style compact chip
+                      floating at the bottom-left of the image, revealed on
+                      card hover. White fill + dark text with a soft shadow
+                      reads as a quiet secondary CTA, not a loud bar. */}
+                  <div className="absolute bottom-2.5 left-2.5 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-200 pointer-events-none">
                     <div className="pointer-events-auto">
                       <AddToCartButton
                         productId={saree.id}
-                        variant="primary"
-                        className="w-full !px-3 !py-2.5"
+                        variant="compact"
+                        className="!bg-white !text-ink hover:!bg-ivory !px-3.5 !py-1.5 shadow-md border border-ink/10 !text-[0.7rem] !tracking-wide"
                       >
                         Add to Bag
                       </AddToCartButton>
@@ -160,25 +156,38 @@ export default function Featured() {
                     </div>
                     <span className="text-[0.7rem] text-ink/55">({meta.reviews})</span>
                   </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-base font-bold text-ink">{formatINR(saree.price)}</span>
-                    {saree.mrp > saree.price && (
-                      <span className="text-xs text-ink/45 line-through">{formatINR(saree.mrp)}</span>
-                    )}
+                  <div className="flex items-end justify-between gap-2">
+                    <div className="flex items-baseline gap-2 min-w-0">
+                      <span className="text-base font-bold text-ink">{formatINR(saree.price)}</span>
+                      {saree.mrp > saree.price && (
+                        <span className="text-xs text-ink/45 line-through">{formatINR(saree.mrp)}</span>
+                      )}
+                    </div>
+                    <ViewSimilarButton
+                      productId={saree.id}
+                      className="w-8 h-8 shrink-0 !bg-transparent !backdrop-blur-none"
+                      size={16}
+                    />
                   </div>
                 </div>
-              </Link>
+              </CardTag>
             );
           })}
         </div>
 
         <div className="mt-8 flex justify-center">
-          <Link
-            href="/shop"
-            className="inline-flex items-center gap-2 bg-maroon-deep text-ivory px-8 py-3 text-sm font-bold uppercase tracking-wider rounded-sm hover:bg-maroon transition-colors"
-          >
-            View All Sarees
-          </Link>
+          {navHref('/shop') ? (
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-2 bg-maroon-deep text-ivory px-8 py-3 text-sm font-bold uppercase tracking-wider rounded-sm hover:bg-maroon transition-colors"
+            >
+              View All Sarees
+            </Link>
+          ) : (
+            <span className="inline-flex items-center gap-2 bg-maroon-deep text-ivory px-8 py-3 text-sm font-bold uppercase tracking-wider rounded-sm cursor-default">
+              View All Sarees
+            </span>
+          )}
         </div>
       </div>
     </section>

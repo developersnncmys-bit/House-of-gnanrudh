@@ -49,7 +49,7 @@ type ShopContextValue = ShopState & {
   dismissToast: (id: number) => void;
 };
 
-const STORAGE_KEY = 'tridhavarnam-shop-v1';
+const STORAGE_KEY = 'gnanrudh-shop-v1';
 const ShopContext = createContext<ShopContextValue | null>(null);
 
 function readStorage(): ShopState {

@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import LegalShell, { type LegalSection } from '@/components/legal/LegalShell';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy · Thridha Varnam',
+  title: 'Privacy Policy · House Of GnanRudh',
   description:
-    'How Thridha Varnam collects, uses, stores and protects the personal information of customers shopping for heirloom sarees.',
+    'How House Of GnanRudh collects, uses, stores and protects the personal information of customers shopping for heirloom sarees.',
 };
 
 const sections: LegalSection[] = [
@@ -62,7 +62,7 @@ const sections: LegalSection[] = [
     body: (
       <p>
         All online payments are processed through secure, trusted payment
-        gateways. THRIDHA VARNAM does not store your debit card, credit
+        gateways. HOUSE OF GNANRUDH does not store your debit card, credit
         card, UPI PIN, CVV, or internet banking credentials.
       </p>
     ),
@@ -210,7 +210,7 @@ export default function PrivacyPage() {
       lastUpdated="29 June 2026"
       intro={
         <p>
-          At <strong className="text-ink">THRIDHA VARNAM</strong>, we value
+          At <strong className="text-ink">HOUSE OF GNANRUDH</strong>, we value
           your privacy and are committed to protecting your personal
           information. This Privacy Policy explains how we collect, use,
           store, and protect your information when you visit our website or

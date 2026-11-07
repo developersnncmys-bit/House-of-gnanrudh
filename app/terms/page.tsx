@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import LegalShell, { type LegalSection } from '@/components/legal/LegalShell';
 
 export const metadata: Metadata = {
-  title: 'Terms & Conditions · Thridha Varnam',
+  title: 'Terms & Conditions · House Of GnanRudh',
   description:
-    'Terms & Conditions for Thridha Varnam — orders, pricing, shipping, returns, mandatory unboxing video, intellectual property and dispute resolution.',
+    'Terms & Conditions for House Of GnanRudh — orders, pricing, shipping, returns, mandatory unboxing video, intellectual property and dispute resolution.',
 };
 
 const sections: LegalSection[] = [
@@ -69,7 +69,7 @@ const sections: LegalSection[] = [
     title: '4. Orders',
     body: (
       <>
-        <p>THRIDHA VARNAM reserves the right to:</p>
+        <p>HOUSE OF GNANRUDH reserves the right to:</p>
         <ul className="list-disc pl-5 space-y-1.5">
           <li>Accept or reject any order.</li>
           <li>Cancel suspected fraudulent or unauthorized transactions.</li>
@@ -202,7 +202,7 @@ const sections: LegalSection[] = [
           <li>Icons</li>
         </ul>
         <p>
-          is the intellectual property of THRIDHA VARNAM or its licensors
+          is the intellectual property of HOUSE OF GNANRUDH or its licensors
           and may not be copied, reproduced, modified, distributed, or
           used without prior written permission.
         </p>
@@ -215,7 +215,7 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          To the maximum extent permitted by law, THRIDHA VARNAM shall not
+          To the maximum extent permitted by law, HOUSE OF GNANRUDH shall not
           be liable for:
         </p>
         <ul className="list-disc pl-5 space-y-1.5">
@@ -280,7 +280,7 @@ const sections: LegalSection[] = [
         <p>
           Subject to applicable law, disputes arising out of these Terms
           shall be subject to the exclusive jurisdiction of the competent
-          courts where THRIDHA VARNAM is registered or carries on business.
+          courts where HOUSE OF GNANRUDH is registered or carries on business.
         </p>
       </>
     ),
@@ -290,7 +290,7 @@ const sections: LegalSection[] = [
     title: '16. Changes to These Terms',
     body: (
       <p>
-        THRIDHA VARNAM may update these Terms &amp; Conditions from time to
+        HOUSE OF GNANRUDH may update these Terms &amp; Conditions from time to
         time. Updated versions will be published on this page with the
         revised effective date.
       </p>
@@ -305,7 +305,7 @@ export default function TermsPage() {
       lastUpdated="29 June 2026"
       intro={
         <p>
-          Welcome to <strong className="text-gray-900">THRIDHA VARNAM</strong>.
+          Welcome to <strong className="text-gray-900">HOUSE OF GNANRUDH</strong>.
           By accessing or using our website, placing an order, or purchasing
           our products, you agree to be bound by these Terms &amp;
           Conditions. If you do not agree with these Terms, please do not

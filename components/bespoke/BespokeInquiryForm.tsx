@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 
@@ -68,7 +68,7 @@ type SubmitState =
   | { kind: 'success'; ref: string }
   | { kind: 'error'; message: string };
 
-const STORAGE_KEY = 'tridhavarnam-bespoke-inquiries-v1';
+const STORAGE_KEY = 'gnanrudh-bespoke-inquiries-v1';
 
 export default function BespokeInquiryForm() {
   const [form, setForm] = useState<FormState>(EMPTY);
@@ -105,7 +105,7 @@ export default function BespokeInquiryForm() {
     } catch {
       setSubmit({
         kind: 'error',
-        message: 'Something went wrong. Please try again or email support@thridhavarnam.com.',
+        message: 'Something went wrong. Please try again or email support@gnanrudh.com.',
       });
     }
   };
@@ -136,7 +136,7 @@ export default function BespokeInquiryForm() {
               setTouched(false);
               setSubmit({ kind: 'idle' });
             }}
-            className="text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#75001F] underline underline-offset-4"
+            className="text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#082052] underline underline-offset-4"
           >
             Submit another inquiry
           </button>
@@ -256,13 +256,13 @@ export default function BespokeInquiryForm() {
 
       <div className="flex items-center justify-between flex-wrap gap-3 pt-2">
         <p className="text-xs text-gray-500">
-          By submitting you agree to be contacted by a Thridha Varnam stylist.
+          By submitting you agree to be contacted by a House Of GnanRudh stylist.
           We will not share your details with third parties.
         </p>
         <button
           type="submit"
           disabled={submit.kind === 'submitting'}
-          className="inline-flex items-center gap-2 bg-gray-900 text-white px-7 py-3 text-sm font-bold uppercase tracking-wide hover:bg-[#75001F] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="inline-flex items-center gap-2 bg-gray-900 text-white px-7 py-3 text-sm font-bold uppercase tracking-wide hover:bg-[#082052] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {submit.kind === 'submitting' ? 'Sending…' : 'Submit Inquiry'}
           {submit.kind !== 'submitting' && <span aria-hidden>→</span>}
@@ -289,17 +289,17 @@ function Field({
     <div>
       <label htmlFor={`bespoke-${id}`} className="block text-xs font-bold text-gray-900 uppercase tracking-wide mb-1.5">
         {label}
-        {required && <span className="text-[#75001F] ml-0.5">*</span>}
+        {required && <span className="text-[#082052] ml-0.5">*</span>}
       </label>
       {children}
-      {error && <p className="text-xs text-[#75001F] mt-1">{error}</p>}
+      {error && <p className="text-xs text-[#082052] mt-1">{error}</p>}
     </div>
   );
 }
 
 function inputClass(error: boolean) {
   return `w-full border px-3 py-2.5 text-sm focus:outline-none focus:border-gray-900 ${
-    error ? 'border-[#75001F]' : 'border-gray-300'
+    error ? 'border-[#082052]' : 'border-gray-300'
   }`;
 }
 

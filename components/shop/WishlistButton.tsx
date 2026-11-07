@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import { useShop } from '@/lib/shop-store';
+import { WISHLIST_DISABLED } from '@/lib/soft-launch';
 
 type Variant = 'icon' | 'pill';
 
@@ -17,11 +18,14 @@ export default function WishlistButton({
   size?: number;
 }) {
   const { inWishlist, toggleWishlist, hydrated } = useShop();
-  const saved = hydrated && inWishlist(productId);
+  // Visual "saved" state is forced empty while the wishlist is gated so
+  // previously-stored items don't render as filled hearts on tiles.
+  const saved = !WISHLIST_DISABLED && hydrated && inWishlist(productId);
 
   const handle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (WISHLIST_DISABLED) return;
     toggleWishlist(productId);
   };
 
@@ -71,7 +75,10 @@ function HeartIcon({ size = 15, filled = false }: { size?: number; filled?: bool
     <svg
       width={size}
       height={size}
-      viewBox="0 0 24 24"
+      // Shifted viewBox centers the heart's visual mass (~11, 13) inside
+      // the circular button — a standard "0 0 24 24" left the icon
+      // sitting low-and-left in the container.
+      viewBox="-1 1 24 24"
       fill={filled ? 'currentColor' : 'none'}
       stroke="currentColor"
       strokeWidth="2"

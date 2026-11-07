@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { navHref } from '@/lib/soft-launch';
 
 /**
  * ParallaxBanner — true "image fixed to viewport while sections scroll over"
@@ -98,12 +99,18 @@ export default function ParallaxBanner() {
             Bridal Banarasi, Kanjivaram and Patola — pieces meant to be folded
             into the next century. Hand-woven on traditional pit looms.
           </p>
-          <Link
-            href="/shop?tier=bridal"
-            className="inline-flex items-center gap-2 bg-ivory text-ink px-8 py-3.5 text-xs font-bold uppercase tracking-wider rounded-sm hover:bg-gold transition-colors"
-          >
-            Explore <span aria-hidden>→</span>
-          </Link>
+          {navHref('/shop?tier=bridal') ? (
+            <Link
+              href="/shop?tier=bridal"
+              className="inline-flex items-center gap-2 bg-ivory text-ink px-8 py-3.5 text-xs font-bold uppercase tracking-wider rounded-sm hover:bg-gold transition-colors"
+            >
+              Explore <span aria-hidden>→</span>
+            </Link>
+          ) : (
+            <span className="inline-flex items-center gap-2 bg-ivory text-ink px-8 py-3.5 text-xs font-bold uppercase tracking-wider rounded-sm cursor-default">
+              Explore <span aria-hidden>→</span>
+            </span>
+          )}
         </div>
       </div>
     </section>

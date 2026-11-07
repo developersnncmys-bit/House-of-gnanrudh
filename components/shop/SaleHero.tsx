@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 
@@ -8,7 +8,7 @@ import Link from 'next/link';
  */
 export default function SaleHero() {
   return (
-    <section aria-label="Sale" className="relative w-full bg-[#75001F] text-white">
+    <section aria-label="Sale" className="relative w-full bg-[#082052] text-white">
       <div className="max-w-[1720px] mx-auto px-6 lg:px-10 py-5 flex items-center justify-between gap-6 flex-wrap">
         <div className="flex items-center gap-5 lg:gap-8 flex-wrap">
           <div className="text-2xl md:text-3xl font-extrabold tracking-tight">
@@ -26,7 +26,7 @@ export default function SaleHero() {
 
         <Link
           href="/shop?sale=1"
-          className="inline-flex items-center gap-2 bg-white text-[#75001F] px-5 py-2.5 text-sm font-bold uppercase tracking-wider hover:bg-yellow-100 transition-colors whitespace-nowrap"
+          className="inline-flex items-center gap-2 bg-white text-[#082052] px-5 py-2.5 text-sm font-bold uppercase tracking-wider hover:bg-yellow-100 transition-colors whitespace-nowrap"
         >
           Shop Sale
           <span aria-hidden>→</span>

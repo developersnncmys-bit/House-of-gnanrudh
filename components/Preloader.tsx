@@ -2,16 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
-// The Preloader is now mounted only by the story page (app/page.tsx)
-// when a first-time visitor sees the cinematic intro. It is no longer
-// global — hard reloading any other page should NOT show a splash, only
-// scroll the page to top (handled by SiteShell).
+// Preloader is mounted only on the first page-load splash. Progress bar
+// at the bottom has been retired — the wordmark now carries the full
+// reveal via a clip-path sweep + gentle fade/scale.
 const DURATION_MS = 2200;
 const FADE_MS = 500;
 
 export default function Preloader() {
   const [mounted, setMounted] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [fading, setFading] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -22,28 +20,15 @@ export default function Preloader() {
   useEffect(() => {
     if (!mounted) return;
     document.body.style.overflow = 'hidden';
-    const start = performance.now();
-    let raf = 0;
-    const step = (t: number) => {
-      const elapsed = t - start;
-      const p = Math.min(1, elapsed / DURATION_MS);
-      // Cubic ease-out so the bar zips early then settles — feels alive
-      // rather than mechanical.
-      const eased = 1 - Math.pow(1 - p, 3);
-      setProgress(eased * 100);
-      if (p < 1) {
-        raf = requestAnimationFrame(step);
-      } else {
-        setFading(true);
-        setTimeout(() => {
-          setDone(true);
-          document.body.style.overflow = '';
-        }, FADE_MS);
-      }
-    };
-    raf = requestAnimationFrame(step);
+    const t = window.setTimeout(() => {
+      setFading(true);
+      window.setTimeout(() => {
+        setDone(true);
+        document.body.style.overflow = '';
+      }, FADE_MS);
+    }, DURATION_MS);
     return () => {
-      cancelAnimationFrame(raf);
+      window.clearTimeout(t);
       document.body.style.overflow = '';
     };
   }, [mounted]);
@@ -63,30 +48,52 @@ export default function Preloader() {
       }}
       aria-hidden
     >
-      {/* Centre brand logo — cream variant for the dark preloader bg. */}
+      {/* Centre brand wordmark — three-stage reveal:
+            1. Clip-path sweeps the glyphs in from left → right (1.6s)
+            2. The whole wordmark gently fades + eases up from scale 0.96
+            3. A hairline gold underline draws in beneath it as a finisher
+          All timings are shorter than DURATION_MS so the reveal settles
+          before the preloader fades out. */}
       <div className="absolute inset-0 flex items-center justify-center px-6">
-        <img
-          src="/brand/cream-logo-vertical.svg"
-          alt="Thridha Varnam"
-          width={320}
-          height={280}
-          className="h-40 sm:h-48 md:h-64 lg:h-80 w-auto select-none"
-          draggable={false}
-        />
+        <div className="flex flex-col items-center">
+          <span
+            className="preloader-wordmark font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-ivory text-center select-none"
+          >
+            House Of GnanRudh
+          </span>
+          <span className="preloader-underline mt-4 h-px w-40 md:w-56 bg-gold-soft/80 origin-left" />
+        </div>
       </div>
 
-      {/* Bottom progress bar — bumped to 5px and lifted a touch off the
-          very edge so browser chrome / scrollbars don't clip it. */}
-      <div className="absolute left-0 right-0 bottom-3 md:bottom-4 h-[5px] bg-white/15 mx-4 md:mx-6 rounded-full overflow-hidden">
-        <div
-          className="h-full transition-[width] duration-75 ease-out rounded-full"
-          style={{
-            width: `${progress}%`,
-            background:
-              'linear-gradient(90deg, #0E4D5C 0%, #1E1B3A 18%, #75001F 38%, #E0AE6D 58%, #F2C99E 78%, #E0AE6D 100%)',
-          }}
-        />
-      </div>
+      <style>{`
+        @keyframes preloaderSweep {
+          0%   { clip-path: inset(0 100% 0 0); opacity: 0; transform: translateY(6px) scale(0.96); }
+          40%  { opacity: 1; }
+          100% { clip-path: inset(0 0 0 0);   opacity: 1; transform: translateY(0)   scale(1); }
+        }
+        @keyframes preloaderUnderline {
+          from { transform: scaleX(0); opacity: 0; }
+          to   { transform: scaleX(1); opacity: 1; }
+        }
+        .preloader-wordmark {
+          clip-path: inset(0 100% 0 0);
+          animation: preloaderSweep 1600ms cubic-bezier(0.22, 1, 0.36, 1) 150ms forwards;
+        }
+        .preloader-underline {
+          transform: scaleX(0);
+          animation: preloaderUnderline 700ms cubic-bezier(0.22, 1, 0.36, 1) 1500ms forwards;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .preloader-wordmark {
+            clip-path: inset(0 0 0 0);
+            animation: none;
+          }
+          .preloader-underline {
+            transform: scaleX(1);
+            animation: none;
+          }
+        }
+      `}</style>
     </div>
   );
 }

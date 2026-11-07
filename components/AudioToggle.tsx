@@ -13,30 +13,61 @@ export default function AudioToggle() {
     <button
       onClick={toggle}
       aria-label={muted ? 'Unmute ambient raag' : 'Mute ambient raag'}
-      className="fixed bottom-6 right-6 z-50 group flex items-center gap-3 bg-ink/85 backdrop-blur-md text-ivory border border-gold/40 rounded-full pl-3 pr-5 py-2.5 hover:border-gold transition-all"
+      className="fixed bottom-6 right-6 z-50 group flex items-center justify-center w-12 h-12 bg-ink/85 backdrop-blur-md text-ivory border border-gold/40 rounded-full hover:border-gold transition-all"
     >
-      <span className="relative flex items-center justify-center w-6 h-6">
-        {/* Animated wave bars indicating sound on/off */}
-        <span className="flex items-end gap-[2px] h-4">
-          {[0, 1, 2, 3].map((i) => (
-            <span
+      <svg
+        viewBox="0 0 28 28"
+        className="w-6 h-6 text-gold-soft overflow-visible"
+        aria-hidden="true"
+      >
+        {/* Speaker body: base + angled cone */}
+        <path
+          d="M3 10.5 H7 L12.5 6 V22 L7 17.5 H3 Z"
+          fill="currentColor"
+          fillOpacity="0.18"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinejoin="round"
+        />
+
+        {/* Animated wave bars nested inside the sound region of the volume icon */}
+        {[0, 1, 2, 3].map((i) => {
+          const x = 15 + i * 2.4;
+          const maxHeight = 11 - i * 0.6;
+          return (
+            <rect
               key={i}
+              x={x}
+              y={14 - maxHeight / 2}
+              width="1.6"
+              height={muted ? 1.4 : maxHeight}
+              rx="0.8"
+              fill="currentColor"
               className={clsx(
-                'w-[2px] bg-gold-soft rounded-full origin-bottom transition-all duration-300',
-                muted ? 'h-1' : 'animate-pulse',
+                'audio-bar',
+                muted ? 'audio-bar--muted' : 'audio-bar--on',
               )}
               style={{
-                height: muted ? '20%' : `${30 + (i % 2 === 0 ? 60 : 30)}%`,
-                animationDelay: `${i * 120}ms`,
-                animationDuration: '900ms',
+                transformOrigin: `${x + 0.8}px 14px`,
+                animationDelay: `${i * 140}ms`,
               }}
             />
-          ))}
-        </span>
-      </span>
-      <span className="eyebrow text-[0.6rem] text-gold-soft">
-        {muted ? 'Sound off' : 'Raag playing'}
-      </span>
+          );
+        })}
+
+        {/* Mute slash — shown only when muted */}
+        {muted && (
+          <line
+            x1="4"
+            y1="4"
+            x2="24"
+            y2="24"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          />
+        )}
+      </svg>
     </button>
   );
 }

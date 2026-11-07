@@ -6,9 +6,9 @@ import {
 } from '@/components/policy/PolicyChrome';
 
 export const metadata: Metadata = {
-  title: 'Saree Care Guide · Thridha Varnam',
+  title: 'Saree Care Guide · House Of GnanRudh',
   description:
-    'How to wash, dry, iron and store your Thridha Varnam saree — silk, cotton, linen, organza, Banarasi, Kanjivaram, zari and embroidery care instructions.',
+    'How to wash, dry, iron and store your House Of GnanRudh saree — silk, cotton, linen, organza, Banarasi, Kanjivaram, zari and embroidery care instructions.',
 };
 
 export default function CarePage() {
@@ -26,7 +26,7 @@ export default function CarePage() {
             Preserve the Beauty of Your Saree
           </h2>
           <p className="text-sm text-gray-700 leading-relaxed">
-            Every <strong>THRIDHA VARNAM</strong> saree is crafted with
+            Every <strong>HOUSE OF GNANRUDH</strong> saree is crafted with
             care. Following these care instructions will help maintain its
             beauty, colour, and longevity.
           </p>
@@ -199,7 +199,7 @@ export default function CarePage() {
 
         <PolicyContactStrip
           title="Need Assistance?"
-          subtitle="If you have any questions about caring for your THRIDHA VARNAM saree, please contact us:"
+          subtitle="If you have any questions about caring for your HOUSE OF GNANRUDH saree, please contact us:"
         />
       </section>
     </main>

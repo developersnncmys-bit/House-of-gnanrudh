@@ -143,7 +143,7 @@ export default function AudioGate() {
           { opacity: 1, scale: 1, duration: 1.2, ease: 'power2.out' },
           '>-0.1',
         )
-        // Each letter of THRIDHA VARNAM rises into place with a stagger
+        // Each letter of HOUSE OF GNANRUDH rises into place with a stagger
         .from(
           '[data-gate-letter]',
           {
@@ -366,7 +366,7 @@ export default function AudioGate() {
           <div data-gate-letter className="relative inline-block">
             <img
               src="/brand/cream-logo-vertical.svg"
-              alt="Thridha Varnam — Tradition in every color"
+              alt="House Of GnanRudh — Tradition in every color"
               width={280}
               height={240}
               className="h-32 md:h-44 lg:h-52 w-auto select-none mx-auto"

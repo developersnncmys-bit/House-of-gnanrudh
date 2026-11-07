@@ -1,155 +1,177 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { SAREES, formatINR } from '@/lib/sarees';
+import { LuInstagram } from 'react-icons/lu';
+import { SAREES } from '@/lib/sarees';
 
 type Post = {
   image: string;
   productId: string;
-  likes: string;
+  category: string;
   caption: string;
-  span?: 'large';
 };
 
+/** Six posts — one shot per category. Pulled from the /bestsellers
+ *  library so each tile reads as the category hero. */
 const posts: Post[] = [
   {
-    image: '/photos/pexels-manishjangid-28943670.webp',
+    image: '/bestsellers/raktharani%20banarasi.webp',
     productId: 'banarasi-raktarani',
-    likes: '12.4k',
-    caption: 'A pink Banarasi · The Raktarani for Diwali week.',
-    span: 'large',
+    category: 'Banarasi',
+    caption: 'Raktarani Banarasi · woven for Diwali week.',
+  },
+  {
+    image: '/bestsellers/Mayura%20kanjee.webp',
+    productId: 'kanjivaram-mayura',
+    category: 'Kanjeevaram',
+    caption: 'Mayura peacock pallu · petni-joined.',
+  },
+  {
+    image: '/bestsellers/Rasleela%20patola2.webp',
+    productId: 'patola-rasleela',
+    category: 'Patola',
+    caption: 'Rasleela Patola · eleven months on the loom.',
+  },
+  {
+    image: '/bestsellers/chandrika%20mysuru.webp',
+    productId: 'mysore-chandrika',
+    category: 'Mysore Silk',
+    caption: 'Chandrika · moonlight ivory, KSIC tested.',
+  },
+  {
+    image: '/bestsellers/katha%20baluchari.webp',
+    productId: 'mixedpattu-katha',
+    category: 'Mixed Pattu',
+    caption: 'Katha Baluchari · story-woven pallu.',
+  },
+  {
+    image: '/bestsellers/haldi%20paithani2.webp',
+    productId: 'fancy-haldi',
+    category: 'Festive',
+    caption: 'Haldi Paithani · turmeric-gold for the ceremony.',
+  },
+  {
+    image: '/newarrivals/sindhoori%20banarasi.webp',
+    productId: 'banarasi-sindhoori',
+    category: 'Banarasi',
+    caption: 'Sindhoori Banarasi · morning-sun pink.',
+  },
+  {
+    image: '/newarrivals/neelambari%20kanjivaram.webp',
+    productId: 'kanjivaram-neelambari',
+    category: 'Kanjeevaram',
+    caption: 'Neelambari · deep-sky blue with temple border.',
+  },
+  {
+    image: '/newarrivals/rangraj%20patola.webp',
+    productId: 'patola-rangraj',
+    category: 'Patola',
+    caption: 'Rangraj · double-ikat court palette.',
+  },
+  {
+    image: '/photos/pexels-manishjangid-28943670.webp',
+    productId: 'pochampally-aakash',
+    category: 'Pochampally',
+    caption: 'Aakash · morning-sky ikat drape.',
   },
   {
     image: '/photos/pexels-manishjangid-28943594.webp',
-    productId: 'fancy-haldi',
-    likes: '8.2k',
-    caption: 'Twilight teal — the Sandhya Drape.',
+    productId: 'mangalagiri-tulsi',
+    category: 'Mangalagiri',
+    caption: 'Tulsi · everyday cotton, temple-border weave.',
   },
   {
     image: '/photos/pexels-manishjangid-28943589.webp',
-    productId: 'kanjivaram-mayura',
-    likes: '6.7k',
-    caption: 'The peacock pallu, petni-joined.',
-  },
-  {
-    image: '/photos/pexels-manishjangid-28943651.webp',
-    productId: 'patola-rasleela',
-    likes: '9.1k',
-    caption: 'Eleven months on the loom.',
-  },
-  {
-    image: '/photos/pexels-manishjangid-28943586.webp',
-    productId: 'banarasi-jamawar',
-    likes: '5.3k',
-    caption: 'Cut-work jamawar in deep jamuni.',
-  },
-  {
-    image: '/photos/pexels-darkmodecinema-19567963.webp',
-    productId: 'mysore-chandrika',
-    likes: '7.8k',
-    caption: 'Moonlight ivory · KSIC tested.',
+    productId: 'gadwal-konark',
+    category: 'Gadwal',
+    caption: 'Konark · silk body, cotton drape, zari pallu.',
   },
 ];
 
-function InstaGlyph({ size = 14 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <rect x="3" y="3" width="18" height="18" rx="4" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
-    </svg>
-  );
-}
-
-function HeartGlyph({ size = 13 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M20.8 6.6a5.5 5.5 0 0 0-9-1.7l-.8.8-.8-.8a5.5 5.5 0 1 0-7.8 7.8l8.6 8.5 8.6-8.5a5.5 5.5 0 0 0 1.2-6.1Z" />
-    </svg>
-  );
-}
+const INSTAGRAM_HANDLE = '@gnanrudh';
+const INSTAGRAM_URL = 'https://instagram.com/gnanrudh';
 
 export default function InstagramFeed() {
   return (
-    <section className="bg-bone py-10 md:py-14">
+    <section className="instagram-section bg-bone py-10 md:py-14">
       <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
-        <div className="flex items-center justify-between mb-6 md:mb-8 flex-wrap gap-3">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <InstaGlyph size={20} />
-              <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink">
-                @thridhavarnam
-              </h2>
-            </div>
-            <p className="text-sm text-ink/65">
-              <span className="font-bold text-ink">128K</span> followers · Tap any tile to shop the look
-            </p>
-          </div>
+        {/* Heading — Nalli pattern: the Instagram handle itself is the
+            title, with a short description below and a thin animated
+            progress line that fills in time with the auto-scroll. */}
+        <div className="mb-6 md:mb-8">
           <Link
-            href="https://instagram.com"
+            href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-maroon-deep text-ivory px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded-sm hover:bg-maroon transition-colors"
+            className="font-display text-2xl md:text-4xl font-semibold text-ink hover:text-maroon transition-colors inline-block"
           >
-            <InstaGlyph size={14} />
-            Follow
+            {INSTAGRAM_HANDLE}
           </Link>
+          <p className="mt-2 text-sm md:text-base text-ink/65 max-w-2xl">
+            Follow us on Instagram for behind-the-loom glimpses, styling
+            edits and weekly stories from the house.
+          </p>
+          {/* Progress line — fills left-to-right in sync with the
+              marquee's 60s loop. Pauses on marquee hover via the
+              parent-hover selector in globals.css. */}
+          <div className="mt-5 h-px w-full bg-ink/10 overflow-hidden">
+            <div className="instagram-progress h-full bg-maroon origin-left" />
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 auto-rows-[180px] md:auto-rows-[230px]">
-          {posts.map((p, i) => {
-            const product = SAREES.find((s) => s.id === p.productId);
-            if (!product) return null;
-            const spanClass = p.span === 'large' ? 'col-span-2 row-span-2' : '';
-            return (
-              <Link
-                key={i}
-                href={`/shop/${product.id}`}
-                className={`relative group overflow-hidden bg-bone rounded-sm ${spanClass}`}
-              >
-                <Image
-                  src={p.image}
-                  alt={p.caption}
-                  fill
-                  sizes={p.span === 'large' ? '(max-width: 768px) 100vw, 50vw' : '(max-width: 768px) 50vw, 25vw'}
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+        {/* Auto-scrolling single-row marquee — Nalli pattern. The track
+            is rendered twice back-to-back and translated -50% over the
+            animation duration, so the loop re-aligns seamlessly. The
+            track pauses on hover so a visitor can read a caption they
+            spotted mid-scroll. */}
+        <div className="relative overflow-hidden -mx-6 lg:-mx-10">
+          <div className="instagram-marquee flex gap-3 md:gap-4 w-max px-6 lg:px-10">
+            {[...posts, ...posts].map((p, i) => {
+              const product = SAREES.find((s) => s.id === p.productId);
+              const href = product ? `/shop/${product.id}` : INSTAGRAM_URL;
+              return (
+                <Link
+                  key={`${p.productId}-${i}`}
+                  href={href}
+                  className="relative group bg-bone shrink-0 w-[160px] sm:w-[200px] md:w-[240px] lg:w-[260px] aspect-[3/4] transition-all duration-300 hover:z-20 hover:scale-[1.04] hover:shadow-2xl hover:shadow-ink/40"
+                >
+                  <div className="absolute inset-0 overflow-hidden">
+                    <Image
+                      src={p.image}
+                      alt={p.caption}
+                      fill
+                      sizes="(max-width: 640px) 46vw, (max-width: 1024px) 28vw, 260px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
 
-                <div className="absolute top-3 left-3 flex items-center gap-1.5 text-ivory text-xs font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
-                  <HeartGlyph size={12} />
-                  <span>{p.likes}</span>
-                </div>
+                    <span className="absolute top-3 left-3 bg-ivory/90 backdrop-blur-sm text-ink text-[0.6rem] font-bold uppercase tracking-[0.18em] px-2 py-1 rounded-sm">
+                      {p.category}
+                    </span>
 
-                <div className="absolute inset-x-0 bottom-0 p-3 md:p-4 bg-gradient-to-t from-[#1B0E0A]/95 via-[#1B0E0A]/60 to-transparent text-ivory">
-                  <div className="transition-opacity duration-300 group-hover:opacity-0">
-                    <p className="text-xs leading-snug line-clamp-2 max-w-md text-ivory/95">
-                      {p.caption}
-                    </p>
-                  </div>
-
-                  <div className="absolute inset-x-3 md:inset-x-4 bottom-3 md:bottom-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                    <div className="flex items-end justify-between gap-3">
-                      <div className="min-w-0">
-                        <div className="text-[0.65rem] font-medium text-ivory/70 uppercase tracking-wide mb-0.5">
-                          {product.weave}
-                        </div>
-                        <div className="text-sm font-bold truncate">
-                          {product.name}
-                        </div>
-                        <div className="text-sm mt-0.5 font-bold text-gold-soft">
-                          {formatINR(product.price)}
-                        </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    {/* Centred Instagram glyph on hover — Nalli-style
+                        "this links to the feed" hint. Scales in from
+                        90% so it reads as a reveal, not a pop. */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100 transition-all duration-300 pointer-events-none">
+                      <LuInstagram
+                        size={28}
+                        strokeWidth={1.8}
+                        className="text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]"
+                        aria-hidden
+                      />
+                    </div>
+                    <div className="absolute bottom-0 inset-x-0 p-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
+                      <div className="text-xs font-semibold text-ivory leading-snug line-clamp-2">
+                        {p.caption}
                       </div>
-                      <span className="shrink-0 text-xs font-bold uppercase tracking-wider bg-ivory no-pattern text-ink px-3 py-1.5 rounded-sm hover:bg-gold transition-colors">
-                        Shop
-                      </span>
                     </div>
                   </div>
-                </div>
-              </Link>
-            );
-          })}
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
+
     </section>
   );
 }

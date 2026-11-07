@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -43,7 +43,7 @@ export default function CategoryTiles() {
           </h2>
           <Link
             href="/shop"
-            className="text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#75001F] underline underline-offset-4"
+            className="text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#082052] underline underline-offset-4"
           >
             View All
           </Link>
@@ -65,7 +65,7 @@ export default function CategoryTiles() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
               {tile.badge && (
-                <div className="absolute top-3 left-3 bg-[#75001F] text-white px-2.5 py-1 text-[0.65rem] font-bold tracking-wide">
+                <div className="absolute top-3 left-3 bg-[#082052] text-white px-2.5 py-1 text-[0.65rem] font-bold tracking-wide">
                   {tile.badge}
                 </div>
               )}

@@ -23,7 +23,7 @@ export default function WishlistPanel({
   const handleShare = async () => {
     if (typeof window === 'undefined') return;
     const url = window.location.href;
-    const title = 'My Thridha Varnam wishlist';
+    const title = 'My House Of GnanRudh wishlist';
     try {
       if (navigator.share) {
         await navigator.share({ title, url });

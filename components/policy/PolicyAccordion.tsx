@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 
@@ -24,7 +24,7 @@ function Row({ item }: { item: PolicyAccordionItem }) {
         aria-expanded={open}
         className="w-full flex items-center justify-between py-3.5 text-left group"
       >
-        <span className="text-sm font-semibold text-gray-900 group-hover:text-[#75001F] transition-colors pr-4">
+        <span className="text-sm font-semibold text-gray-900 group-hover:text-[#082052] transition-colors pr-4">
           {item.q}
         </span>
         <span

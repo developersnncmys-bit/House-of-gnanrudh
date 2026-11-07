@@ -7,9 +7,9 @@ import {
 } from '@/components/policy/PolicyChrome';
 
 export const metadata: Metadata = {
-  title: 'Shipping Policy · Thridha Varnam',
+  title: 'Shipping Policy · House Of GnanRudh',
   description:
-    'Thridha Varnam shipping policy — order processing, domestic and international delivery timelines, tracking, customs, and contact information for hand-woven sarees.',
+    'House Of GnanRudh shipping policy — order processing, domestic and international delivery timelines, tracking, customs, and contact information for hand-woven sarees.',
 };
 
 // Estimated delivery times within India.
@@ -30,7 +30,7 @@ export default function ShippingPage() {
 
       <section className="max-w-[1100px] mx-auto px-6 lg:px-10 py-10">
         <p className="text-sm text-gray-700 leading-relaxed max-w-3xl">
-          Welcome to <strong>THRIDHA VARNAM</strong>. We are committed to
+          Welcome to <strong>HOUSE OF GNANRUDH</strong>. We are committed to
           delivering your orders safely, securely, and on time. Please read
           our shipping policy carefully before placing your order.
         </p>
@@ -144,7 +144,7 @@ export default function ShippingPage() {
 
         <PolicyBlock title="6. Packaging">
           <p className="text-sm text-gray-700 leading-relaxed">
-            Every THRIDHA VARNAM order is packed carefully using
+            Every HOUSE OF GNANRUDH order is packed carefully using
             premium-quality packaging to ensure products reach you safely.
             Gift packaging may be available for selected orders.
           </p>
@@ -177,7 +177,7 @@ export default function ShippingPage() {
             <li>PIN Code</li>
           </ul>
           <p className="text-sm text-gray-700 leading-relaxed">
-            THRIDHA VARNAM is not responsible for delays caused by incorrect
+            HOUSE OF GNANRUDH is not responsible for delays caused by incorrect
             shipping information.
           </p>
         </PolicyBlock>
@@ -248,7 +248,7 @@ export default function ShippingPage() {
             <li>Local Clearance Charges</li>
           </ul>
           <p className="text-sm text-gray-700 leading-relaxed">
-            THRIDHA VARNAM has no control over customs procedures or charges.
+            HOUSE OF GNANRUDH has no control over customs procedures or charges.
           </p>
         </PolicyBlock>
 

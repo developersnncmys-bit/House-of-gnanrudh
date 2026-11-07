@@ -1,23 +1,20 @@
 /**
  * SectionOrnament — heritage break between major page sections.
  *
- * Centred 8-point star-flower from the brand kit, flanked by two
- * thin maroon rules. Reads as a chapter break — used sparingly so
- * the page still has rhythm without feeling busy.
+ * Centred brand lotus motif (public/lotus.png) flanked by two thin
+ * maroon rules. Reads as a chapter break — used sparingly so the page
+ * still has rhythm without feeling busy.
  */
 export default function SectionOrnament({
-  size = 24,
+  size = 26,
   tone = 'wine',
 }: {
+  /** Height in px; the lotus art keeps its intrinsic aspect ratio. */
   size?: number;
   /** `wine` (default) for light page bgs; `cream` for dark sections. */
   tone?: 'wine' | 'cream';
 }) {
   const ruleColor = tone === 'cream' ? 'bg-ivory/30' : 'bg-maroon/25';
-  const markFilter =
-    tone === 'cream'
-      ? 'brightness(0) saturate(100%) invert(95%) sepia(15%) saturate(450%) hue-rotate(355deg)'
-      : undefined;
 
   return (
     <div
@@ -25,18 +22,14 @@ export default function SectionOrnament({
       className="flex items-center justify-center gap-4 py-8 md:py-10 bg-ivory"
     >
       <span className={`h-px w-20 md:w-32 ${ruleColor}`} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/brand/star-flower.svg"
+        src="/lotus.png"
         alt=""
-        width={size}
-        height={size}
-        style={{
-          width: size,
-          height: size,
-          filter: markFilter,
-          opacity: 0.85,
-        }}
+        aria-hidden
         draggable={false}
+        style={{ height: size, width: 'auto' }}
+        className="select-none"
       />
       <span className={`h-px w-20 md:w-32 ${ruleColor}`} />
     </div>

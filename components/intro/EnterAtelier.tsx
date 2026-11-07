@@ -172,7 +172,7 @@ export default function EnterAtelier() {
         <header className="flex items-start justify-between gap-4 sm:gap-8">
           <div data-enter-mark className="min-w-0">
             <div className="text-display text-lg sm:text-xl md:text-2xl text-[#F2C99E] leading-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]">
-              Thridha Varnam
+              House Of GnanRudh
             </div>
             <div data-enter-rule className="gold-rule w-10 my-1.5 hidden sm:block" />
             <div className="hidden sm:block eyebrow text-[0.5rem] text-[#F2C99E]/80 tracking-[0.4em]">
@@ -228,7 +228,7 @@ export default function EnterAtelier() {
               <a
                 href="/home"
                 onClick={leaveStory('/home')}
-                className="group relative flex sm:inline-flex w-full sm:w-auto items-center justify-between gap-4 sm:gap-8 bg-[#E0AE6D] text-[#3F3F3F] pl-5 pr-4 sm:pl-6 sm:pr-5 py-[0.9rem] hover:bg-[#F2C99E] transition-colors duration-500 shadow-[0_10px_40px_-12px_rgba(201,169,97,0.55)] whitespace-nowrap"
+                className="group relative flex sm:inline-flex w-full sm:w-auto items-center justify-between gap-4 sm:gap-8 bg-[#E0AE6D] text-ink pl-5 pr-4 sm:pl-6 sm:pr-5 py-[0.9rem] hover:bg-[#F2C99E] transition-colors duration-500 shadow-[0_10px_40px_-12px_rgba(201,169,97,0.55)] whitespace-nowrap"
               >
                 <span className="eyebrow text-[0.55rem] sm:text-[0.6rem] tracking-[0.32em] sm:tracking-[0.35em]">
                   Step inside

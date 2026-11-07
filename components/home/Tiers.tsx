@@ -1,77 +1,102 @@
-'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
-import { TIERS, SAREES, type Tier } from '@/lib/sarees';
+import SectionHeader from '@/components/home/SectionHeader';
+import WishlistButton from '@/components/shop/WishlistButton';
+import ViewSimilarButton from '@/components/shop/ViewSimilarButton';
+import { SAREES, formatINR, TIERS } from '@/lib/sarees';
+import { navHref } from '@/lib/soft-launch';
 
-// Override images per tier. Unmapped tiers fall back to the first matching
-// saree's image in the catalog.
-const tierImages: Partial<Record<Tier, string>> = {
-  everyday: '/images/aangan.jpg',
-  festive: '/newarrivals/sindhoori%20banarasi.jpg',
-};
-
-const tierImageFor = (tier: Tier) =>
-  tierImages[tier] ??
-  SAREES.find((s) => s.tier === tier)?.image ??
-  '/images/c2.jpg';
-
-const order: Tier[] = ['everyday', 'festive', 'bridal'];
+// Hand-picked lineup for the "Featured Products" section. Four hero
+// pieces across tiers so the grid reads as a curated edit rather than a
+// catalog dump. Order matters — leading with Bridal sets the aspirational
+// tone; everyday drops the entry price so the section doesn't feel
+// out of reach.
+const FEATURED_IDS = [
+  'banarasi-raktarani',
+  'kanjivaram-mayura',
+  'patola-rasleela',
+  'mangalagiri-tulsi',
+];
 
 export default function Tiers() {
-  return (
-    <section className="bg-ivory py-10 md:py-14">
-      <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
-        <div className="flex items-center justify-between mb-6 md:mb-8 flex-wrap gap-3">
-          <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink">
-            Shop by occasion
-          </h2>
-          <Link
-            href="/shop"
-            className="text-sm font-semibold text-ink hover:text-maroon transition-colors underline underline-offset-4"
-          >
-            View All
-          </Link>
-        </div>
+  const items = FEATURED_IDS.map((id) => SAREES.find((s) => s.id === id)).filter(
+    (s): s is (typeof SAREES)[number] => Boolean(s),
+  );
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {order.map((tierId) => {
-            const t = TIERS[tierId];
-            const count = SAREES.filter((s) => s.tier === tierId).length;
+  return (
+    <section className="bg-white py-10 md:py-14">
+      <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
+        <SectionHeader
+          title="Featured Products"
+          description="A curated edit of our most-loved weaves — bridal heirlooms, festive silks and everyday drapes, hand-picked for every occasion in a woman's wardrobe."
+          link={{ href: '/shop', label: 'View All' }}
+        />
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          {items.map((saree) => {
+            const tier = TIERS[saree.tier];
+            const discount =
+              saree.mrp > saree.price
+                ? Math.round(((saree.mrp - saree.price) / saree.mrp) * 100)
+                : 0;
+            const productHref = navHref(`/shop/${saree.id}`);
+            const CardTag = productHref ? Link : 'span';
+            const cardProps = productHref
+              ? { href: productHref, className: 'group block bg-white rounded-sm overflow-hidden' }
+              : { className: 'group block bg-white rounded-sm overflow-hidden cursor-default' };
             return (
-              <Link
-                href={`/shop?tier=${t.id}`}
-                key={t.id}
-                className="group relative block overflow-hidden bg-bone rounded-sm"
+              <CardTag
+                key={saree.id}
+                {...(cardProps as { href: string; className: string })}
               >
-                <div className="relative aspect-[4/5] overflow-hidden">
+                <div className="relative aspect-[4/5] overflow-hidden bg-bone">
                   <Image
-                    src={tierImageFor(tierId)}
-                    alt={t.title}
+                    src={saree.image}
+                    alt={saree.name}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1B0E0A]/90 via-[#1B0E0A]/20 to-transparent" />
-
-                  <div className="absolute inset-x-0 bottom-0 p-5 md:p-6 text-ivory">
-                    <h3 className="text-2xl md:text-3xl font-bold mb-3">
-                      {t.title}
-                    </h3>
-                    <div className="flex items-center justify-between gap-4 mb-4">
-                      <div className="text-sm text-ivory/90 font-medium">
-                        {t.range}
-                      </div>
-                      <div className="text-xs font-medium text-ivory/70">
-                        {count} pieces
-                      </div>
+                  <div className="absolute top-2.5 left-2.5 bg-ivory/95 no-pattern backdrop-blur-sm px-2 py-1 text-[0.65rem] font-semibold text-ink uppercase tracking-wide rounded-sm">
+                    {tier.title}
+                  </div>
+                  {discount > 0 && (
+                    <div className="absolute bottom-2.5 right-2.5 bg-maroon-deep text-ivory px-2 py-1 text-[0.65rem] font-bold rounded-sm">
+                      {discount}% OFF
                     </div>
-                    <span className="inline-flex items-center justify-center bg-ivory no-pattern text-ink px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded-sm group-hover:bg-gold transition-colors">
-                      Shop Now
-                    </span>
+                  )}
+                  <WishlistButton
+                    productId={saree.id}
+                    className="absolute top-2.5 right-2.5 w-9 h-9"
+                    size={14}
+                  />
+                </div>
+                <div className="p-3 md:p-3.5">
+                  <div className="text-xs text-ink/55 font-medium mb-1">
+                    {saree.weave}
+                  </div>
+                  <h3 className="text-base md:text-lg font-semibold text-ink leading-snug line-clamp-1 mb-2">
+                    {saree.name}
+                  </h3>
+                  <div className="flex items-end justify-between gap-2">
+                    <div className="flex items-baseline gap-2 min-w-0">
+                      <span className="text-lg md:text-xl font-bold text-ink">
+                        {formatINR(saree.price)}
+                      </span>
+                      {saree.mrp > saree.price && (
+                        <span className="text-sm text-ink/45 line-through">
+                          {formatINR(saree.mrp)}
+                        </span>
+                      )}
+                    </div>
+                    <ViewSimilarButton
+                      productId={saree.id}
+                      className="w-8 h-8 shrink-0 !bg-transparent !backdrop-blur-none"
+                      size={16}
+                    />
                   </div>
                 </div>
-              </Link>
+              </CardTag>
             );
           })}
         </div>

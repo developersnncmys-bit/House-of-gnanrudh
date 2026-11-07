@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
@@ -167,7 +167,7 @@ export default function ContactView() {
                       <div
                         className={`flex border transition-colors ${
                           mobileError
-                            ? 'border-[#75001F]'
+                            ? 'border-[#082052]'
                             : 'border-gray-300 focus-within:border-gray-900'
                         }`}
                       >
@@ -226,7 +226,7 @@ export default function ContactView() {
                   <button
                     type="submit"
                     disabled={submitting || !formValid}
-                    className="w-full md:w-auto bg-gray-900 text-white px-8 py-3 text-sm font-bold tracking-wide uppercase hover:bg-[#75001F] transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-900"
+                    className="w-full md:w-auto bg-gray-900 text-white px-8 py-3 text-sm font-bold tracking-wide uppercase hover:bg-[#082052] transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-900"
                   >
                     {submitting ? 'Sending…' : 'Send Message'}
                   </button>
@@ -241,7 +241,7 @@ export default function ContactView() {
               icon={<IconMail />}
               title="Email"
               body="Care team — replies within one working day."
-              action={{ href: 'mailto:support@thridhavarnam.com', label: 'support@thridhavarnam.com' }}
+              action={{ href: 'mailto:support@gnanrudh.com', label: 'support@gnanrudh.com' }}
             />
             <ContactCard
               icon={<IconPhone />}
@@ -261,7 +261,7 @@ export default function ContactView() {
                 Bengaluru Atelier
               </h3>
               <p className="text-sm text-gray-700 leading-relaxed">
-                Thridha Varnam Atelier<br />
+                House Of GnanRudh Atelier<br />
                 LTG LA GRAND, Block 2, No. 5<br />
                 Jnanabharathi BDA Layout, Jnana Ganga Nagar<br />
                 Bengaluru 560056 · Karnataka, India
@@ -277,22 +277,22 @@ export default function ContactView() {
               </h3>
               <ul className="space-y-2 text-sm text-gray-700">
                 <li>
-                  <Link href="/shipping" className="text-[#75001F] hover:underline">
+                  <Link href="/shipping" className="text-[#082052] hover:underline">
                     Shipping policy →
                   </Link>
                 </li>
                 <li>
-                  <Link href="/returns" className="text-[#75001F] hover:underline">
+                  <Link href="/returns" className="text-[#082052] hover:underline">
                     Returns & exchange →
                   </Link>
                 </li>
                 <li>
-                  <Link href="/care" className="text-[#75001F] hover:underline">
+                  <Link href="/care" className="text-[#082052] hover:underline">
                     Saree care guide →
                   </Link>
                 </li>
                 <li>
-                  <Link href="/bespoke" className="text-[#75001F] hover:underline">
+                  <Link href="/bespoke" className="text-[#082052] hover:underline">
                     Commission a bespoke saree →
                   </Link>
                 </li>
@@ -317,21 +317,21 @@ function Label({
   return (
     <label htmlFor={htmlFor} className="block text-xs font-bold text-gray-900 uppercase tracking-wide mb-1.5">
       {children}
-      {required && <span className="text-[#75001F] ml-0.5" aria-hidden>*</span>}
+      {required && <span className="text-[#082052] ml-0.5" aria-hidden>*</span>}
     </label>
   );
 }
 
 function fieldClass(invalid: boolean) {
   return `w-full border ${
-    invalid ? 'border-[#75001F]' : 'border-gray-300 focus:border-gray-900'
+    invalid ? 'border-[#082052]' : 'border-gray-300 focus:border-gray-900'
   } bg-white px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none transition-colors`;
 }
 
 function InlineError({ msg }: { msg?: string }) {
   if (!msg) return null;
   return (
-    <p className="mt-1 text-xs text-[#75001F] font-medium" role="alert">
+    <p className="mt-1 text-xs text-[#082052] font-medium" role="alert">
       {msg}
     </p>
   );
@@ -351,7 +351,7 @@ function ContactCard({
   return (
     <div className="border border-gray-200 p-5">
       <div className="flex items-start gap-3">
-        <div className="shrink-0 text-[#75001F] mt-0.5">{icon}</div>
+        <div className="shrink-0 text-[#082052] mt-0.5">{icon}</div>
         <div className="flex-1">
           <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">{title}</h3>
           <p className="text-xs text-gray-600 mt-1 leading-relaxed">{body}</p>
@@ -359,7 +359,7 @@ function ContactCard({
             href={action.href}
             target={action.external ? '_blank' : undefined}
             rel={action.external ? 'noopener noreferrer' : undefined}
-            className="inline-block mt-2 text-sm font-semibold text-[#75001F] hover:underline break-all"
+            className="inline-block mt-2 text-sm font-semibold text-[#082052] hover:underline break-all"
           >
             {action.label}
           </a>
@@ -391,7 +391,7 @@ function SuccessPanel({ referenceId, onReset }: { referenceId: string; onReset: 
         <button
           type="button"
           onClick={onReset}
-          className="text-sm font-semibold text-[#75001F] hover:underline"
+          className="text-sm font-semibold text-[#082052] hover:underline"
         >
           Send another message
         </button>

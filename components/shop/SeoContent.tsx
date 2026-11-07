@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -41,11 +41,11 @@ export default function SeoContent() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="lg:col-span-2">
             <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
-              Shop Sarees Online at Thridha Varnam
+              Shop Sarees Online at House Of GnanRudh
             </h2>
             <div className="space-y-3 text-sm text-gray-700 leading-relaxed max-w-3xl">
               <p>
-                Thridha Varnam offers a curated catalogue of hand-woven heirloom sarees from India&apos;s great
+                House Of GnanRudh offers a curated catalogue of hand-woven heirloom sarees from India&apos;s great
                 weaving traditions — Kanjeevaram, Banarasi, Mysore Silk, Mangalagiri, Pochampally, Gadwal and
                 Patola — alongside contemporary Fancy Sarees and Mixed Pattu drapes. Every saree is hand-woven,
                 hand-finished, and shipped worldwide with full insurance.
@@ -64,7 +64,7 @@ export default function SeoContent() {
               <li><strong className="text-gray-900">Bridal Sarees:</strong> Wedding-ready pit-loom Banarasi, three-loom Kanjeevaram and Mixed Pattu fusion drapes.</li>
               <li><strong className="text-gray-900">Party Wear Sarees:</strong> Gadwal pallu silks, Pochampally ikats and contemporary Fancy Sarees.</li>
               <li><strong className="text-gray-900">Daily Wear Sarees:</strong> Mangalagiri cottons, Pochampally everyday silks and soft crepe Mysore.</li>
-              <li><strong className="text-gray-900">Sarees on Sale:</strong> <Link href="/shop?sale=1" className="text-[#75001F] font-bold hover:underline">Up to 50% off</Link> on curated weaves.</li>
+              <li><strong className="text-gray-900">Sarees on Sale:</strong> <Link href="/shop?sale=1" className="text-[#082052] font-bold hover:underline">Up to 50% off</Link> on curated weaves.</li>
             </ul>
 
             <h3 className="text-base font-bold text-gray-900 mt-6 mb-2 uppercase tracking-wide">
@@ -130,7 +130,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         aria-expanded={open}
         className="w-full flex items-center justify-between py-3 text-left group"
       >
-        <span className="text-sm font-semibold text-gray-900 group-hover:text-[#75001F] transition-colors">
+        <span className="text-sm font-semibold text-gray-900 group-hover:text-[#082052] transition-colors">
           {q}
         </span>
         <span className={`ml-4 text-xl text-gray-500 transition-transform shrink-0 ${open ? 'rotate-45' : ''}`}>

@@ -32,7 +32,12 @@ export default function AudioProvider({ children }: { children: React.ReactNode 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const fallbackArmedRef = useRef(false);
   const [unlocked, setUnlocked] = useState(false);
-  const [muted, setMuted] = useState(false);
+  // Start muted. The ambient raag no longer auto-plays — it waits for
+  // the user to tap the speaker button in the nav (or the floating one).
+  // Keeping `muted: true` initially means the icon reflects reality
+  // (no sound) from the first paint, and the first click flips it to
+  // playing+unmuted in one step via `toggle()`.
+  const [muted, setMuted] = useState(true);
 
   useEffect(() => {
     const el = new Audio(AUDIO_SRC);
@@ -111,20 +116,26 @@ export default function AudioProvider({ children }: { children: React.ReactNode 
   }, []);
 
   const toggle = useCallback(() => {
+    // Flip muted first so the icon always toggles on every click,
+    // regardless of whether the audio file resolves. The playback call
+    // is best-effort: if the mp3 is missing / autoplay-blocked / errors
+    // out, the UI still reflects the user's intent correctly.
+    const nextMuted = !muted;
+    setMuted(nextMuted);
     const el = audioRef.current;
     if (!el) return;
-    if (muted || el.paused) {
-      el.play()
-        .then(() => fadeTo(TARGET_VOLUME, 700))
-        .catch(() => {});
-      setMuted(false);
-    } else {
+    if (nextMuted) {
       fadeTo(0, 500);
-      setTimeout(() => {
+      window.setTimeout(() => {
         const cur = audioRef.current;
         if (cur) cur.pause();
       }, 550);
-      setMuted(true);
+    } else {
+      el.play()
+        .then(() => fadeTo(TARGET_VOLUME, 700))
+        .catch(() => {
+          // Playback failed — fine, icon already shows unmuted intent.
+        });
     }
   }, [fadeTo, muted]);
 

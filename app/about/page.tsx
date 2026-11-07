@@ -1,31 +1,29 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PolicyHeader } from '@/components/policy/PolicyChrome';
-import BrandNameMeaning from '@/components/about/BrandNameMeaning';
-import LogoMeaning from '@/components/about/LogoMeaning';
 import VisionMission from '@/components/about/VisionMission';
 
 export const metadata: Metadata = {
-  title: 'About Us · Thridha Varnam',
+  title: 'About Us · House Of GnanRudh',
   description:
-    'Thridha Varnam is a premium saree brand inspired by the beauty, grace, and cultural richness of Indian womanhood. Tradition in Every Color.',
+    'House Of GnanRudh is a premium saree brand inspired by the beauty, grace, and cultural richness of Indian womanhood. Tradition in Every Color.',
 };
 
 // Founder + Co-Founder profiles. Drop headshot images into /public and
 // wire them up here when the shots land.
 const founders: { name: string; role: string; initials: string; bio: string }[] = [
   {
-    name: 'A. Juhith Sai',
+    name: 'Founder Name',
     role: 'Founder',
-    initials: 'JS',
-    bio: 'A. Juhith Sai is the Founder of Thridha Varnam and a Fashion Designing graduate from JD Institute of Fashion Technology, Bengaluru (2019). With a strong passion for Indian textiles and timeless fashion, she transformed her creative vision into a premium handloom brand. Alongside her successful digital journey as the creator of Juhith Vlogs, with over 850,000 subscribers, she continues to inspire modern women by blending tradition with contemporary elegance.',
+    initials: 'FN',
+    bio: 'Short founder bio goes here — a paragraph introducing the founder, their background, and the vision that led to House Of GnanRudh. Replace this placeholder with the real bio once ready.',
   },
   {
-    name: 'Darshan Gowda C. L.',
+    name: 'Co-Founder Name',
     role: 'Co-Founder',
-    initials: 'DG',
-    bio: "Darshan Gowda C. L. is the Co-Founder of Thridha Varnam. Coming from a fashion background and actively involved in fashion shows and runway events, he shares a deep appreciation for Indian craftsmanship and design. Together with Juhith Sai, he co-founded Thridha Varnam with a vision to preserve India's rich weaving heritage while delivering authentic, premium handloom sarees to customers around the world. He oversees the brand's operations, sourcing, and business development.",
+    initials: 'CN',
+    bio: 'Short co-founder bio goes here — a paragraph introducing the co-founder, their background, and the role they play at House Of GnanRudh. Replace this placeholder with the real bio once ready.',
   },
 ];
 
@@ -56,7 +54,7 @@ const values: { title: string; body: string }[] = [
   },
   {
     title: 'Repair, not replace',
-    body: 'A Thridha Varnam piece can be restored in our Bengaluru atelier — a torn pallu, a loose zari, a refresh of fall and pico — for the lifetime of the saree, at cost.',
+    body: 'A House Of GnanRudh piece can be restored in our Bengaluru atelier — a torn pallu, a loose zari, a refresh of fall and pico — for the lifetime of the saree, at cost.',
   },
 ];
 
@@ -64,38 +62,29 @@ const timeline: { year: string; title: string; body: string }[] = [
   {
     year: '2025',
     title: 'The idea takes shape',
-    body: 'The idea for Thridha Varnam is born. The founding team begins researching India’s classical weaving traditions, meeting master weavers across the country, and laying the groundwork for a saree house rooted in authenticity.',
+    body: 'The idea for House Of GnanRudh is born. The founding team begins researching India’s classical weaving traditions, meeting master weavers across the country, and laying the groundwork for a saree house rooted in authenticity.',
   },
   {
     year: '2026',
     title: 'The house is launched',
-    body: 'Thridha Varnam is officially established and launched — bringing together hand-woven heritage weaves under a single label, with a Bengaluru atelier for bespoke commissions and restoration.',
+    body: 'House Of GnanRudh is officially established and launched — bringing together hand-woven heritage weaves under a single label, with a Bengaluru atelier for bespoke commissions and restoration.',
   },
 ];
 
 /**
- * About page â€” aligned to the official Thridha Varnam brand kit
- * (received 2026-06-15). Composition reads top-to-bottom as:
- *
- *   1. Brand Brief        (kit page 3, verbatim) â€” intro paragraph
- *   2. Brand Name Meaning (Sanskrit / Telugu / Kannada verse + meaning)
- *   3. Logo Meaning       (kit page 5, verbatim)
- *   4. Vision & Mission   (kit page 4, verbatim, dark wine panel)
- *   5. Meet the founders  (placeholder bios — swap in real copy later)
- *   6. The Eight Weaves   (weave lineage grid)
- *   7. What we promise    (values)
- *   8. Our journey        (timeline)
- *   9. Visit / commission (atelier CTA)
- *
- * Sections 1-4 are brand-kit-verbatim. Sections 5-9 are our own
- * supporting copy. Both use the brand typography rule (Black Mango
- * for headings, Plus Jakarta Sans for body) and the brand palette
- * (ivory / ink / maroon / gold).
+ * About page — House Of GnanRudh. Composition reads top-to-bottom as:
+ *   1. Brand Brief / intro
+ *   2. Vision & Mission (dark wine panel)
+ *   3. Meet the founders
+ *   4. The Eight Weaves
+ *   5. What we promise
+ *   6. Our journey (timeline)
+ *   7. Visit / commission (atelier CTA)
  */
 export default function AboutPage() {
   return (
     <main className="bg-ivory text-ink">
-      <PolicyHeader title="About Thridha Varnam" breadcrumb="Tradition in Every Color" />
+      <PolicyHeader title="About House Of GnanRudh" breadcrumb="Tradition in Every Color" />
 
       {/* Brand Brief â€” kit page 3, verbatim. Left column is the
           paragraph, right column shows an heirloom drape so the
@@ -111,19 +100,19 @@ export default function AboutPage() {
             </h2>
 
             <p className="mt-6 md:mt-8 text-base md:text-[1.05rem] leading-[1.85] text-ink/80 font-normal">
-              Thridha Varnam is a premium saree brand inspired by the beauty,
+              House Of GnanRudh is a premium saree brand inspired by the beauty,
               grace, and cultural richness of Indian womanhood. Rooted in
               tradition, the brand celebrates the timeless artistry of Indian
               textiles through carefully curated saree collections. Every
               design reflects elegance, craftsmanship, and the vibrant colors
               of heritage. The brand aims to connect modern women with their
               cultural roots while embracing contemporary sophistication.
-              Thridha Varnam stands for authenticity, quality, and enduring
+              House Of GnanRudh stands for authenticity, quality, and enduring
               style. Its identity is built around femininity, grace, and
               self-expression. Through luxurious fabrics and exquisite designs,
               the brand transforms every drape into a statement of confidence.
               The essence of the brand lies in preserving tradition while
-              making it relevant for today&rsquo;s generation. Thridha Varnam
+              making it relevant for today&rsquo;s generation. House Of GnanRudh
               is more than a saree brand &mdash; it is a celebration of culture
               and individuality. <span className="italic">Tradition in Every
               Color</span> defines the heart of the brand.
@@ -133,7 +122,7 @@ export default function AboutPage() {
           <div className="lg:col-span-5 relative aspect-[4/5] overflow-hidden bg-bone">
             <Image
               src="/photos/Heirloom%20edit.webp"
-              alt="Thridha Varnam heirloom saree on a model"
+              alt="House Of GnanRudh heirloom saree on a model"
               fill
               sizes="(max-width: 1024px) 100vw, 450px"
               className="object-cover"
@@ -143,13 +132,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* The meaning behind the name â€” Sanskrit / Telugu / Kannada verse */}
-      <BrandNameMeaning />
-
-      {/* Logo Meaning â€” kit page 5, verbatim */}
-      <LogoMeaning />
-
-      {/* Vision & Mission â€” kit page 4, verbatim, dark wine panel */}
+      {/* Vision & Mission — kit page 4, verbatim, dark wine panel */}
       <VisionMission />
 
       {/* Meet the founders — placeholder copy + initials portrait tiles.
@@ -164,7 +147,7 @@ export default function AboutPage() {
             Meet the founders
           </h2>
           <p className="mt-3 text-sm md:text-base text-ink/70 max-w-3xl leading-[1.75] mb-10 md:mb-12">
-            Thridha Varnam is led by two founders who share a lifelong love
+            House Of GnanRudh is led by two founders who share a lifelong love
             for India's handloom traditions and a commitment to the artisan
             families behind every weave.
           </p>
@@ -301,7 +284,7 @@ export default function AboutPage() {
               Bengaluru atelier
             </h3>
             <div className="text-sm text-ink/80 leading-[1.85]">
-              Thridha Varnam Atelier<br />
+              House Of GnanRudh Atelier<br />
               LTG LA GRAND, Block 2, No. 5<br />
               Jnanabharathi BDA Layout, Jnana Ganga Nagar<br />
               Bengaluru 560056 &middot; Karnataka, India

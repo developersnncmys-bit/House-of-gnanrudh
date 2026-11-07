@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -46,7 +46,7 @@ export default function ProductAccordion({ saree }: { saree: Saree }) {
             Estimated delivery dates are approximate and may shift due to unforeseen
             circumstances. Free shipping across India on every order.
           </p>
-          <Link href="/returns" className="text-[#75001F] font-semibold text-sm hover:underline">
+          <Link href="/returns" className="text-[#082052] font-semibold text-sm hover:underline">
             Read full return policy →
           </Link>
         </div>
@@ -88,7 +88,7 @@ function ProductDetailsTable({ saree }: { saree: Saree }) {
     { label: 'Zari', value: saree.details.zari },
     ...(saree.details.weight ? [{ label: 'Weight', value: saree.details.weight }] : []),
     { label: 'Pack Contains', value: '1 Saree, 1 Unstitched Blouse Fabric' },
-    { label: 'Manufactured', value: 'Thridha Varnam Pvt Ltd, Bengaluru' },
+    { label: 'Manufactured', value: 'House Of GnanRudh Pvt Ltd, Bengaluru' },
   ];
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-sm">
@@ -104,12 +104,11 @@ function ProductDetailsTable({ saree }: { saree: Saree }) {
 
 function colourName(hex: string): string {
   const map: Record<string, string> = {
-    '#75001F': 'Maroon',
+    '#082052': 'Maroon',
     '#E0AE6D': 'Gold',
     '#3F3F3F': 'Ink Black',
     '#0E4D5C': 'Peacock',
     '#1E1B3A': 'Indigo',
-    '#4D0015': 'Deep Maroon',
     '#A66D23': 'Bronze',
     '#F2C99E': 'Champagne',
     '#F9F9F9': 'Cream',
@@ -137,7 +136,7 @@ function Section({
         aria-expanded={open}
         className="w-full flex items-center justify-between py-4 text-left group"
       >
-        <h2 className="text-base font-bold text-gray-900 group-hover:text-[#75001F] transition-colors">
+        <h2 className="text-base font-bold text-gray-900 group-hover:text-[#082052] transition-colors">
           {title}
         </h2>
         <span className={`text-2xl text-gray-500 transition-transform ${open ? 'rotate-45' : ''}`}>
@@ -159,7 +158,7 @@ function FaqRow({ q, a }: { q: string; a: string }) {
         aria-expanded={open}
         className="w-full flex items-center justify-between py-3 text-left group"
       >
-        <span className="text-sm font-semibold text-gray-900 group-hover:text-[#75001F] transition-colors">
+        <span className="text-sm font-semibold text-gray-900 group-hover:text-[#082052] transition-colors">
           {q}
         </span>
         <span className={`text-xl text-gray-500 transition-transform shrink-0 ${open ? 'rotate-45' : ''}`}>

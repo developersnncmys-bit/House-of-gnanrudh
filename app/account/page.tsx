@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { redirect } from 'next/navigation';
 import AccountShell from '@/components/account/AccountShell';
 import { useAuth } from '@/lib/auth';
+import { SOFT_LAUNCH } from '@/lib/soft-launch';
 
 // /account — landing page for the section. Shows the editable basics
 // (name, email, phone). There's no backend so "save" only mutates the
@@ -10,6 +12,7 @@ import { useAuth } from '@/lib/auth';
 // to demonstrate the UX rather than to persist server-side.
 
 export default function AccountDetailsPage() {
+  if (SOFT_LAUNCH) redirect('/home');
   const { user, signIn } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

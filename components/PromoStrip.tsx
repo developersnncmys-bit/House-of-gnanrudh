@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import type { IconType } from 'react-icons';
+import { LuTruck, LuGlobe, LuHand, LuShirt, LuRotateCcw } from 'react-icons/lu';
 
 /**
  * PromoStrip — top-of-page rotating announcement strip mirroring the Kalki
@@ -40,16 +42,16 @@ export default function PromoStrip() {
 
   return (
     <div className="bg-maroon-deep text-ivory">
-      <div className="max-w-[1720px] mx-auto px-6 py-2 flex items-center justify-center gap-2.5 min-h-[34px]">
+      <div className="max-w-[1720px] mx-auto px-6 py-3 flex items-center justify-center gap-2.5 min-h-[44px]">
         <span
-          className="text-gold-soft inline-flex transition-opacity duration-300"
+          className="text-white inline-flex transition-opacity duration-300"
           style={{ opacity: visible ? 1 : 0 }}
           aria-hidden
         >
           <Icon name={current.icon} />
         </span>
         <span
-          className="text-[0.72rem] tracking-wide text-ivory/95 transition-opacity duration-300"
+          className="text-[0.9rem] tracking-wide text-white transition-opacity duration-300"
           style={{ opacity: visible ? 1 : 0 }}
           role="status"
           aria-live="polite"
@@ -63,54 +65,18 @@ export default function PromoStrip() {
 
 type IconName = 'truck' | 'globe' | 'hand' | 'shirt' | 'return';
 
+// Lucide icons via react-icons. Kept behind the `IconName` indirection
+// so the message list stays declarative and we can swap the icon set
+// (Phosphor, Heroicons, etc.) in one place later.
+const ICONS: Record<IconName, IconType> = {
+  truck: LuTruck,
+  globe: LuGlobe,
+  hand: LuHand,
+  shirt: LuShirt,
+  return: LuRotateCcw,
+};
+
 function Icon({ name }: { name: IconName }) {
-  const common = {
-    width: 14,
-    height: 14,
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    strokeWidth: 1.8,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-    'aria-hidden': true,
-  };
-  switch (name) {
-    case 'truck':
-      return (
-        <svg {...common}>
-          <path d="M3 7h11v9H3zM14 11h4l3 3v2h-7z" />
-          <circle cx="7" cy="18" r="1.6" />
-          <circle cx="17.5" cy="18" r="1.6" />
-        </svg>
-      );
-    case 'globe':
-      return (
-        <svg {...common}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
-        </svg>
-      );
-    case 'hand':
-      return (
-        <svg {...common}>
-          <path d="M9 11V5a2 2 0 1 1 4 0v6" />
-          <path d="M13 11V4a2 2 0 1 1 4 0v9" />
-          <path d="M17 13V7a2 2 0 1 1 4 0v9a6 6 0 0 1-6 6h-3a8 8 0 0 1-8-8v-2a2 2 0 1 1 4 0v2" />
-        </svg>
-      );
-    case 'shirt':
-      return (
-        <svg {...common}>
-          <path d="M8 4 4 7l2 3 2-1v11h8V9l2 1 2-3-4-3-2 2h-4Z" />
-        </svg>
-      );
-    case 'return':
-      return (
-        <svg {...common}>
-          <path d="M3 12a9 9 0 1 0 3-6.7" />
-          <path d="M3 4v5h5" />
-        </svg>
-      );
-  }
+  const Cmp = ICONS[name];
+  return <Cmp size={18} strokeWidth={1.8} aria-hidden />;
 }

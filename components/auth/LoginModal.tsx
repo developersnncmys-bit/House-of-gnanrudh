@@ -266,7 +266,7 @@ export default function LoginModal() {
           <div className="relative h-full flex flex-col justify-between p-8 lg:p-10 text-ivory">
             <div>
               <h2 className="text-2xl lg:text-[1.7rem] font-semibold leading-snug">
-                Register and join the<br />House of Thridha Varnam.
+                Register and join<br />House Of GnanRudh.
               </h2>
               <ul className="mt-6 space-y-1.5 text-[0.78rem] text-ivory/80">
                 <li>· Track every order end-to-end</li>
@@ -285,7 +285,7 @@ export default function LoginModal() {
           <div className="flex flex-col items-center text-center">
             <img
               src="/brand/logo-vertical.svg"
-              alt="Thridha Varnam"
+              alt="House Of GnanRudh"
               width={140}
               height={120}
               className="h-20 w-auto select-none"
@@ -345,7 +345,7 @@ export default function LoginModal() {
 
                 <div className="mt-7 pt-5 border-t border-ink/10 text-center">
                   <p className="text-sm text-ink/65">
-                    New to Thridha Varnam?{' '}
+                    New to House Of GnanRudh?{' '}
                     <button
                       type="button"
                       onClick={() => switchMode('signup')}

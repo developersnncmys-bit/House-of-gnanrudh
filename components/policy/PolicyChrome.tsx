@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 export function PolicyHeader({
   title,
@@ -11,7 +11,7 @@ export function PolicyHeader({
 }) {
   return (
     <header className="border-b border-gray-200 bg-gray-50">
-      <div className="max-w-[1100px] mx-auto px-6 lg:px-10 py-8">
+      <div className="max-w-[1100px] mx-auto px-6 lg:px-10 pt-16 pb-10 md:pt-20 md:pb-12">
         <div className="text-[0.7rem] tracking-[0.12em] uppercase text-gray-500">{breadcrumb}</div>
         <h1 className="mt-2 text-2xl md:text-3xl font-bold text-gray-900">{title}</h1>
         <p className="mt-1 text-xs text-gray-500">Last updated · {updated}</p>
@@ -99,10 +99,10 @@ export function PolicyContactStrip({
       <div className="flex flex-col items-stretch md:items-end gap-2 text-xs shrink-0">
         <div className="flex flex-wrap gap-2 md:justify-end">
           <a
-            href="mailto:support@thridhavarnam.com"
-            className="bg-gray-900 text-white px-4 py-2 font-semibold tracking-wide hover:bg-[#75001F] transition-colors text-center"
+            href="mailto:support@gnanrudh.com"
+            className="bg-gray-900 text-white px-4 py-2 font-semibold tracking-wide hover:bg-[#082052] transition-colors text-center"
           >
-            support@thridhavarnam.com
+            support@gnanrudh.com
           </a>
           <a
             href="tel:+919949528787"
@@ -113,7 +113,7 @@ export function PolicyContactStrip({
         </div>
         <Link
           href="/contact"
-          className="text-[#75001F] font-semibold underline underline-offset-2 md:text-right"
+          className="text-[#082052] font-semibold underline underline-offset-2 md:text-right"
         >
           Contact form →
         </Link>

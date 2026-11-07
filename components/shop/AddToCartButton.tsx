@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { useShop } from '@/lib/shop-store';
+import { CART_DISABLED } from '@/lib/soft-launch';
 
 type Variant = 'primary' | 'secondary' | 'compact';
 
@@ -26,6 +27,7 @@ export default function AddToCartButton({
   const handle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (CART_DISABLED) return;
     addToCart(productId, qty);
     setJustAdded(true);
     window.setTimeout(() => setJustAdded(false), 1500);
@@ -38,7 +40,7 @@ export default function AddToCartButton({
     : children ?? 'Add to Bag';
 
   const base =
-    'inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider rounded-sm transition-colors whitespace-nowrap';
+    'inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap';
 
   const styles: Record<Variant, string> = {
     primary: 'bg-maroon-deep text-ivory px-7 py-3.5 hover:bg-maroon',
