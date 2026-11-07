@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PolicyHeader } from '@/components/policy/PolicyChrome';
@@ -302,10 +302,10 @@ export default function AboutPage() {
                 Get directions
               </a>
               <a
-                href="tel:+919949528787"
+                href="tel:+91XXXXXXXXXX"
                 className="border border-ink text-ink px-4 py-2 font-semibold tracking-wide hover:bg-ink hover:text-ivory transition-colors"
               >
-                +91 99495 28787
+                +91 XXXXX XXXXX
               </a>
             </div>
           </div>

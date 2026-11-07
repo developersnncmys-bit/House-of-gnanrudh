@@ -12,7 +12,7 @@ import { useLoginModal } from '@/lib/login-modal';
 // reused by every account page so the active nav highlight is consistent.
 //
 // Auth gate: routes under /account/* are visitor-only. If the auth
-// provider has hydrated and there is no user, we bounce back to /home
+// provider has hydrated and there is no user, we bounce back to `/`
 // and open the login modal so they can sign in from there.
 
 const NAV = [
@@ -37,7 +37,7 @@ export default function AccountShell({
   useEffect(() => {
     if (!hydrated) return;
     if (!user) {
-      router.replace('/home');
+      router.replace('/');
       openLogin();
     }
   }, [hydrated, user, router, openLogin]);

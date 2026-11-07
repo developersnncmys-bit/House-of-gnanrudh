@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import Image from 'next/image';
@@ -67,7 +67,7 @@ export default function BespokeView() {
       <div className="border-b border-gray-200">
         <div className="max-w-[1720px] mx-auto px-4 lg:px-8 py-3 text-xs text-gray-500">
           <nav aria-label="Breadcrumb">
-            <Link href="/home" className="hover:text-gray-900">Home</Link>
+            <Link href="/" className="hover:text-gray-900">Home</Link>
             <span className="mx-1.5">/</span>
             <span className="text-gray-900">Bespoke</span>
           </nav>

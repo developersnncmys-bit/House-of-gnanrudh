@@ -41,7 +41,7 @@ const emptyForm = (): Address => ({
 });
 
 export default function AddressesPage() {
-  if (SOFT_LAUNCH) redirect('/home');
+  if (SOFT_LAUNCH) redirect('/');
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [hydrated, setHydrated] = useState(false);
   const [editing, setEditing] = useState<Address | null>(null);

@@ -73,10 +73,10 @@ export default function PromoBanner() {
             />
             <div className="relative w-full max-w-md">
               <h2
-                className="text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.05]"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05]"
                 style={{
                   fontFamily:
-                    'var(--font-hero), "Cookie", "Brush Script MT", cursive',
+                    'var(--font-hero), "Italiana", Georgia, serif',
                   // Metallic-gold text — same multi-stop gradient used
                   // on the Hero banner + Bridal Edit headings so the
                   // three script headlines read as one visual set.

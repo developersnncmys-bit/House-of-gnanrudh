@@ -227,16 +227,16 @@ export default function BestSellers() {
             {/* Category tabs — Pothys pattern. Each tab is separated by
                 a vertical hairline; the active tab is bold ink, inactive
                 ones are muted. Tabs filter the bestseller lineup by tier. */}
-            <div className="flex items-center justify-center flex-wrap gap-x-4 md:gap-x-6 mb-5">
+            <div className="flex items-center justify-end flex-wrap gap-x-5 md:gap-x-7 mb-5">
               {categories.map((c, i) => (
-                <div key={c.id} className="flex items-center gap-x-4 md:gap-x-6">
+                <div key={c.id} className="flex items-center gap-x-5 md:gap-x-7">
                   <button
                     type="button"
                     onClick={() => setCategory(c.id)}
                     aria-pressed={category === c.id}
-                    className={`font-sans text-[0.72rem] md:text-xs tracking-[0.14em] uppercase font-semibold transition-colors whitespace-nowrap ${
+                    className={`font-sans text-sm md:text-[0.95rem] tracking-[0.14em] uppercase font-semibold transition-colors whitespace-nowrap ${
                       category === c.id
-                        ? 'text-ink underline underline-offset-[8px] decoration-2'
+                        ? 'text-ink underline underline-offset-[10px] decoration-2'
                         : 'text-ink/50 hover:text-ink'
                     }`}
                   >
@@ -248,7 +248,7 @@ export default function BestSellers() {
                 </div>
               ))}
             </div>
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-end mb-8">
               {navHref('/shop?sort=bestsellers') ? (
                 <Link
                   href="/shop?sort=bestsellers"

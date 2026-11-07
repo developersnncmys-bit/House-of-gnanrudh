@@ -226,8 +226,8 @@ export default function EnterAtelier() {
               className="mt-7 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8"
             >
               <a
-                href="/home"
-                onClick={leaveStory('/home')}
+                href="/"
+                onClick={leaveStory('/')}
                 className="group relative flex sm:inline-flex w-full sm:w-auto items-center justify-between gap-4 sm:gap-8 bg-[#E0AE6D] text-ink pl-5 pr-4 sm:pl-6 sm:pr-5 py-[0.9rem] hover:bg-[#F2C99E] transition-colors duration-500 shadow-[0_10px_40px_-12px_rgba(201,169,97,0.55)] whitespace-nowrap"
               >
                 <span className="eyebrow text-[0.55rem] sm:text-[0.6rem] tracking-[0.32em] sm:tracking-[0.35em]">

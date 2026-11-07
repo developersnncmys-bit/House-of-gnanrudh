@@ -21,7 +21,7 @@ const SHIP_LABEL: Record<ShipMethod, string> = {
 };
 
 export default function OrdersPage() {
-  if (SOFT_LAUNCH) redirect('/home');
+  if (SOFT_LAUNCH) redirect('/');
   const { orders, hydrated, cancelOrder } = useOrders();
   const router = useRouter();
 

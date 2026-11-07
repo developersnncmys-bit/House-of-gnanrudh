@@ -53,7 +53,7 @@ export default function BagPanel({
       <header className="border-b border-ink/10">
         <div className="max-w-[1720px] mx-auto px-6 lg:px-10 py-6 lg:py-8">
           <nav aria-label="Breadcrumb" className="text-xs text-ink/55 mb-3">
-            <Link href="/home" className="hover:text-ink">Home</Link>
+            <Link href="/" className="hover:text-ink">Home</Link>
             <span className="mx-1.5">/</span>
             <Link href="/shop" className="hover:text-ink">All Sarees</Link>
             <span className="mx-1.5">/</span>
@@ -183,7 +183,7 @@ function EmptyState({ openLogin }: { openLogin: () => void }) {
       <header className="border-b border-ink/10">
         <div className="max-w-[1720px] mx-auto px-6 lg:px-10 py-6 lg:py-8">
           <nav aria-label="Breadcrumb" className="text-xs text-ink/55 mb-3">
-            <Link href="/home" className="hover:text-ink">Home</Link>
+            <Link href="/" className="hover:text-ink">Home</Link>
             <span className="mx-1.5">/</span>
             <Link href="/shop" className="hover:text-ink">All Sarees</Link>
             <span className="mx-1.5">/</span>

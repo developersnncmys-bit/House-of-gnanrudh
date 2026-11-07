@@ -24,9 +24,9 @@ const config: Config = {
         // update. All three tokens aliased to the same value so the
         // former red-on-maroon-deep contrasts collapse into a flat cream.
         maroon: {
-          DEFAULT: '#a11922',
-          deep: '#8B1B23',
-          soft: '#8b1f26',
+          DEFAULT: '#012d20',
+          deep: '#042509',
+          soft: '#05380d',
         },
 
         // Gold / bronze scale (warm accent)
@@ -40,7 +40,7 @@ const config: Config = {
         // (link hover + utility icon hover) so the pointer-feedback
         // reads as a distinct attention colour against the maroon
         // brand primary used for active state and CTAs.
-        scarlet: '#FF2400',
+        scarlet: '#a01804',
 
         // ── System / semantic (NOT in brand kit) ───────────────────────
         // Kept so success states remain visually distinct from the
@@ -51,13 +51,13 @@ const config: Config = {
       },
       fontFamily: {
         // Brand typography:
-        //   display / serif → Fraunces (Google Fonts)
+        //   display / serif → Italiana (Google Fonts)
         //   sans            → Raleway (Google Fonts)
         // `var(--font-display)` is the next/font variable registered in
         // app/layout.tsx; the quoted family name is a hard fallback if
         // the Next font pipeline hasn't loaded yet.
-        display: ['var(--font-display)', '"Fraunces"', 'Georgia', 'serif'],
-        serif: ['var(--font-display)', '"Fraunces"', 'Georgia', 'serif'],
+        display: ['var(--font-display)', '"Italiana"', 'Georgia', 'serif'],
+        serif: ['var(--font-display)', '"Italiana"', 'Georgia', 'serif'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 /**
- * Soft-launch gate — every route except `/` and `/home` redirects to
- * `/home`. The Preloader is a component mounted inside SiteShell on the
- * `/home` path (not a route), so it continues to work.
+ * Soft-launch gate — every route except `/` redirects to `/`.
+ * The Preloader is a component mounted inside SiteShell on `/`
+ * (not a route), so it continues to work.
  *
  * To re-enable the rest of the site, delete this file. The underlying
  * routes under `app/` are untouched — all pages are still built, just
@@ -12,7 +12,7 @@ import { NextRequest, NextResponse } from 'next/server';
  * See memory: project_pages_unlinked_soft_launch.
  */
 
-const ALLOWED = new Set<string>(['/', '/home']);
+const ALLOWED = new Set<string>(['/']);
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -20,7 +20,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
   const url = request.nextUrl.clone();
-  url.pathname = '/home';
+  url.pathname = '/';
   url.search = '';
   return NextResponse.redirect(url);
 }

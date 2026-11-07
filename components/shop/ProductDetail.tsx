@@ -55,7 +55,7 @@ export default function ProductDetail({ saree }: { saree: Saree }) {
       <div className="border-b border-gray-200">
         <div className="max-w-[1720px] mx-auto px-4 lg:px-8 py-3 text-xs text-gray-500">
           <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 flex-wrap">
-            <Link href="/home" className="hover:text-gray-900">Home</Link>
+            <Link href="/" className="hover:text-gray-900">Home</Link>
             <span>/</span>
             <Link href="/shop" className="hover:text-gray-900">All Sarees</Link>
             <span>/</span>

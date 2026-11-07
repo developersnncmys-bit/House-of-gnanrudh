@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -248,8 +248,8 @@ export default function ThankYouView() {
             <a href="mailto:support@gnanrudh.com" className="font-semibold text-ink hover:text-maroon underline underline-offset-2">
               support@gnanrudh.com
             </a>
-            <a href="tel:+919949528787" className="font-semibold text-ink hover:text-maroon underline underline-offset-2 tabular-nums">
-              +91 99495 28787
+            <a href="tel:+91XXXXXXXXXX" className="font-semibold text-ink hover:text-maroon underline underline-offset-2 tabular-nums">
+              +91 XXXXX XXXXX
             </a>
           </div>
         </div>

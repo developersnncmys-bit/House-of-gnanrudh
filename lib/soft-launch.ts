@@ -35,5 +35,5 @@ export const WISHLIST_DISABLED = SOFT_LAUNCH;
  */
 export function navHref(href: string): string | undefined {
   if (!SOFT_LAUNCH) return href;
-  return href === '/home' ? href : undefined;
+  return href === '/' ? href : undefined;
 }

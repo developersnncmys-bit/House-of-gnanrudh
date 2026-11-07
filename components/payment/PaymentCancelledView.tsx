@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -68,8 +68,8 @@ export default function PaymentCancelledView() {
             <Link href="/shop" className="text-ink/55 hover:text-ink underline underline-offset-2">
               Back to catalogue
             </Link>
-            <a href="tel:+919949528787" className="text-ink/55 hover:text-ink underline underline-offset-2 tabular-nums">
-              +91 99495 28787
+            <a href="tel:+91XXXXXXXXXX" className="text-ink/55 hover:text-ink underline underline-offset-2 tabular-nums">
+              +91 XXXXX XXXXX
             </a>
           </div>
         </div>

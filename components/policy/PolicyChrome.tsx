@@ -105,10 +105,10 @@ export function PolicyContactStrip({
             support@gnanrudh.com
           </a>
           <a
-            href="tel:+919949528787"
+            href="tel:+91XXXXXXXXXX"
             className="border border-gray-900 text-gray-900 px-4 py-2 font-semibold tracking-wide hover:bg-gray-900 hover:text-white transition-colors text-center"
           >
-            +91 99495 28787
+            +91 XXXXX XXXXX
           </a>
         </div>
         <Link

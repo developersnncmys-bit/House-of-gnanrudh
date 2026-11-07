@@ -58,7 +58,7 @@ const SOFT_LAUNCH = true;
 // Sub-row — streamlined main nav. "New Arrivals" keeps the maroon accent
 // (highlight recent stock); "Sale" keeps the box accent at the end.
 const weaveLinks = [
-  { href: '/home', label: 'Home' },
+  { href: '/', label: 'Home' },
   { href: '/shop?sort=new', label: 'New Arrivals' },
   { href: '/shop?weave=Kanjivaram', label: 'Kanjeevaram' },
   { href: '/shop?weave=Banarasi', label: 'Banarasi' },
@@ -78,7 +78,7 @@ const weaveLinks = [
 // safe href (never navigates away from /home when gated).
 function navHref(href: string): string | undefined {
   if (!SOFT_LAUNCH) return href;
-  return href === '/home' ? href : undefined;
+  return href === '/' ? href : undefined;
 }
 
 // Active-link detection. A link is active when the current path matches
@@ -140,7 +140,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
   const pathname = usePathname();
   // Self-contained cinematic pages have no nav — they own the whole viewport
   // and supply their own exit CTAs in the closing panel.
-  const isImmersive = pathname === '/' || pathname === '/journey';
+  const isImmersive = pathname === '/journey';
   const { cartCount, wishlistCount, hydrated } = useShop();
   const { openCart } = useCartDrawer();
 
@@ -273,7 +273,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
               </button>
             )}
             <Link
-              href="/home"
+              href="/"
               aria-label="House Of GnanRudh — home"
               className="flex items-center shrink-0 group"
             >

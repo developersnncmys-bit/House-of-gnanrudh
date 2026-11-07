@@ -92,7 +92,7 @@ export default function Testimonials() {
                       no occasion chip — matches the Kalki Customer Stories
                       layout. */}
                   <div className="col-span-3 flex flex-col items-center justify-center text-center px-6 md:px-10 py-8 md:py-10">
-                    <blockquote className="font-display italic text-sm md:text-base lg:text-lg text-ink leading-relaxed">
+                    <blockquote className="font-display font-bold text-sm md:text-base lg:text-lg text-ink leading-relaxed">
                       &ldquo;{r.quote}&rdquo;
                     </blockquote>
                     <div className="mt-6 md:mt-8 text-sm md:text-base font-semibold text-ink">

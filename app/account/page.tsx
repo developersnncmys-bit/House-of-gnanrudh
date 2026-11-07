@@ -12,7 +12,7 @@ import { SOFT_LAUNCH } from '@/lib/soft-launch';
 // to demonstrate the UX rather than to persist server-side.
 
 export default function AccountDetailsPage() {
-  if (SOFT_LAUNCH) redirect('/home');
+  if (SOFT_LAUNCH) redirect('/');
   const { user, signIn } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

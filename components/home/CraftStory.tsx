@@ -96,10 +96,10 @@ export default function CraftStory() {
         <div className="relative z-10 min-h-[510px] md:min-h-[calc(75vh+30px)] flex items-center justify-end">
           <div className="w-full md:w-3/5 lg:w-1/2 px-6 md:px-12 lg:px-20 py-14 text-ivory flex flex-col items-center text-center">
             <h3
-              className="font-normal text-6xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight"
+              className="font-normal text-6xl md:text-7xl lg:text-7xl leading-[1.05] tracking-tight"
               style={{
                 fontFamily:
-                  'var(--font-hero), "Cookie", "Brush Script MT", cursive',
+                  'var(--font-hero), "Italiana", Georgia, serif',
                 // Metallic-gold text — multi-stop gradient from bronze to
                 // champagne to bronze, clipped to the glyphs. Drop-shadow
                 // adds the subtle sheen a flat colour can't.
@@ -161,7 +161,7 @@ export default function CraftStory() {
                   <h3 className="font-display text-xl md:text-2xl lg:text-3xl font-semibold text-ivory leading-tight">
                     {o.title}
                   </h3>
-                  <span className="inline-flex items-center justify-center mt-4 bg-white text-ink px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] group-hover:bg-maroon-deep group-hover:text-ivory transition-colors">
+                  <span className="inline-flex items-center justify-center mt-4 bg-white text-ink px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] group-hover:bg-gold group-hover:text-ink transition-colors">
                     Shop Now
                   </span>
                 </div>

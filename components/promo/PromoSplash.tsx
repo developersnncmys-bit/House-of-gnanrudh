@@ -17,10 +17,10 @@ export default function PromoSplash() {
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
 
-  // Cinematic narrative pages own the viewport and shouldn't be interrupted
+  // The journey long-read owns the viewport and shouldn't be interrupted
   // by a marketing dialog. /journey is hidden from nav but still routable —
-  // skip there too for the same reason.
-  const immersive = pathname === '/' || pathname === '/journey';
+  // skip there for the same reason.
+  const immersive = pathname === '/journey';
 
   useEffect(() => {
     if (immersive) return;

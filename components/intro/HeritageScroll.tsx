@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
@@ -313,8 +313,8 @@ export default function HeritageScroll() {
                 An introduction · The house
               </div>
               <a
-                href="/home"
-                onClick={leaveStory('/home')}
+                href="/"
+                onClick={leaveStory('/')}
                 className="group inline-flex items-center gap-2 text-[#F2C99E] hover:text-ivory transition-colors"
               >
                 <span className="eyebrow text-[0.72rem] md:text-[0.78rem] tracking-[0.32em] font-semibold">

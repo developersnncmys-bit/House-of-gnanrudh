@@ -21,13 +21,12 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { markEntered } = useAudio();
 
-  // Show the Preloader only when the initial pathname is `/home`. The
-  // root `/` server-redirects there, so the splash plays on first visit
-  // to the site. SiteShell stays mounted across SPA navigations, so
-  // `useState` with an initializer captures the entry route exactly
-  // once; refreshing `/shop` etc. mounts SiteShell fresh with a non-
-  // `/home` pathname and skips the preloader entirely.
-  const [showPreloader] = useState(() => pathname === '/home');
+  // Show the Preloader only when the initial pathname is `/` (the home
+  // page). SiteShell stays mounted across SPA navigations, so `useState`
+  // with an initializer captures the entry route exactly once; refreshing
+  // `/shop` etc. mounts SiteShell fresh with a non-`/` pathname and
+  // skips the preloader entirely.
+  const [showPreloader] = useState(() => pathname === '/');
   useEffect(() => {
     markEntered();
   }, [markEntered]);
@@ -59,10 +58,10 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       window.scrollTo(0, 0);
     }
   }, [pathname]);
-  // Both the story page (/) and the journey long-read (/journey) are
-  // self-contained cinematic experiences that end with their own closing
-  // panel — no global nav and no footer.
-  const immersive = pathname === '/' || pathname === '/journey';
+  // The journey long-read (/journey) is a self-contained cinematic
+  // experience that ends with its own closing panel — no global nav
+  // and no footer. `/` is the main home and keeps the global chrome.
+  const immersive = pathname === '/journey';
   const showFooter = !immersive;
   // Nav stacks promo strip (~44px min) + main row (logo + py-3) + 1px
   // bottom border. Sub-row has been removed — all nav links sit in the

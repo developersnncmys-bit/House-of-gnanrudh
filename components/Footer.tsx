@@ -38,13 +38,15 @@ function FooterLink({
   );
 }
 
-const socials: { label: string; href: string; icon: React.ReactNode }[] = [
-  { label: 'Instagram', href: 'https://instagram.com/gnanrudh', icon: <FaInstagram /> },
-  { label: 'Facebook', href: 'https://facebook.com/gnanrudh', icon: <FaFacebookF /> },
-  { label: 'Pinterest', href: 'https://pinterest.com/gnanrudh', icon: <FaPinterestP /> },
-  { label: 'YouTube', href: 'https://youtube.com/@gnanrudh', icon: <FaYoutube /> },
-  { label: 'WhatsApp', href: 'https://wa.me/919949528787', icon: <FaWhatsapp /> },
-  { label: 'X', href: 'https://x.com/gnanrudh', icon: <FaXTwitter /> },
+// Social icons — kept visible as brand decoration; href has been
+// removed so each one renders as a static glyph (no navigation).
+const socials: { label: string; icon: React.ReactNode }[] = [
+  { label: 'Instagram', icon: <FaInstagram /> },
+  { label: 'Facebook', icon: <FaFacebookF /> },
+  { label: 'Pinterest', icon: <FaPinterestP /> },
+  { label: 'YouTube', icon: <FaYoutube /> },
+  { label: 'WhatsApp', icon: <FaWhatsapp /> },
+  { label: 'X', icon: <FaXTwitter /> },
 ];
 
 const linkCls =
@@ -62,6 +64,21 @@ export default function Footer() {
   return (
     <footer className="bg-maroon-deep text-ivory">
       <div className="max-w-[1720px] mx-auto px-6 md:px-10 lg:px-16 pt-12 md:pt-14 pb-5">
+        {/* Brand mast — big wordmark + short house description, centered
+            above the link grid. Reads as the footer's "signature line"
+            before the dense linkage beneath. */}
+        <div className="text-center max-w-2xl mx-auto pb-10 md:pb-12 border-b border-ivory/10 mb-10 md:mb-12">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-ivory">
+            House Of GnanRudh
+          </h2>
+          <p className="mt-4 text-sm md:text-base text-ivory/70 leading-relaxed">
+            A house of heirloom silk sarees — Kanjeevaram, Banarasi, Mysore
+            Silk, Mangalagiri, Pochampally, Gadwal, Patola and more. Each
+            drape is hand-woven, hand-finished, and made to be passed on
+            across generations. Shipped worldwide from India.
+          </p>
+        </div>
+
         {/* Link grid. Four content columns on the left, then a Client
             Care action column (Track Order / Store Locator / Contact),
             then socials & currency on the far right — Nalli pattern. */}
@@ -158,24 +175,19 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Socials column — simple large glyphs, no bordered circles,
-              Nalli pattern. */}
+          {/* Socials column — icons only, no links. Kept as brand
+              decoration after the hrefs were removed. */}
           <div className="col-span-2 md:col-span-4 lg:col-span-1">
             <ColumnTitle>Follow Us</ColumnTitle>
             <div className="flex items-center gap-5 text-[1.35rem] text-ivory/80">
               {socials.map((s) => (
-                <a
+                <span
                   key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="hover:text-gold transition-colors"
+                  className="inline-flex items-center justify-center cursor-default"
                 >
-                  <span className="inline-flex items-center justify-center">
-                    {s.icon}
-                  </span>
-                </a>
+                  {s.icon}
+                </span>
               ))}
             </div>
           </div>

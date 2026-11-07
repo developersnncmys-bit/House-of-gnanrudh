@@ -21,7 +21,7 @@ export function generateStaticParams() {
 }
 
 export default async function ProductPage({ params }: Props) {
-  if (SOFT_LAUNCH) redirect('/home');
+  if (SOFT_LAUNCH) redirect('/');
   const { id } = await params;
   const saree = SAREES.find((s) => s.id === id);
   if (!saree) notFound();

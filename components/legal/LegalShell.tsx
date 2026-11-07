@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 // Shared chrome for /privacy, /terms and any future legal page.
 // Matches the /shipping, /returns, /care look: white body with a light
@@ -29,7 +29,7 @@ export default function LegalShell({
       <header className="border-b border-gray-200 bg-gray-50">
         <div className="max-w-[1100px] mx-auto px-6 lg:px-10 py-8">
           <nav aria-label="Breadcrumb" className="text-[0.7rem] tracking-[0.12em] uppercase text-gray-500">
-            <Link href="/home" className="hover:text-gray-900">Home</Link>
+            <Link href="/" className="hover:text-gray-900">Home</Link>
             <span className="mx-1.5">/</span>
             <span className="text-gray-900">{title}</span>
           </nav>
@@ -96,7 +96,7 @@ export default function LegalShell({
               >
                 support@gnanrudh.com
               </a>{' '}
-              or call +91 99495 28787 (Monday – Saturday · 10:00 AM – 7:00 PM (IST)).
+              or call +91 XXXXX XXXXX (Monday – Saturday · 10:00 AM – 7:00 PM (IST)).
             </div>
           </article>
         </div>

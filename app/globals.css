@@ -7,9 +7,9 @@
   --color-ivory: #FDF6EC;        /* Light cream — primary background */
   --color-parchment: #FDF6EC;    /* Alias for cream (kept for back-compat) */
   --color-ink: #000000;          /* Black — body text */
-  --color-maroon: #a11922;       /* Brand primary (was crimson) */
-  --color-maroon-deep: #8B1B23;  /* Brand primary deep (was crimson) */
-  --color-maroon-soft: #8b1f26;  /* Brand primary soft (was crimson) */
+  --color-maroon: #012d20;       /* Brand primary (was crimson) */
+  --color-maroon-deep: #042509;  /* Brand primary deep (was crimson) */
+  --color-maroon-soft: #05380d;  /* Brand primary soft (was crimson) */
   --color-gold: #E0AE6D;         /* Tan — warm accent */
   --color-gold-deep: #A66D23;    /* Bronze — deep accent */
   --color-gold-soft: #F2C99E;    /* Lighter tan */
@@ -58,18 +58,18 @@ body {
   background-image: none !important;
 }
 
-/* All <h1> headings default to the brand display face (Migra).
+/* All <h1> headings default to the brand display face (Italiana).
    Page heroes, product titles, section headlines all pick this up
    automatically. h2/h3/h4 stay in the body sans so dense merchant pages
    don't get over-designed — add `font-display` to any sub-heading that
    should also be in the brand display. */
 h1 {
-  font-family: var(--font-display), 'Migra', Georgia, serif;
+  font-family: var(--font-display), 'Italiana', Georgia, serif;
   font-weight: 600;
   letter-spacing: 0.01em;
 }
 
-/* Forcing rule for the brand display family — guarantees Migra
+/* Forcing rule for the brand display family — guarantees Italiana
    wins over any inherited body font for elements explicitly tagged as
    display copy. The `!important` is justified because brand identity is
    non-negotiable: any element with class `font-display`, `text-display`,
@@ -77,7 +77,7 @@ h1 {
 .font-display,
 .text-display,
 .font-serif {
-  font-family: var(--font-display), 'Migra', Georgia, serif !important;
+  font-family: var(--font-display), 'Italiana', Georgia, serif !important;
 }
 
 ::selection {
@@ -113,10 +113,10 @@ html.lenis body {
   border-radius: 4px;
 }
 
-/* Display utility — Migra (current brand display face).
+/* Display utility — Italiana (current brand display face).
    Loaded from Google Fonts via next/font/google in app/layout.tsx. */
 .text-display {
-  font-family: var(--font-display), 'Migra', Georgia, serif;
+  font-family: var(--font-display), 'Italiana', Georgia, serif;
   font-weight: 600;
   letter-spacing: 0.02em;
   line-height: 1.05;
@@ -125,7 +125,7 @@ html.lenis body {
 /* Serif utility — same as display now that the brand has a single
    serif. Old `.text-serif` Cormorant italic is retired. */
 .text-serif {
-  font-family: var(--font-display), 'Migra', Georgia, serif;
+  font-family: var(--font-display), 'Italiana', Georgia, serif;
   font-weight: 400;
   text-transform: none;
 }

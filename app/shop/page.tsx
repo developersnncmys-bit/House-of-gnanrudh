@@ -26,7 +26,7 @@ export const metadata: Metadata = {
  * a Suspense boundary at the route entry.
  */
 export default function ShopPage() {
-  if (SOFT_LAUNCH) redirect('/home');
+  if (SOFT_LAUNCH) redirect('/');
   return (
     <Suspense fallback={<div className="min-h-screen bg-ivory" />}>
       <ShopView />

@@ -41,7 +41,7 @@ const SLIDES: Slide[] = [
       'Over 200 handwoven heirloom pieces added this season — kanjeevarams, banarasis, patolas and more.',
     ctaLabel: 'Shop New',
     ctaHref: '/shop?sort=new',
-    badge: { label: 'Just In', tone: 'maroon' },
+    badge: { label: 'Just In', tone: 'gold' },
   },
   {
     id: 'bridal-edit',
@@ -144,10 +144,10 @@ export default function Hero() {
                   {slide.eyebrow}
                 </div>
                 <h1
-                  className="text-6xl md:text-7xl lg:text-8xl font-normal leading-[1] mb-5"
+                  className="text-5xl md:text-7xl lg:text-7xl font-normal leading-[1] mb-5"
                   style={{
                     fontFamily:
-                      'var(--font-hero), "Cookie", "Brush Script MT", cursive',
+                      'var(--font-hero), "Italiana", Georgia, serif',
                     // Metallic-gold text — multi-stop diagonal gradient
                     // from bronze → champagne → bronze, clipped to the
                     // glyphs. Same treatment used on the Bridal Edit
@@ -170,7 +170,7 @@ export default function Hero() {
                 </p>
                 <Link
                   href={slide.ctaHref}
-                  className="inline-flex items-center bg-white hover:bg-ivory text-ink px-8 sm:px-10 py-4 text-sm sm:text-base font-extrabold uppercase tracking-wider rounded-sm transition-colors"
+                  className="inline-flex items-center bg-white hover:bg-ivory text-ink px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-[0.18em] rounded-sm transition-colors"
                 >
                   {slide.ctaLabel}
                 </Link>

@@ -107,10 +107,10 @@ export default function ReturnsPage() {
             <li>
               <strong>WhatsApp:</strong>{' '}
               <a
-                href="tel:+919949528787"
+                href="tel:+91XXXXXXXXXX"
                 className="text-[#082052] underline underline-offset-2 font-semibold"
               >
-                +91 99495 28787
+                +91 XXXXX XXXXX
               </a>
             </li>
           </ul>

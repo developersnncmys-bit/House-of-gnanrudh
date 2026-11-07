@@ -160,7 +160,7 @@ export default function PressStrip() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   {stock <= 3 ? (
-                    <div className="absolute top-2.5 left-2.5 bg-maroon text-ivory px-2 py-1 text-[0.65rem] font-bold uppercase tracking-wider rounded-sm">
+                    <div className="absolute top-2.5 left-2.5 bg-gold-deep text-ivory px-2 py-1 text-[0.65rem] font-bold uppercase tracking-wider rounded-sm">
                       Only {stock} Left
                     </div>
                   ) : (

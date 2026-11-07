@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function PaymentSuccessPage() {
-  if (SOFT_LAUNCH) redirect('/home');
+  if (SOFT_LAUNCH) redirect('/');
   return (
     <Suspense fallback={<div className="min-h-screen bg-ivory" />}>
       <PaymentSuccessView />

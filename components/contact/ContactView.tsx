@@ -247,13 +247,13 @@ export default function ContactView() {
               icon={<IconPhone />}
               title="Phone"
               body="Mon – Sat · 10:00 AM – 7:00 PM (IST)"
-              action={{ href: 'tel:+919949528787', label: '+91 99495 28787' }}
+              action={{ href: 'tel:+91XXXXXXXXXX', label: '+91 XXXXX XXXXX' }}
             />
             <ContactCard
               icon={<IconWhatsApp />}
               title="WhatsApp"
               body="Quick order help, dispatch updates and styling questions."
-              action={{ href: 'https://wa.me/919949528787', label: 'Chat on WhatsApp', external: true }}
+              action={{ href: 'https://wa.me/91XXXXXXXXXX', label: 'Chat on WhatsApp', external: true }}
             />
 
             <div className="border border-gray-200 p-5 bg-gray-50">
