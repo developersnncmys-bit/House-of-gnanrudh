@@ -73,6 +73,7 @@ export default function ShopByPrice() {
           title="Shop by Price"
           description="From everyday cotton drapes to heirloom bridal silks — a curated price edit for every occasion and every budget."
           link={{ href: '/shop', label: 'View All' }}
+          showDividers={false}
         />
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6 pt-2">

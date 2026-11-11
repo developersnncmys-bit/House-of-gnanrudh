@@ -132,6 +132,7 @@ export default function WeaveRail() {
           title="Shop by Category"
           description="Nine weaving traditions, nine distinct voices — from Kanjeevaram silks to Patola ikats, hand-crafted across India."
           link={{ href: '/shop', label: 'View All' }}
+          showDividers={false}
         />
 
         {/* Rail arrows — kept to the right, below the centered header. */}

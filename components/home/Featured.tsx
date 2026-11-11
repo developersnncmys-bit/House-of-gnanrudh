@@ -66,6 +66,7 @@ export default function Featured() {
           title="New Arrivals"
           description="Fresh off the loom — the latest heirloom weaves added to the house, across bridal, festive and everyday edits."
           link={{ href: '/shop?sort=new', label: 'View All' }}
+          showDividers={false}
         />
 
         {/* Tabs */}

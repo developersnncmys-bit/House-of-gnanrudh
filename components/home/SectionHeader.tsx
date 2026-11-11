@@ -9,6 +9,8 @@ type SectionHeaderProps = {
   className?: string;
   /** Override the default lotus ornament. Pass a path under `/public`. */
   ornament?: string;
+  /** Hairline rules flanking the ornament. Defaults to true. */
+  showDividers?: boolean;
 };
 
 export default function SectionHeader({
@@ -17,11 +19,14 @@ export default function SectionHeader({
   link,
   className = 'mb-6 md:mb-8',
   ornament = '/lotus.png',
+  showDividers = true,
 }: SectionHeaderProps) {
   return (
     <div className={`text-center ${className}`}>
       <div className="flex items-center justify-center gap-3 md:gap-4 mb-3">
-        <span className="h-px w-10 sm:w-14 md:w-20 bg-[#D1001F]" aria-hidden />
+        {showDividers && (
+          <span className="h-px w-10 sm:w-14 md:w-20 bg-[#D1001F]" aria-hidden />
+        )}
         <Image
           src={ornament}
           alt=""
@@ -31,7 +36,9 @@ export default function SectionHeader({
           draggable={false}
           aria-hidden
         />
-        <span className="h-px w-10 sm:w-14 md:w-20 bg-[#D1001F]" aria-hidden />
+        {showDividers && (
+          <span className="h-px w-10 sm:w-14 md:w-20 bg-[#D1001F]" aria-hidden />
+        )}
       </div>
       <h2 className="font-display text-3xl md:text-4xl font-bold text-ink leading-tight">
         {title}

@@ -30,6 +30,7 @@ export default function Tiers() {
           title="Featured Products"
           description="A curated edit of our most-loved weaves — bridal heirlooms, festive silks and everyday drapes, hand-picked for every occasion in a woman's wardrobe."
           link={{ href: '/shop', label: 'View All' }}
+          showDividers={false}
         />
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
