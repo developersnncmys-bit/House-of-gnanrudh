@@ -12,6 +12,9 @@ import {
   getSareeColorGroup,
 } from '@/lib/sarees';
 import type { Tier, Weave } from '@/lib/sarees';
+import { SOFT_LAUNCH } from '@/lib/soft-launch';
+import NewArrivalsView from './NewArrivalsView';
+import CategoryWeaveView from './CategoryWeaveView';
 import ProductCard from './ProductCard';
 import FilterRail, {
   EMPTY_FILTERS,
@@ -85,6 +88,31 @@ export default function ShopView() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  // Soft-launch gate — only the live /shop URLs are let through. Any
+  // other query (or none at all) bounces home. Lives here instead of
+  // the server page because the site is statically exported
+  // (next.config.mjs: `output: 'export'`), so server components can't
+  // read searchParams. Mirrors the allow-list in middleware.ts /
+  // lib/soft-launch.ts — keep the three in sync when opening new URLs.
+  const isSortNew = searchParams.get('sort') === 'new';
+  const isWishlist = searchParams.get('wishlist') === '1';
+  // Exact-query allow-list for weave landings. Keep aligned with
+  // middleware.ts ALLOWED_WITH_QUERY and lib/soft-launch.ts.
+  const isLiveWeave = (() => {
+    const w = searchParams.get('weave');
+    if (!w) return false;
+    // Only exact-match single weave, no extra filters layered on.
+    const otherParams = ['tier', 'bracket', 'sale', 'color', 'sort'].some(
+      (k) => searchParams.get(k),
+    );
+    if (otherParams) return false;
+    return new Set(['Kanjivaram', 'Banarasi', 'Mysore Silk']).has(w);
+  })();
+  const softGated = SOFT_LAUNCH && !isSortNew && !isWishlist && !isLiveWeave;
+  useEffect(() => {
+    if (softGated) router.replace('/');
+  }, [softGated, router]);
 
   const mode = searchParams.get('wishlist') === '1'
     ? 'wishlist'
@@ -254,6 +282,30 @@ export default function ShopView() {
     filters.colors.length > 0;
 
   // ──────────────────────────────────────────────────────────────────────
+  // Soft-launch bounce — the useEffect above has already queued a
+  // router.replace('/'), so just render a blank shell until navigation
+  // takes over. Placed after every hook so no Rules-of-Hooks violation.
+  if (softGated) return <div className="min-h-screen bg-ivory" />;
+  // /shop?sort=new runs its own self-contained page (Kalki-style). All
+  // other /shop views continue through the original ShopView body
+  // untouched, so Kanjeevaram/Banarasi/Sale/etc. render exactly as
+  // before.
+  if (searchParams.get('sort') === 'new') return <NewArrivalsView />;
+  // Single-weave landings (Kanjeevaram, Banarasi, …) render through
+  // the dedicated Kalki-style CategoryWeaveView. Only kicks in when
+  // exactly one weave is selected and no other hard filter is
+  // layered on — drill-down combinations (weave + color, weave +
+  // sale) stay in the original ShopView grid so that path is
+  // unaffected.
+  if (
+    filters.weaves.length === 1 &&
+    !filters.tiers.length &&
+    !filters.bracket &&
+    !filters.sale &&
+    !filters.colors.length
+  ) {
+    return <CategoryWeaveView weave={filters.weaves[0]} />;
+  }
   if (mode === 'wishlist') return <WishlistPanel heading={heading} />;
   if (mode === 'bag') return <BagPanel heading={heading} />;
 
@@ -324,7 +376,7 @@ export default function ShopView() {
               <button
                 type="button"
                 onClick={onClearFilters}
-                className="text-xs font-bold text-[#082052] hover:underline ml-1 uppercase"
+                className="text-xs font-bold text-maroon-deep hover:underline ml-1 uppercase"
               >
                 Clear All
               </button>
@@ -385,7 +437,7 @@ export default function ShopView() {
                 <button
                   type="button"
                   onClick={onClearFilters}
-                  className="inline-block bg-gray-900 text-white px-6 py-2.5 text-sm font-bold uppercase tracking-wide hover:bg-[#082052] transition-colors"
+                  className="inline-block bg-gray-900 text-white px-6 py-2.5 text-sm font-bold uppercase tracking-wide hover:bg-maroon-deep transition-colors"
                 >
                   Clear All Filters
                 </button>
@@ -443,7 +495,7 @@ export default function ShopView() {
             <button
               type="button"
               onClick={() => setFilterDrawerOpen(false)}
-              className="mt-4 w-full bg-gray-900 text-white py-3 text-sm font-bold uppercase tracking-wide hover:bg-[#082052] transition-colors"
+              className="mt-4 w-full bg-gray-900 text-white py-3 text-sm font-bold uppercase tracking-wide hover:bg-maroon-deep transition-colors"
             >
               Show {filtered.length} {filtered.length === 1 ? 'item' : 'items'}
             </button>
@@ -462,7 +514,7 @@ function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }
         type="button"
         onClick={onRemove}
         aria-label={`Remove filter ${label}`}
-        className="text-gray-500 hover:text-[#082052] text-base leading-none ml-0.5"
+        className="text-gray-500 hover:text-maroon-deep text-base leading-none ml-0.5"
       >
         ×
       </button>

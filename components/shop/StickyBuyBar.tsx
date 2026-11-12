@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -55,7 +55,7 @@ export default function StickyBuyBar({
                 <span className="text-xs text-gray-500 line-through tabular-nums">
                   {formatINR(mrp)}
                 </span>
-                <span className="text-xs font-bold text-[#082052] tabular-nums">
+                <span className="text-xs font-bold text-maroon-deep tabular-nums">
                   {discount}% Off
                 </span>
               </>

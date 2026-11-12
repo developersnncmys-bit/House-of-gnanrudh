@@ -44,7 +44,7 @@ export default function WishlistPanel({
 
   return (
     <div className="bg-ivory min-h-screen text-ink">
-      <div className="max-w-[1720px] mx-auto px-6 lg:px-10 py-12 lg:py-16">
+      <div className="max-w-[1720px] mx-auto px-6 lg:px-10 pt-24 md:pt-28 lg:pt-32 pb-12 lg:pb-16">
         <h1 className="text-center text-4xl md:text-5xl font-semibold tracking-tight text-ink">
           {heading.title}
         </h1>
@@ -104,7 +104,15 @@ export default function WishlistPanel({
 
             <div className="mt-12 lg:mt-14 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10 lg:gap-x-6 lg:gap-y-12">
               {items.map((saree, i) => (
-                <ProductCard key={saree.id} saree={saree} priority={i < 4} />
+                <ProductCard
+                  key={saree.id}
+                  saree={saree}
+                  priority={i < 4}
+                  hideBadges
+                  hideDiscountOverlay
+                  showBadgesBelowPrice
+                  showViewSimilar
+                />
               ))}
             </div>
           </>

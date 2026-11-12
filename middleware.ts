@@ -12,11 +12,32 @@ import { NextRequest, NextResponse } from 'next/server';
  * See memory: project_pages_unlinked_soft_launch.
  */
 
-const ALLOWED = new Set<string>(['/']);
+const ALLOWED = new Set<string>([
+  '/',
+  '/about',
+  '/account',
+  '/account/orders',
+  '/account/addresses',
+]);
+
+// Specific query-string-scoped URLs to let through even when the
+// pathname itself is gated. Used to open just the "New Arrivals"
+// shop view (/shop?sort=new) while /shop with any other params
+// continues to redirect home.
+const ALLOWED_WITH_QUERY = new Set<string>([
+  '/shop?sort=new',
+  '/shop?wishlist=1',
+  '/shop?weave=Kanjivaram',
+  '/shop?weave=Banarasi',
+  '/shop?weave=Mysore+Silk',
+]);
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
   if (ALLOWED.has(pathname)) {
+    return NextResponse.next();
+  }
+  if (ALLOWED_WITH_QUERY.has(pathname + search)) {
     return NextResponse.next();
   }
   const url = request.nextUrl.clone();

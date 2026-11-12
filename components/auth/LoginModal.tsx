@@ -234,46 +234,43 @@ export default function LoginModal() {
         className="absolute inset-0 bg-[#1B0E0A]/70 backdrop-blur-sm"
       />
 
-      <div className="relative w-full max-w-[920px] max-h-[92vh] overflow-hidden bg-bone no-pattern shadow-2xl grid grid-cols-1 md:grid-cols-2 rounded-2xl">
+      <div className="relative w-full max-w-[760px] max-h-[92vh] overflow-hidden bg-bone no-pattern shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)] ring-1 ring-ink/10 grid grid-cols-1 md:grid-cols-2">
         <button
           type="button"
           aria-label="Close"
           onClick={closeLogin}
-          className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center text-ink hover:text-maroon bg-bone/85 hover:bg-bone transition-colors rounded-full"
+          className="absolute top-3 right-3 z-10 w-7 h-7 flex items-center justify-center text-ink/70 hover:text-ink transition-colors"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden>
             <path d="m6 6 12 12M18 6 6 18" />
           </svg>
         </button>
 
         {/* Left: promotional pane */}
-        <div className="relative hidden md:block bg-[#1B0E0A] min-h-[520px]">
+        <div className="relative hidden md:block bg-[#1B0E0A] min-h-[380px]">
           <Image
-            src="/homebanner/Mayura kanjeevaram.webp"
+            src="/homebanner/login-popup.png"
             alt=""
             fill
-            sizes="(max-width: 768px) 0px, 460px"
+            sizes="(max-width: 768px) 0px, 380px"
             className="object-cover object-[50%_25%]"
             priority={false}
           />
+          {/* Dark overlay — concentrated at the top-left where the
+              headline sits, fading toward the opposite corner so the
+              image is still readable below. */}
           <div
-            className="absolute inset-0"
+            className="pointer-events-none absolute inset-0"
             style={{
               background:
-                'linear-gradient(165deg, rgba(27,14,10,0.7) 0%, rgba(27,14,10,0.4) 38%, rgba(27,14,10,0.15) 70%, rgba(27,14,10,0.6) 100%)',
+                'linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.4) 35%, rgba(0,0,0,0.15) 65%, transparent 100%)',
             }}
           />
-          <div className="relative h-full flex flex-col justify-between p-8 lg:p-10 text-ivory">
-            <div>
-              <h2 className="text-2xl lg:text-[1.7rem] font-semibold leading-snug">
-                Register and join<br />House Of GnanRudh.
-              </h2>
-              <ul className="mt-6 space-y-1.5 text-[0.78rem] text-ivory/80">
-                <li>· Track every order end-to-end</li>
-                <li>· Save your addresses for a one-tap checkout</li>
-                <li>· Wishlist heirloom pieces across visits</li>
-              </ul>
-            </div>
+          {/* Top-left editorial headline — Kalki-style "Be part of the Circle" overlay. */}
+          <div className="relative h-full p-8 flex items-start">
+            <h2 className="text-ivory text-[1.9rem] leading-[1.1] font-semibold max-w-[80%] drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
+              Be part of the<br />House Circle!
+            </h2>
           </div>
         </div>
 
@@ -281,29 +278,29 @@ export default function LoginModal() {
             "Sign in" link is always reachable when the modal is taller than
             the viewport (max-h-[92vh] on the outer container clips it
             otherwise). */}
-        <div className="relative p-7 md:p-10 lg:p-12 flex flex-col overflow-y-auto max-h-[92vh]">
+        <div className="relative p-5 md:p-6 lg:p-8 flex flex-col overflow-y-auto max-h-[92vh]">
           <div className="flex flex-col items-center text-center">
             <img
-              src="/brand/logo-vertical.svg"
+              src="/G-R-logo.png"
               alt="House Of GnanRudh"
               width={140}
               height={120}
-              className="h-20 w-auto select-none"
+              className="h-14 w-auto select-none"
               draggable={false}
             />
           </div>
 
-          <div className="mt-8 md:mt-10">
+          <div className="mt-4 md:mt-5">
             {mode === 'signin' && (
               <>
-                <h1 id="login-title" className="text-2xl font-semibold text-ink text-center">
-                  Sign in
+                <h1 id="login-title" className="text-[1.75rem] md:text-[2rem] font-semibold text-ink text-center leading-tight">
+                  Sign in / Sign up
                 </h1>
-                <p className="mt-1.5 text-sm text-ink/65 text-center">
+                <p className="mt-1.5 text-sm text-ink/55 text-center">
                   Welcome back. Enter your details.
                 </p>
 
-                <form onSubmit={handleSignIn} className="mt-7 space-y-4" noValidate>
+                <form onSubmit={handleSignIn} className="mt-6 space-y-4" noValidate>
                   <EmailField
                     value={email}
                     onChange={setEmail}
@@ -337,7 +334,7 @@ export default function LoginModal() {
                   <button
                     type="submit"
                     disabled={submitting || !signInFormValid}
-                    className="w-full bg-maroon-deep text-ivory py-3 text-sm font-semibold tracking-wide hover:bg-maroon transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-maroon-deep"
+                    className="w-full bg-ink text-ivory py-3.5 text-sm font-semibold tracking-wide hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-ink"
                   >
                     {submitting ? 'Signing in…' : 'Sign In'}
                   </button>
@@ -360,14 +357,14 @@ export default function LoginModal() {
 
             {mode === 'signup' && (
               <>
-                <h1 id="login-title" className="text-2xl font-semibold text-ink text-center">
+                <h1 id="login-title" className="text-[1.75rem] md:text-[2rem] font-semibold text-ink text-center leading-tight">
                   Create account
                 </h1>
-                <p className="mt-1.5 text-sm text-ink/65 text-center">
+                <p className="mt-1.5 text-sm text-ink/55 text-center">
                   Join the house. It takes a minute.
                 </p>
 
-                <form onSubmit={handleSignUp} className="mt-7 space-y-4" noValidate>
+                <form onSubmit={handleSignUp} className="mt-6 space-y-4" noValidate>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label htmlFor="firstName" className="block text-sm font-semibold text-ink mb-1.5">
@@ -483,7 +480,7 @@ export default function LoginModal() {
                   <button
                     type="submit"
                     disabled={submitting || !signUpFormValid}
-                    className="w-full bg-maroon-deep text-ivory py-3 text-sm font-semibold tracking-wide hover:bg-maroon transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-maroon-deep"
+                    className="w-full bg-ink text-ivory py-3.5 text-sm font-semibold tracking-wide hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-ink"
                   >
                     {submitting ? 'Creating account…' : 'Create Account'}
                   </button>
@@ -525,14 +522,14 @@ export default function LoginModal() {
 
             {mode === 'forgot' && (
               <>
-                <h1 id="login-title" className="text-2xl font-semibold text-ink text-center">
+                <h1 id="login-title" className="text-[1.75rem] md:text-[2rem] font-semibold text-ink text-center leading-tight">
                   Reset password
                 </h1>
-                <p className="mt-1.5 text-sm text-ink/65 text-center">
+                <p className="mt-1.5 text-sm text-ink/55 text-center">
                   We'll send a reset link to your email.
                 </p>
 
-                <form onSubmit={handleForgot} className="mt-7 space-y-4">
+                <form onSubmit={handleForgot} className="mt-6 space-y-4">
                   <EmailField value={email} onChange={setEmail} inputRef={emailInputRef} />
 
                   {error && <ErrorRow>{error}</ErrorRow>}
@@ -545,7 +542,7 @@ export default function LoginModal() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full bg-maroon-deep text-ivory py-3 text-sm font-semibold tracking-wide hover:bg-maroon transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full bg-ink text-ivory py-3.5 text-sm font-semibold tracking-wide hover:bg-black transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {submitting ? 'Sending…' : 'Send Reset Link'}
                   </button>
@@ -564,18 +561,38 @@ export default function LoginModal() {
             )}
 
             {mode === 'success' && (
-              <div className="py-10 text-center">
-                <div className="mx-auto mb-4 w-12 h-12 rounded-full border border-ink/20 flex items-center justify-center text-ink">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <path d="M5 12.5 10 17.5 19.5 8" />
-                  </svg>
+              <div className="py-12 text-center">
+                <div className="text-3xl mb-3" aria-hidden>
+                  🎉
                 </div>
-                <h1 id="login-title" className="text-xl font-semibold text-ink">
-                  Welcome to the house
+                <h1
+                  id="login-title"
+                  className="text-xl md:text-2xl font-semibold text-ink leading-snug"
+                >
+                  Congratulations!
+                  <br />
+                  Verification Successful
                 </h1>
-                <p className="mt-1.5 text-sm text-ink/65">
-                  You're signed in. Closing…
-                </p>
+                <div
+                  className="mt-6 flex items-center justify-center gap-2 text-sm text-ink/65"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    className="animate-spin"
+                    aria-hidden
+                  >
+                    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                  </svg>
+                  Logging you in
+                </div>
               </div>
             )}
           </div>
@@ -590,6 +607,16 @@ function RequiredMark() {
     <span className="text-maroon ml-0.5" aria-hidden>
       *
     </span>
+  );
+}
+
+function Ornament() {
+  return (
+    <div className="mt-3 flex items-center justify-center gap-2" aria-hidden>
+      <span className="h-px w-8 bg-gradient-to-r from-transparent to-gold/60" />
+      <span className="text-gold-deep text-[0.55rem] tracking-widest">◆</span>
+      <span className="h-px w-8 bg-gradient-to-l from-transparent to-gold/60" />
+    </div>
   );
 }
 

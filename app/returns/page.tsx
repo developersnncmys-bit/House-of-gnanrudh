@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import {
   PolicyBlock,
   PolicyContactStrip,
@@ -72,7 +72,7 @@ export default function ReturnsPage() {
             </li>
             <li>Be recorded without any cuts, edits, or pauses.</li>
           </ul>
-          <div className="border-l-4 border-[#082052] bg-gray-50 px-4 py-3 text-sm text-gray-800">
+          <div className="border-l-4 border-maroon-deep bg-gray-50 px-4 py-3 text-sm text-gray-800">
             <strong>Important:</strong> Return, replacement, or refund
             requests without a valid unboxing video may not be accepted,
             except where required by applicable consumer protection laws.
@@ -99,7 +99,7 @@ export default function ReturnsPage() {
               <strong>Email:</strong>{' '}
               <a
                 href="mailto:support@gnanrudh.com"
-                className="text-[#082052] underline underline-offset-2 font-semibold"
+                className="text-maroon-deep underline underline-offset-2 font-semibold"
               >
                 support@gnanrudh.com
               </a>
@@ -108,7 +108,7 @@ export default function ReturnsPage() {
               <strong>WhatsApp:</strong>{' '}
               <a
                 href="tel:+91XXXXXXXXXX"
-                className="text-[#082052] underline underline-offset-2 font-semibold"
+                className="text-maroon-deep underline underline-offset-2 font-semibold"
               >
                 +91 XXXXX XXXXX
               </a>

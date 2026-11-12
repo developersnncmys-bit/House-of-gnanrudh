@@ -2,11 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter, redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import AccountShell from '@/components/account/AccountShell';
 import { useOrders, type Order, type PayMethod, type ShipMethod } from '@/lib/orders';
 import { formatINR } from '@/lib/sarees';
-import { SOFT_LAUNCH } from '@/lib/soft-launch';
 
 const PAY_LABEL: Record<PayMethod, string> = {
   upi: 'UPI',
@@ -21,7 +20,6 @@ const SHIP_LABEL: Record<ShipMethod, string> = {
 };
 
 export default function OrdersPage() {
-  if (SOFT_LAUNCH) redirect('/');
   const { orders, hydrated, cancelOrder } = useOrders();
   const router = useRouter();
 

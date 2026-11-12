@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -64,7 +64,7 @@ export default function SeoContent() {
               <li><strong className="text-gray-900">Bridal Sarees:</strong> Wedding-ready pit-loom Banarasi, three-loom Kanjeevaram and Mixed Pattu fusion drapes.</li>
               <li><strong className="text-gray-900">Party Wear Sarees:</strong> Gadwal pallu silks, Pochampally ikats and contemporary Fancy Sarees.</li>
               <li><strong className="text-gray-900">Daily Wear Sarees:</strong> Mangalagiri cottons, Pochampally everyday silks and soft crepe Mysore.</li>
-              <li><strong className="text-gray-900">Sarees on Sale:</strong> <Link href="/shop?sale=1" className="text-[#082052] font-bold hover:underline">Up to 50% off</Link> on curated weaves.</li>
+              <li><strong className="text-gray-900">Sarees on Sale:</strong> <Link href="/shop?sale=1" className="text-maroon-deep font-bold hover:underline">Up to 50% off</Link> on curated weaves.</li>
             </ul>
 
             <h3 className="text-base font-bold text-gray-900 mt-6 mb-2 uppercase tracking-wide">
@@ -130,7 +130,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         aria-expanded={open}
         className="w-full flex items-center justify-between py-3 text-left group"
       >
-        <span className="text-sm font-semibold text-gray-900 group-hover:text-[#082052] transition-colors">
+        <span className="text-sm font-semibold text-gray-900 group-hover:text-maroon-deep transition-colors">
           {q}
         </span>
         <span className={`ml-4 text-xl text-gray-500 transition-transform shrink-0 ${open ? 'rotate-45' : ''}`}>

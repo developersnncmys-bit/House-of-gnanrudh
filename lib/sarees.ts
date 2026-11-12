@@ -19,7 +19,7 @@ export type BadgeKind = 'ready' | 'fast' | 'last';
 export const BADGE_LABEL: Record<BadgeKind, string> = {
   ready: 'Ready To Ship',
   fast: 'Selling Fast',
-  last: 'Last Chance',
+  last: 'Few Left',
 };
 
 export type Saree = {

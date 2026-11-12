@@ -103,8 +103,8 @@ export default function ShopAllMegaMenu({
                   onMouseEnter={() => setActiveId(g.id)}
                   onFocus={() => setActiveId(g.id)}
                   className={clsx(
-                    'text-left py-2.5 text-[0.72rem] tracking-[0.1em] uppercase font-semibold transition-colors',
-                    isActive ? 'text-maroon' : 'text-ink hover:text-maroon',
+                    'text-left py-2.5 text-[0.85rem] tracking-[0.1em] uppercase font-semibold transition-colors',
+                    isActive ? 'text-gold-deep' : 'text-ink hover:text-gold-deep',
                   )}
                 >
                   {g.label}

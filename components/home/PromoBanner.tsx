@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { navHref } from '@/lib/soft-launch';
@@ -26,6 +28,7 @@ const promo = {
 
 export default function PromoBanner() {
   const ctaHref = navHref(promo.ctaHref);
+
   return (
     <section className="bg-white py-8 md:py-12">
       {/* Full-bleed grid — no max-width container so the flanking
@@ -77,9 +80,9 @@ export default function PromoBanner() {
                 style={{
                   fontFamily:
                     'var(--font-hero), "Italiana", Georgia, serif',
-                  // Metallic-gold text — same multi-stop gradient used
-                  // on the Hero banner + Bridal Edit headings so the
-                  // three script headlines read as one visual set.
+                  // Metallic-gold text — same multi-stop gradient used on
+                  // the Hero banner + Bridal Edit headings so the three
+                  // script headlines read as one visual set.
                   backgroundImage:
                     'linear-gradient(135deg, #8A5A1F 0%, #C8923F 20%, #F2C99E 45%, #FFF2D6 50%, #F2C99E 55%, #C8923F 80%, #8A5A1F 100%)',
                   WebkitBackgroundClip: 'text',

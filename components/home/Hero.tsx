@@ -144,7 +144,7 @@ export default function Hero() {
                   {slide.eyebrow}
                 </div>
                 <h1
-                  className="text-5xl md:text-7xl lg:text-7xl font-medium leading-[1] mb-5"
+                  className="text-5xl md:text-7xl lg:text-7xl font-semibold leading-[1] mb-5"
                   style={{
                     fontFamily:
                       'var(--font-hero), "Italiana", Georgia, serif',

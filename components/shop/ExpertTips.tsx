@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 type Tip = {
   title: string;
@@ -49,7 +49,7 @@ export default function ExpertTips() {
               key={tip.title}
               className="bg-white border border-gray-200 p-5 hover:border-gray-900 transition-colors"
             >
-              <div className="text-[#082052] mb-3">
+              <div className="text-maroon-deep mb-3">
                 <TipIcon name={tip.icon} />
               </div>
               <h3 className="text-base font-bold text-gray-900 mb-1.5">

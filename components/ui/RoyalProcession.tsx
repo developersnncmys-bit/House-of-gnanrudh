@@ -129,7 +129,7 @@ export default function RoyalProcession() {
 /*  SVG                                                              */
 /* ---------------------------------------------------------------- */
 
-const MAROON = '#082052';
+const MAROON = '#042509';
 const PARCH = '#FDF6EC';
 const GOLD = '#E0AE6D';
 

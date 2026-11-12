@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 
@@ -136,7 +136,7 @@ export default function BespokeInquiryForm() {
               setTouched(false);
               setSubmit({ kind: 'idle' });
             }}
-            className="text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#082052] underline underline-offset-4"
+            className="text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-maroon-deep underline underline-offset-4"
           >
             Submit another inquiry
           </button>
@@ -262,7 +262,7 @@ export default function BespokeInquiryForm() {
         <button
           type="submit"
           disabled={submit.kind === 'submitting'}
-          className="inline-flex items-center gap-2 bg-gray-900 text-white px-7 py-3 text-sm font-bold uppercase tracking-wide hover:bg-[#082052] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="inline-flex items-center gap-2 bg-gray-900 text-white px-7 py-3 text-sm font-bold uppercase tracking-wide hover:bg-maroon-deep disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {submit.kind === 'submitting' ? 'Sending…' : 'Submit Inquiry'}
           {submit.kind !== 'submitting' && <span aria-hidden>→</span>}
@@ -289,17 +289,17 @@ function Field({
     <div>
       <label htmlFor={`bespoke-${id}`} className="block text-xs font-bold text-gray-900 uppercase tracking-wide mb-1.5">
         {label}
-        {required && <span className="text-[#082052] ml-0.5">*</span>}
+        {required && <span className="text-maroon-deep ml-0.5">*</span>}
       </label>
       {children}
-      {error && <p className="text-xs text-[#082052] mt-1">{error}</p>}
+      {error && <p className="text-xs text-maroon-deep mt-1">{error}</p>}
     </div>
   );
 }
 
 function inputClass(error: boolean) {
   return `w-full border px-3 py-2.5 text-sm focus:outline-none focus:border-gray-900 ${
-    error ? 'border-[#082052]' : 'border-gray-300'
+    error ? 'border-maroon-deep' : 'border-gray-300'
   }`;
 }
 

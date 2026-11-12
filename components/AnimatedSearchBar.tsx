@@ -34,7 +34,6 @@ const HOLD_MS = 1400;
 export default function AnimatedSearchBar({ autoFocus = false }: { autoFocus?: boolean } = {}) {
   const router = useRouter();
   const [value, setValue] = useState('');
-  const [focused, setFocused] = useState(false);
   const [placeholder, setPlaceholder] = useState('');
   const phraseRef = useRef(0);
   const charRef = useRef(0);
@@ -48,8 +47,11 @@ export default function AnimatedSearchBar({ autoFocus = false }: { autoFocus?: b
     return () => window.clearTimeout(t);
   }, [autoFocus]);
 
-  // Pause the animation if the user has typed anything or focused the input.
-  const shouldAnimate = !focused && value.length === 0;
+  // Pause the animation only once the user has typed something. Focus
+  // alone shouldn't stop it — the panel autoFocuses the input on open,
+  // and we still want the typewriter suggestion visible inside the
+  // search box until the visitor starts typing.
+  const shouldAnimate = value.length === 0;
 
   useEffect(() => {
     if (!shouldAnimate) {
@@ -135,11 +137,11 @@ export default function AnimatedSearchBar({ autoFocus = false }: { autoFocus?: b
     }
   };
 
-  // Show "Search for {phrase}" while idle; just "Search for sarees…" on focus.
-  const displayPlaceholder = focused
-    ? 'Search for sarees…'
-    : placeholder
-    ? `Search for ${placeholder}`
+  // Show `Search for "{phrase}"` while the typewriter is running
+  // (quoted so the suggested term reads as a concrete example). Falls
+  // back to a plain prompt before the first character arrives.
+  const displayPlaceholder = placeholder
+    ? `Search for "${placeholder}"`
     : 'Search for sarees…';
 
   return (
@@ -153,11 +155,9 @@ export default function AnimatedSearchBar({ autoFocus = false }: { autoFocus?: b
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
         placeholder={displayPlaceholder}
         aria-label="Search sarees"
-        className="flex-1 min-w-0 bg-transparent pl-4 pr-3 py-3 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none"
+        className="flex-1 min-w-0 bg-transparent pl-4 pr-3 py-3 text-sm text-gray-900 placeholder:text-gray-500 placeholder:underline placeholder:underline-offset-4 focus:outline-none"
       />
       <button
         type="submit"

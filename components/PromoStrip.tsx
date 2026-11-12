@@ -42,7 +42,7 @@ export default function PromoStrip() {
 
   return (
     <div className="bg-maroon-deep text-ivory">
-      <div className="max-w-[1720px] mx-auto px-6 py-3 flex items-center justify-center gap-2.5 min-h-[44px]">
+      <div className="max-w-[1720px] mx-auto px-6 py-2 flex items-center justify-center gap-2.5 min-h-[36px]">
         <span
           className="text-white inline-flex transition-opacity duration-300"
           style={{ opacity: visible ? 1 : 0 }}

@@ -1,4 +1,4 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 
 export function PolicyHeader({
   title,
@@ -100,7 +100,7 @@ export function PolicyContactStrip({
         <div className="flex flex-wrap gap-2 md:justify-end">
           <a
             href="mailto:support@gnanrudh.com"
-            className="bg-gray-900 text-white px-4 py-2 font-semibold tracking-wide hover:bg-[#082052] transition-colors text-center"
+            className="bg-gray-900 text-white px-4 py-2 font-semibold tracking-wide hover:bg-maroon-deep transition-colors text-center"
           >
             support@gnanrudh.com
           </a>
@@ -113,7 +113,7 @@ export function PolicyContactStrip({
         </div>
         <Link
           href="/contact"
-          className="text-[#082052] font-semibold underline underline-offset-2 md:text-right"
+          className="text-maroon-deep font-semibold underline underline-offset-2 md:text-right"
         >
           Contact form →
         </Link>

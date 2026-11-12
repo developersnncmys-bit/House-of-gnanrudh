@@ -81,7 +81,7 @@ h1 {
 }
 
 ::selection {
-  background: #082052;
+  background: #042509;
   color: #FDF6EC;
 }
 
@@ -187,7 +187,7 @@ html.lenis body {
 
 /* Image fallback styling — for missing photos, show a beautiful gold/maroon gradient */
 .img-fallback {
-  background: linear-gradient(135deg, #082052 0%, #082052 35%, #A66D23 70%, #E0AE6D 100%);
+  background: linear-gradient(135deg, #042509 0%, #042509 35%, #A66D23 70%, #E0AE6D 100%);
   position: relative;
   overflow: hidden;
 }
@@ -282,6 +282,46 @@ html.lenis body {
   .instagram-marquee,
   .instagram-progress { animation: none; }
   .instagram-progress { transform: scaleX(1); }
+}
+
+/* Newsletter rangoli ornament — slow spin + gentle breathing scale.
+   Two independent keyframes composed via an outer rotator on the
+   element itself. Reverse variant flips rotation direction so the
+   top and bottom ornaments don't read as an identical pair. */
+@keyframes newsletterRangoliSpin {
+  from { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.04); }
+  to   { transform: rotate(360deg) scale(1); }
+}
+@keyframes newsletterRangoliSpinReverse {
+  from { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(-180deg) scale(1.04); }
+  to   { transform: rotate(-360deg) scale(1); }
+}
+.newsletter-rangoli {
+  animation: newsletterRangoliSpin 22s linear infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+.newsletter-rangoli--reverse {
+  animation-name: newsletterRangoliSpinReverse;
+}
+@media (prefers-reduced-motion: reduce) {
+  .newsletter-rangoli { animation: none; }
+}
+
+/* Newsletter email input — kill Chrome's blue autofill wash. There's
+   no real way to override background on an autofilled input, so paint
+   over it with an inset box-shadow in the ivory newsletter surface. */
+.newsletter-input:-webkit-autofill,
+.newsletter-input:-webkit-autofill:hover,
+.newsletter-input:-webkit-autofill:focus,
+.newsletter-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-ivory) inset !important;
+  box-shadow: 0 0 0 1000px var(--color-ivory) inset !important;
+  -webkit-text-fill-color: var(--color-ink) !important;
+  caret-color: var(--color-ink);
+  transition: background-color 9999s ease-in-out 0s;
 }
 
 /* Slim, branded scrollbar for the search panel's Recommended grid.

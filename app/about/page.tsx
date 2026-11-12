@@ -1,60 +1,73 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PolicyHeader } from '@/components/policy/PolicyChrome';
+import SectionHeader from '@/components/home/SectionHeader';
 import VisionMission from '@/components/about/VisionMission';
+import AnimatedStats from '@/components/about/AnimatedStats';
+import { navHref } from '@/lib/soft-launch';
 
 export const metadata: Metadata = {
   title: 'About Us · House Of GnanRudh',
   description:
-    'House Of GnanRudh is a premium saree brand inspired by the beauty, grace, and cultural richness of Indian womanhood. Tradition in Every Color.',
+    'House Of GnanRudh is a family-run saree house from Nellore, Andhra Pradesh — curating handloom silks and cottons from the looms of Kanchipuram, Varanasi, Pochampally and Dhaka, delivered worldwide.',
 };
 
-// Founder + Co-Founder profiles. Drop headshot images into /public and
-// wire them up here when the shots land.
-const founders: { name: string; role: string; initials: string; bio: string }[] = [
+const founders: { name: string; role: string; quote: string }[] = [
   {
     name: 'Founder Name',
     role: 'Founder',
-    initials: 'FN',
-    bio: 'Short founder bio goes here — a paragraph introducing the founder, their background, and the vision that led to House Of GnanRudh. Replace this placeholder with the real bio once ready.',
+    quote:
+      'A saree, well chosen, is a quiet act of love — for the hands that wove it and the woman who wears it.',
   },
   {
     name: 'Co-Founder Name',
     role: 'Co-Founder',
-    initials: 'CN',
-    bio: 'Short co-founder bio goes here — a paragraph introducing the co-founder, their background, and the role they play at House Of GnanRudh. Replace this placeholder with the real bio once ready.',
+    quote:
+      "We don't sell sarees. We help you find the one already waiting for you.",
   },
 ];
 
+// Six handloom traditions we source from, matching the "6 Weaving
+// Traditions" line in the stats block. All six have artwork in
+// /public/Byweaves — Jamdani is mentioned in the Who We Are body
+// since no tile artwork exists for it yet.
 const weaves: { name: string; place: string; era: string; image: string }[] = [
-  { name: 'Kanjeevaram', place: 'Kanchipuram · Tamil Nadu', era: 'since the Chola dynasty', image: '/Byweaves/kanjeevaram.webp' },
+  { name: 'Kanchipuram Silk', place: 'Kanchipuram · Tamil Nadu', era: 'since the Chola dynasty', image: '/Byweaves/kanjeevaram.webp' },
   { name: 'Banarasi', place: 'Varanasi · Uttar Pradesh', era: 'since the Mughal court', image: '/Byweaves/banarasi.webp' },
-  { name: 'Mysore Silk', place: 'Mysuru · Karnataka', era: 'since Tipu Sultan, 1780', image: '/Byweaves/Mysore%20silk.webp' },
-  { name: 'Mangalagiri', place: 'Mangalagiri · Andhra Pradesh', era: 'since the 15th century', image: '/Byweaves/mangalagiri.webp' },
   { name: 'Pochampally', place: 'Bhoodan Pochampally · Telangana', era: 'a UNESCO-listed handloom', image: '/Byweaves/Pochampally.webp' },
+  { name: 'Mysore Silk', place: 'Mysuru · Karnataka', era: 'since Tipu Sultan, 1780', image: '/Byweaves/Mysore%20silk.webp' },
   { name: 'Gadwal', place: 'Jogulamba Gadwal · Telangana', era: 'since the Krishnadevaraya court', image: '/Byweaves/Gadwal.webp' },
-  { name: 'Patola', place: 'Patan · Gujarat', era: 'since the 12th century', image: '/Byweaves/Patola.webp' },
-  { name: 'Fancy Sarees', place: 'Contemporary', era: 'designed for the wedding-adjacent', image: '/Byweaves/fancy-saree.webp' },
-  { name: 'Mixed Pattu Sarees', place: 'Fusion · India', era: 'two traditions, one fold', image: '/Byweaves/Mixed-pattu.webp' },
+  { name: 'Mangalagiri', place: 'Mangalagiri · Andhra Pradesh', era: 'since the 15th century', image: '/Byweaves/mangalagiri.webp' },
 ];
 
+// Headline numbers. Mirrors the reference site's stats row —
+// "2,000+ Designs in Store · 6 Weaving Traditions · 100% Authentic
+// Handloom" — reframed to read for an online storefront.
+const stats: { value: string; label: string }[] = [
+  { value: '2,000+', label: 'Designs in Store' },
+  { value: '6', label: 'Weaving Traditions' },
+  { value: '100%', label: 'Authentic Handloom' },
+];
+
+// Promises — reframed from the earlier atelier-centric list for an
+// ecommerce storefront. Every rule is about what we do for the drape
+// that arrives at the customer's door.
 const values: { title: string; body: string }[] = [
   {
-    title: 'Craft comes first',
-    body: 'From heritage handloom weaves like Kanjeevaram, Banarasi, Mysore Silk, Mangalagiri, Pochampally, Gadwal and Patola to our contemporary Fancy Sarees and Mixed Pattu fusion drapes, every piece is chosen for the authenticity of its craft. Tradition in every color — never a power-loom replica, never a mass-produced imitation.',
+    title: 'Handpicked at the loom',
+    body: 'We travel to Kanchipuram, Varanasi, Pochampally and Dhaka and choose every saree ourselves — no distributor, no middleman, no catalogue ordering.',
   },
   {
-    title: 'Honest zari, declared weight',
-    body: 'The zari grade and the exact thread weight of every saree are printed on the product page — so you know what you are paying for before it arrives at your door.',
+    title: 'Honestly priced',
+    body: 'The zari grade and the exact thread weight of every saree are printed on the product page. What we pay the loom is reflected in what we charge you.',
   },
   {
-    title: 'Fair pay to the weaver',
-    body: 'Weavers are paid by the day, not the piece, and receive an additional royalty for sarees that sell above ₹40,000. The artisan name is recorded on every order.',
+    title: 'Shipped with care',
+    body: 'Each order is inspected, folded in muslin, boxed in acid-free tissue and dispatched with insured, tracked, signature-on-delivery shipping — worldwide from India.',
   },
   {
-    title: 'Repair, not replace',
-    body: 'A House Of GnanRudh piece can be restored in our Bengaluru atelier — a torn pallu, a loose zari, a refresh of fall and pico — for the lifetime of the saree, at cost.',
+    title: 'Cared for, for life',
+    body: 'A House Of GnanRudh saree can be returned for pico, fall, blouse stitching or pallu restoration at cost — for the lifetime of the drape.',
   },
 ];
 
@@ -62,252 +75,367 @@ const timeline: { year: string; title: string; body: string }[] = [
   {
     year: '2025',
     title: 'The idea takes shape',
-    body: 'The idea for House Of GnanRudh is born. The founding team begins researching India’s classical weaving traditions, meeting master weavers across the country, and laying the groundwork for a saree house rooted in authenticity.',
+    body: 'The idea for House Of GnanRudh is born. The founding team begins researching India’s classical weaving traditions, visiting master weavers in Kanchipuram, Varanasi, Pochampally and Dhaka, and laying the groundwork for a saree house rooted in authenticity.',
   },
   {
     year: '2026',
-    title: 'The house is launched',
-    body: 'House Of GnanRudh is officially established and launched — bringing together hand-woven heritage weaves under a single label, with a Bengaluru atelier for bespoke commissions and restoration.',
+    title: 'The house opens online',
+    body: 'House Of GnanRudh goes live — bringing together hand-woven heirloom weaves under a single label and shipping them, insured and tracked, to drape-lovers across India and abroad.',
   },
 ];
 
-/**
- * About page — House Of GnanRudh. Composition reads top-to-bottom as:
- *   1. Brand Brief / intro
- *   2. Vision & Mission (dark wine panel)
- *   3. Meet the founders
- *   4. The Eight Weaves
- *   5. What we promise
- *   6. Our journey (timeline)
- *   7. Visit / commission (atelier CTA)
- */
 export default function AboutPage() {
+  const shopHref = navHref('/shop');
   return (
     <main className="bg-ivory text-ink">
-      <PolicyHeader title="About House Of GnanRudh" breadcrumb="Tradition in Every Color" />
-
-      {/* Brand Brief â€” kit page 3, verbatim. Left column is the
-          paragraph, right column shows an heirloom drape so the
-          intro still has the visual weight a brand page needs. */}
-      <section className="max-w-[1100px] mx-auto px-6 lg:px-10 py-14 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-          <div className="lg:col-span-7">
-            <div className="text-[0.65rem] tracking-[0.45em] uppercase text-maroon font-semibold">
-              Brand Brief
+      {/* Hero — mirrors components/home/Hero.tsx: full-bleed photo,
+          metallic gold italic script headline, eyebrow + supporting copy.
+          Headline taken verbatim from the brand's own site. */}
+      <section className="relative w-full h-[calc(70vh-10px)] min-h-[420px] md:min-h-[520px] max-h-[740px] bg-[#1B0E0A] overflow-hidden">
+        <Image
+          src="/homebanner/banner5.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: '50% 30%' }}
+        />
+        <div className="relative h-full max-w-[1720px] mx-auto px-6 md:px-10 lg:px-14 flex items-center justify-end">
+          <div className="max-w-sm md:max-w-[min(32rem,42vw)] text-ivory">
+            <span className="inline-block px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider rounded-sm mb-4 bg-gold text-ink">
+              Our Story
+            </span>
+            <div className="text-[0.65rem] md:text-xs font-medium text-ivory/65 mb-2 uppercase tracking-[0.2em]">
+              Nellore · Andhra Pradesh
             </div>
-            <h2 className="mt-3 font-display text-[2rem] md:text-[2.5rem] lg:text-[2.75rem] font-medium text-ink leading-[1.1]">
-              Tradition in Every Color
-            </h2>
-
-            <p className="mt-6 md:mt-8 text-base md:text-[1.05rem] leading-[1.85] text-ink/80 font-normal">
-              House Of GnanRudh is a premium saree brand inspired by the beauty,
-              grace, and cultural richness of Indian womanhood. Rooted in
-              tradition, the brand celebrates the timeless artistry of Indian
-              textiles through carefully curated saree collections. Every
-              design reflects elegance, craftsmanship, and the vibrant colors
-              of heritage. The brand aims to connect modern women with their
-              cultural roots while embracing contemporary sophistication.
-              House Of GnanRudh stands for authenticity, quality, and enduring
-              style. Its identity is built around femininity, grace, and
-              self-expression. Through luxurious fabrics and exquisite designs,
-              the brand transforms every drape into a statement of confidence.
-              The essence of the brand lies in preserving tradition while
-              making it relevant for today&rsquo;s generation. House Of GnanRudh
-              is more than a saree brand &mdash; it is a celebration of culture
-              and individuality. <span className="italic">Tradition in Every
-              Color</span> defines the heart of the brand.
+            <h1
+              className="text-3xl md:text-4xl lg:text-5xl font-semibold leading-[1.05] mb-4"
+              style={{
+                fontFamily:
+                  'var(--font-hero), "Italiana", Georgia, serif',
+                backgroundImage:
+                  'linear-gradient(135deg, #8A5A1F 0%, #C8923F 20%, #F2C99E 45%, #FFF2D6 50%, #F2C99E 55%, #C8923F 80%, #8A5A1F 100%)',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                color: 'transparent',
+                filter:
+                  'drop-shadow(0 2px 6px rgba(0,0,0,0.45)) drop-shadow(0 0 1px rgba(242,201,158,0.3))',
+              }}
+            >
+              Woven with heritage, draped with love
+            </h1>
+            <p className="text-xs md:text-sm text-ivory/80 leading-relaxed">
+              A family-run saree house from Nellore, Andhra Pradesh — curating
+              handloom silks and cottons from the looms of India, delivered
+              worldwide.
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="lg:col-span-5 relative aspect-[4/5] overflow-hidden bg-bone">
-            <Image
-              src="/photos/Heirloom%20edit.webp"
-              alt="House Of GnanRudh heirloom saree on a model"
-              fill
-              sizes="(max-width: 1024px) 100vw, 450px"
-              className="object-cover"
-              priority={false}
-            />
+      {/* Who We Are — editorial: centred intro, metallic-gold pull-quote,
+          closing paragraph. Copy derived from the brand's own site with
+          every physical-retail cue (walk-in, coffee, drape waiting)
+          replaced with online-first language. */}
+      <section className="bg-white py-12 md:py-16">
+        <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
+          <SectionHeader
+            title="Who We Are"
+            description="A family-run saree house curating handloom silks and cottons from across India, delivered to your door."
+            showDividers={false}
+          />
+
+          <div className="max-w-[780px] mx-auto text-center">
+            <p className="text-base md:text-[1.08rem] leading-[1.9] text-ink/80">
+              House Of GnanRudh began with a simple belief: a saree is not
+              bought, it is chosen. We travel to the weaving towns of
+              Kanchipuram, Varanasi, Pochampally and Dhaka to bring home
+              silks and cottons that feel as good as they look.
+            </p>
+
+            <div className="relative my-10 md:my-12">
+              <span aria-hidden className="block mx-auto h-px w-16 bg-gold/70 mb-8" />
+              <blockquote
+                className="text-[2rem] md:text-[2.75rem] lg:text-[3rem] leading-[1.1]"
+                style={{
+                  fontFamily: 'var(--font-hero), "Italiana", Georgia, serif',
+                  fontWeight: 700,
+                  backgroundImage:
+                    'linear-gradient(135deg, #5A3610 0%, #8A5A1F 25%, #B07A2A 50%, #8A5A1F 75%, #5A3610 100%)',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  color: 'transparent',
+                }}
+              >
+                &ldquo;Woven with heritage, draped with love.&rdquo;
+              </blockquote>
+              <span aria-hidden className="block mx-auto h-px w-16 bg-gold/70 mt-8" />
+            </div>
+
+            <p className="text-base md:text-[1.08rem] leading-[1.9] text-ink/80">
+              Every piece is handpicked, authenticated and honestly priced
+              — photographed in natural light, folded in muslin, and shipped
+              with insured, tracked, signature-on-delivery dispatch from our
+              Nellore studio to your door.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Vision & Mission — kit page 4, verbatim, dark wine panel */}
+      {/* Stats — "2,000+ · 6 · 100%". Numerals count up from zero when
+          the band scrolls into view (see AnimatedStats). Same white
+          surface as the Who We Are section above so the two read as one
+          continuous editorial moment. */}
+      <section className="bg-white pb-12 md:pb-16">
+        <div className="max-w-[1100px] mx-auto px-6 lg:px-10">
+          <AnimatedStats stats={stats} />
+        </div>
+      </section>
+
+      {/* Vision & Mission — dark wine panel, kept as-is. */}
       <VisionMission />
 
-      {/* Meet the founders — placeholder copy + initials portrait tiles.
-          Swap the initials <div> for a next/image <Image> once real
-          headshots are supplied; the surrounding card layout stays. */}
-      <section className="bg-ivory border-b border-maroon/10">
-        <div className="max-w-[1100px] mx-auto px-6 lg:px-10 py-14 lg:py-20">
-          <div className="text-[0.65rem] tracking-[0.45em] uppercase text-maroon font-semibold">
-            Leadership
-          </div>
-          <h2 className="mt-3 font-display text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-medium text-ink leading-[1.1]">
-            Meet the founders
-          </h2>
-          <p className="mt-3 text-sm md:text-base text-ink/70 max-w-3xl leading-[1.75] mb-10 md:mb-12">
-            House Of GnanRudh is led by two founders who share a lifelong love
-            for India's handloom traditions and a commitment to the artisan
-            families behind every weave.
-          </p>
+      {/* Founders' Note — a short italic metallic-gold quote per founder,
+          attributed by name + role. No cards, no portrait placeholders —
+          personality over product. */}
+      <section className="bg-bone py-14 md:py-20">
+        <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
+          <SectionHeader
+            title="Founders' Note"
+            description="In their own words — the belief that shaped the house."
+            showDividers={false}
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 max-w-[1200px] mx-auto">
             {founders.map((f) => (
-              <article
-                key={f.name}
-                className="flex flex-col sm:flex-row gap-5 border border-maroon/15 bg-white p-5 lg:p-6"
-              >
-                <div className="shrink-0 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-maroon-deep text-ivory flex items-center justify-center font-display text-2xl sm:text-3xl font-semibold tracking-wide">
-                  {f.initials}
-                </div>
-                <div className="min-w-0">
-                  <div className="text-[0.6rem] tracking-[0.35em] uppercase text-maroon font-semibold">
+              <figure key={f.name} className="text-center">
+                {/* Decorative opening mark — metallic gold, display face. */}
+                <span
+                  aria-hidden
+                  className="block mx-auto leading-none text-5xl md:text-6xl mb-4"
+                  style={{
+                    fontFamily: 'var(--font-hero), "Italiana", Georgia, serif',
+                    backgroundImage:
+                      'linear-gradient(135deg, #8A5A1F 0%, #C8923F 50%, #8A5A1F 100%)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    color: 'transparent',
+                  }}
+                >
+                  &ldquo;
+                </span>
+
+                <blockquote
+                  className="text-xl md:text-2xl lg:text-[1.65rem] leading-[1.35] italic"
+                  style={{
+                    fontFamily: 'var(--font-hero), "Italiana", Georgia, serif',
+                    fontWeight: 600,
+                    backgroundImage:
+                      'linear-gradient(135deg, #5A3610 0%, #8A5A1F 25%, #B07A2A 50%, #8A5A1F 75%, #5A3610 100%)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    color: 'transparent',
+                  }}
+                >
+                  {f.quote}
+                </blockquote>
+
+                <span aria-hidden className="block mx-auto h-px w-10 bg-gold/60 mt-7 mb-5" />
+
+                <figcaption>
+                  <div className="font-display text-base md:text-lg font-semibold text-ink">
+                    {f.name}
+                  </div>
+                  <div className="mt-1 text-[0.65rem] md:text-[0.7rem] tracking-[0.3em] uppercase text-maroon font-semibold">
                     {f.role}
                   </div>
-                  <h3 className="mt-1 font-display text-xl md:text-2xl font-medium text-ink leading-tight">
-                    {f.name}
-                  </h3>
-                  <p className="mt-3 text-sm text-ink/75 leading-[1.75]">
-                    {f.bio}
-                  </p>
-                </div>
-              </article>
+                </figcaption>
+              </figure>
             ))}
           </div>
 
-          <p className="mt-8 text-[0.7rem] text-ink/50 italic">
-            Founder headshots to follow.
+          <p className="mt-10 text-center text-[0.7rem] text-ink/50 italic">
+            Founder notes to follow.
           </p>
         </div>
       </section>
 
-      {/* The Eight Weaves */}
-      <section className="bg-ivory border-b border-maroon/10">
-        <div className="max-w-[1100px] mx-auto px-6 lg:px-10 py-14 lg:py-20">
-          <div className="text-[0.65rem] tracking-[0.45em] uppercase text-maroon font-semibold">
-            Lineage
-          </div>
-          <h2 className="mt-3 font-display text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-medium text-ink leading-[1.1]">
-            The Eight Weaves
-          </h2>
-          <p className="mt-3 text-sm md:text-base text-ink/70 max-w-3xl leading-[1.75] mb-8 md:mb-10">
-            Each tradition has its own loom, its own thread count, its own
-            grammar. We work with master families in every one of the regions
-            below.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {weaves.map((w) => (
-              <Link
-                key={w.name}
-                href={`/shop?weave=${encodeURIComponent(w.name)}`}
-                className="group block border border-maroon/15 hover:border-maroon transition-colors bg-white"
+      {/* Six Weaves — editorial numbered list. Each row carries a big
+          display numeral, the weave name + region, and a circular
+          thumbnail on the right. Hairline dividers between rows read as
+          an atlas index rather than a product grid. Jamdani (Dhaka) is
+          called out in the Who We Are copy above. */}
+      <section className="bg-ivory py-12 md:py-16">
+        <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
+          <SectionHeader
+            title="Six Weaving Traditions"
+            description="Each tradition has its own loom, its own thread count, its own grammar. We work with master families in every one of the regions below — plus the Jamdani weavers of Dhaka."
+            showDividers={false}
+          />
+
+          <ol className="max-w-[900px] mx-auto divide-y divide-maroon/10 border-y border-maroon/10">
+            {weaves.map((w, i) => {
+              const href = navHref(`/shop?weave=${encodeURIComponent(w.name)}`);
+              const inner = (
+                <>
+                  <div
+                    className="font-display text-2xl md:text-4xl font-semibold text-maroon/80 tabular-nums leading-none shrink-0 w-10 md:w-16"
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="font-display text-lg md:text-2xl font-semibold text-ink leading-tight">
+                      {w.name}
+                    </div>
+                    <div className="mt-1 text-xs md:text-sm text-ink/65">
+                      {w.place}
+                    </div>
+                    <div className="mt-0.5 text-[0.7rem] md:text-xs italic text-ink/50">
+                      {w.era}
+                    </div>
+                  </div>
+                  <div className="relative shrink-0 w-14 h-14 md:w-20 md:h-20 rounded-full overflow-hidden bg-bone ring-1 ring-maroon/10">
+                    <Image
+                      src={w.image}
+                      alt=""
+                      fill
+                      sizes="(max-width: 768px) 56px, 80px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+                </>
+              );
+              const rowCls =
+                'group flex items-center gap-5 md:gap-7 py-5 md:py-6';
+              return href ? (
+                <li key={w.name}>
+                  <Link href={href} className={`${rowCls} hover:bg-white/60 -mx-4 px-4 transition-colors`}>
+                    {inner}
+                  </Link>
+                </li>
+              ) : (
+                <li key={w.name} className={`${rowCls} cursor-default`}>
+                  {inner}
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </section>
+
+      {/* What we promise — four rules of the house, reframed for the
+          storefront. */}
+      <section className="bg-bone py-12 md:py-16">
+        <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
+          <SectionHeader
+            title="What We Stand For"
+            description="Four rules of the house — what makes it onto the site, and what does not."
+            showDividers={false}
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 max-w-[1100px] mx-auto">
+            {values.map((v, i) => (
+              <div
+                key={v.title}
+                className="bg-white p-6 lg:p-7 rounded-sm shadow-[0_1px_0_rgba(77,0,21,0.06)]"
               >
-                <div className="relative aspect-square overflow-hidden bg-bone">
-                  <Image
-                    src={w.image}
-                    alt={w.name}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 250px"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+                <div className="flex items-baseline gap-3 mb-2">
+                  <span className="font-display text-2xl font-semibold text-maroon tabular-nums">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <h3 className="font-display text-base md:text-lg font-semibold text-ink">
+                    {v.title}
+                  </h3>
                 </div>
-                <div className="p-3">
-                  <div className="text-sm font-bold text-ink">{w.name}</div>
-                  <div className="text-xs text-ink/65 mt-0.5">{w.place}</div>
-                  <div className="text-[0.7rem] text-ink/55 mt-1 italic">{w.era}</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Values */}
-      <section className="bg-bone border-b border-maroon/10">
-        <div className="max-w-[1100px] mx-auto px-6 lg:px-10 py-14 lg:py-20">
-          <div className="text-[0.65rem] tracking-[0.45em] uppercase text-maroon font-semibold">
-            What we promise
-          </div>
-          <h2 className="mt-3 font-display text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-medium text-ink leading-[1.1]">
-            Four rules of the house
-          </h2>
-          <p className="mt-3 text-sm md:text-base text-ink/70 max-w-3xl leading-[1.75] mb-8 md:mb-10">
-            What makes it into the catalogue, and what does not.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {values.map((v) => (
-              <div key={v.title} className="bg-white border border-maroon/15 p-5 lg:p-6">
-                <h3 className="text-sm md:text-base font-bold text-ink mb-1.5">{v.title}</h3>
-                <p className="text-sm text-ink/75 leading-[1.75]">{v.body}</p>
+                <p className="text-sm text-ink/75 leading-[1.8]">{v.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="bg-ivory border-b border-maroon/10">
-        <div className="max-w-[1100px] mx-auto px-6 lg:px-10 py-14 lg:py-20">
-          <div className="text-[0.65rem] tracking-[0.45em] uppercase text-maroon font-semibold">
-            Our journey
-          </div>
-          <h2 className="mt-3 font-display text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-medium text-ink leading-[1.1] mb-8 md:mb-10">
-            Year by year
-          </h2>
-          <ol className="space-y-5">
-            {timeline.map((t) => (
-              <li key={t.year} className="grid grid-cols-[80px_1fr] md:grid-cols-[120px_1fr] gap-4 md:gap-6 border-b border-maroon/10 pb-5 last:border-b-0">
-                <div className="text-2xl md:text-3xl font-bold text-maroon tabular-nums leading-none">
+      {/* Our Journey — chapter spread. With only two milestones the
+          earlier vertical spine felt underused; this reads as two
+          "chapters of the house" instead. Big metallic-gold year
+          numerals anchor each column, with a chapter eyebrow, title and
+          body below. Divided by a thin gold hairline on desktop. */}
+      <section className="bg-ivory py-14 md:py-20">
+        <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
+          <SectionHeader
+            title="Our Journey"
+            description="Two chapters so far — the moments that built the house."
+            showDividers={false}
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-0 md:divide-x md:divide-maroon/15 max-w-[1100px] mx-auto">
+            {timeline.map((t, i) => (
+              <article
+                key={t.year}
+                className="md:px-10 lg:px-14 text-center md:text-left"
+              >
+                <div className="text-[0.65rem] md:text-[0.72rem] tracking-[0.3em] uppercase font-bold text-maroon">
+                  Chapter {['I', 'II', 'III', 'IV'][i]}
+                </div>
+                <div
+                  className="mt-3 text-[3.5rem] md:text-[4.5rem] lg:text-[5rem] leading-none tabular-nums"
+                  style={{
+                    fontFamily:
+                      'var(--font-hero), "Italiana", Georgia, serif',
+                    fontWeight: 700,
+                    backgroundImage:
+                      'linear-gradient(135deg, #5A3610 0%, #8A5A1F 25%, #B07A2A 50%, #8A5A1F 75%, #5A3610 100%)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    color: 'transparent',
+                  }}
+                >
                   {t.year}
                 </div>
-                <div>
-                  <h3 className="text-sm md:text-base font-bold text-ink mb-1">
-                    {t.title}
-                  </h3>
-                  <p className="text-sm text-ink/75 leading-[1.75]">{t.body}</p>
-                </div>
-              </li>
+                <span
+                  aria-hidden
+                  className="block mx-auto md:mx-0 h-px w-12 bg-gold/70 my-5 md:my-6"
+                />
+                <h3 className="font-display text-xl md:text-2xl lg:text-[1.65rem] font-semibold text-ink leading-tight">
+                  {t.title}
+                </h3>
+                <p className="mt-4 text-sm md:text-base text-ink/75 leading-[1.85]">
+                  {t.body}
+                </p>
+              </article>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
 
-      {/* Location */}
-      <section className="bg-bone">
-        <div className="max-w-[1100px] mx-auto px-6 lg:px-10 py-14 lg:py-20">
-          <div className="bg-white border border-maroon/15 p-6 lg:p-10 max-w-[640px] mx-auto text-center">
-            <div className="text-[0.7rem] tracking-[0.32em] uppercase text-maroon font-semibold mb-2">
-              Find us
-            </div>
-            <h3 className="font-display text-xl md:text-2xl font-medium text-ink mb-4">
-              Bengaluru atelier
-            </h3>
-            <div className="text-sm text-ink/80 leading-[1.85]">
-              House Of GnanRudh Atelier<br />
-              LTG LA GRAND, Block 2, No. 5<br />
-              Jnanabharathi BDA Layout, Jnana Ganga Nagar<br />
-              Bengaluru 560056 &middot; Karnataka, India
-            </div>
-            <div className="mt-5 text-xs text-ink/70">
-              Open Monday to Saturday, 10:00 AM &ndash; 7:00 PM (IST) &middot; By appointment only
-            </div>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs">
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=LTG+LA+GRAND+Jnanabharathi+BDA+Layout+Jnana+Ganga+Nagar+Bengaluru+560056"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-ink text-ivory px-4 py-2 font-semibold tracking-wide hover:bg-maroon transition-colors"
+      {/* Closing CTA — straight to the shop. No physical-retail cue. */}
+      <section className="bg-bone py-14 md:py-20">
+        <div className="max-w-[720px] mx-auto px-6 text-center">
+          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-ink leading-tight">
+            Begin with a single drape
+          </h2>
+          <p className="mt-4 text-sm md:text-base text-ink/70 leading-relaxed">
+            Explore the weaves we've chosen this season — handpicked at the
+            loom, delivered to your door.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            {shopHref ? (
+              <Link
+                href={shopHref}
+                className="inline-flex items-center bg-maroon-deep hover:bg-maroon text-ivory px-7 py-3 text-xs font-bold uppercase tracking-[0.2em] rounded-sm transition-colors"
               >
-                Get directions
-              </a>
-              <a
-                href="tel:+91XXXXXXXXXX"
-                className="border border-ink text-ink px-4 py-2 font-semibold tracking-wide hover:bg-ink hover:text-ivory transition-colors"
-              >
-                +91 XXXXX XXXXX
-              </a>
-            </div>
+                Shop the House
+              </Link>
+            ) : (
+              <span className="inline-flex items-center bg-maroon-deep text-ivory px-7 py-3 text-xs font-bold uppercase tracking-[0.2em] rounded-sm cursor-default">
+                Shop the House
+              </span>
+            )}
           </div>
         </div>
       </section>

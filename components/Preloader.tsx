@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 // Preloader is mounted only on the first page-load splash. Progress bar
@@ -48,20 +49,22 @@ export default function Preloader() {
       }}
       aria-hidden
     >
-      {/* Centre brand wordmark — three-stage reveal:
+      {/* Centre brand wordmark — two-stage reveal:
             1. Clip-path sweeps the glyphs in from left → right (1.6s)
             2. The whole wordmark gently fades + eases up from scale 0.96
-            3. A hairline gold underline draws in beneath it as a finisher
-          All timings are shorter than DURATION_MS so the reveal settles
+          Timings are shorter than DURATION_MS so the reveal settles
           before the preloader fades out. */}
       <div className="absolute inset-0 flex items-center justify-center px-6">
         <div className="flex flex-col items-center">
-          <span
-            className="preloader-wordmark font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-ivory text-center select-none"
-          >
-            House Of GnanRudh
-          </span>
-          <span className="preloader-underline mt-4 h-px w-40 md:w-56 bg-gold-soft/80 origin-left" />
+          <Image
+            src="/footer-logo.png"
+            alt="House Of GnanRudh"
+            width={320}
+            height={320}
+            priority
+            draggable={false}
+            className="preloader-wordmark h-40 sm:h-48 md:h-56 lg:h-64 w-auto select-none"
+          />
         </div>
       </div>
 
@@ -71,25 +74,13 @@ export default function Preloader() {
           40%  { opacity: 1; }
           100% { clip-path: inset(0 0 0 0);   opacity: 1; transform: translateY(0)   scale(1); }
         }
-        @keyframes preloaderUnderline {
-          from { transform: scaleX(0); opacity: 0; }
-          to   { transform: scaleX(1); opacity: 1; }
-        }
         .preloader-wordmark {
           clip-path: inset(0 100% 0 0);
           animation: preloaderSweep 1600ms cubic-bezier(0.22, 1, 0.36, 1) 150ms forwards;
         }
-        .preloader-underline {
-          transform: scaleX(0);
-          animation: preloaderUnderline 700ms cubic-bezier(0.22, 1, 0.36, 1) 1500ms forwards;
-        }
         @media (prefers-reduced-motion: reduce) {
           .preloader-wordmark {
             clip-path: inset(0 0 0 0);
-            animation: none;
-          }
-          .preloader-underline {
-            transform: scaleX(1);
             animation: none;
           }
         }

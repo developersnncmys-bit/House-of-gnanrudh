@@ -48,7 +48,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: 'Can I see the saree being made?',
-    a: 'Yes. We send progress photographs every two weeks during weaving, and you can request a live video walkthrough at any stage. For Bengaluru clients we host studio visits at our Jnanabharathi atelier by appointment.',
+    a: 'Yes. We send progress photographs every two weeks during weaving, and you can request a live video walkthrough at any stage. For Nellore clients we host studio visits at our Trunk Road boutique by appointment.',
   },
   {
     q: 'Is the bespoke order refundable?',
@@ -103,7 +103,7 @@ export default function BespokeView() {
 
         <div className="relative max-w-[1720px] mx-auto px-4 lg:px-8 py-12 lg:py-20">
           <div className="max-w-xl">
-            <div className="inline-block bg-[#082052] text-white text-[0.65rem] font-bold tracking-[0.25em] uppercase px-2.5 py-1 mb-4">
+            <div className="inline-block bg-maroon-deep text-white text-[0.65rem] font-bold tracking-[0.25em] uppercase px-2.5 py-1 mb-4">
               By Appointment
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-3">
@@ -158,7 +158,7 @@ export default function BespokeView() {
                 key={step.num}
                 className="bg-gray-50 border border-gray-200 p-5 lg:p-6"
               >
-                <div className="text-3xl font-bold text-[#082052] mb-2 tabular-nums">
+                <div className="text-3xl font-bold text-maroon-deep mb-2 tabular-nums">
                   {step.num}
                 </div>
                 <h3 className="text-base font-bold text-gray-900 mb-1.5">
@@ -187,7 +187,7 @@ export default function BespokeView() {
             </div>
             <Link
               href="/shop"
-              className="text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#082052] underline underline-offset-4"
+              className="text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-maroon-deep underline underline-offset-4"
             >
               See all sarees
             </Link>
@@ -279,7 +279,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 function Trust({ icon, label }: { icon: 'hand' | 'shield' | 'truck' | 'phone'; label: string }) {
   return (
     <div className="flex items-center gap-3 text-sm text-gray-700">
-      <span className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#082052] shrink-0">
+      <span className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-maroon-deep shrink-0">
         <Icon name={icon} />
       </span>
       <span className="font-medium">{label}</span>
@@ -315,7 +315,7 @@ function FaqRow({ q, a, defaultOpen = false }: { q: string; a: string; defaultOp
         aria-expanded={open}
         className="w-full flex items-center justify-between py-4 px-5 text-left group"
       >
-        <span className="text-sm md:text-base font-semibold text-gray-900 group-hover:text-[#082052] transition-colors">
+        <span className="text-sm md:text-base font-semibold text-gray-900 group-hover:text-maroon-deep transition-colors">
           {q}
         </span>
         <span className={`text-2xl text-gray-500 transition-transform shrink-0 ${open ? 'rotate-45' : ''}`}>

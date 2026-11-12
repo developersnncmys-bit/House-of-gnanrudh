@@ -237,7 +237,7 @@ export default function HeritageScroll() {
     <>
       <section
         ref={sectionRef}
-        className="relative bg-[#082052] text-ivory overflow-hidden"
+        className="relative bg-maroon-deep text-ivory overflow-hidden"
         aria-label="House Of GnanRudh — stories from the loom"
       >
         {/* Faint film-grain over everything */}
@@ -364,7 +364,7 @@ export default function HeritageScroll() {
                   // cream inner ring evoke the gopuram/mehrab vocabulary
                   // from the reference. `overflow-hidden` clips the
                   // photograph to the arch shape.
-                  className="group relative aspect-[3/5] overflow-hidden bg-[#5A0010] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E0AE6D] focus-visible:ring-offset-2 focus-visible:ring-offset-[#082052] border border-[#F2C99E]/25 hover:border-[#F2C99E]/50 transition-colors duration-500"
+                  className="group relative aspect-[3/5] overflow-hidden bg-[#5A0010] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E0AE6D] focus-visible:ring-offset-2 focus-visible:ring-offset-maroon-deep border border-[#F2C99E]/25 hover:border-[#F2C99E]/50 transition-colors duration-500"
                   style={{
                     borderTopLeftRadius: '50% 28%',
                     borderTopRightRadius: '50% 28%',

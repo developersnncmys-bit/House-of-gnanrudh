@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
@@ -10,6 +11,7 @@ import {
   LuShoppingBag,
   LuMenu,
   LuX,
+  LuChevronDown,
 } from 'react-icons/lu';
 import { PiStorefront } from 'react-icons/pi';
 import AnimatedSearchBar from '@/components/AnimatedSearchBar';
@@ -74,11 +76,21 @@ const weaveLinks = [
 ];
 
 // Helper: during SOFT_LAUNCH, strip navigation on any href that isn't
-// `/home` so the link renders as a styled-but-inert span. Returns the
-// safe href (never navigates away from /home when gated).
+// in the local allow-list so the link renders as a styled-but-inert
+// span. Kept narrow on purpose — only `/` and the New Arrivals shop
+// view (/shop?sort=new) stay live during the soft-launch window.
+// Mirror additions in lib/soft-launch.ts and middleware.ts.
+const SOFT_LAUNCH_LIVE = new Set<string>([
+  '/',
+  '/shop?sort=new',
+  '/shop?wishlist=1',
+  '/shop?weave=Kanjivaram',
+  '/shop?weave=Banarasi',
+  '/shop?weave=Mysore+Silk',
+]);
 function navHref(href: string): string | undefined {
   if (!SOFT_LAUNCH) return href;
-  return href === '/' ? href : undefined;
+  return SOFT_LAUNCH_LIVE.has(href) ? href : undefined;
 }
 
 // Active-link detection. A link is active when the current path matches
@@ -252,13 +264,15 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
       {/* Top promo strip — rotating Kalki-style announcement */}
       <PromoStrip />
 
-      {/* Row 2 — logo + utility icons. Pothys pattern: logo anchors
-          the left, icons cluster at the right, nothing in between so the
-          crest gets visual weight. Nav links move to their own row below. */}
+      {/* Row 2 — hamburger (mobile) on the left, centred logo crest in
+          the middle, utility icons on the right. Centering is done with
+          a 3-section flex so the logo stays truly centered regardless
+          of what fills the left/right sections. */}
       <div>
-        <div className="max-w-[1720px] mx-auto pl-6 sm:pl-10 lg:pl-16 pr-4 sm:pr-6 lg:pr-10 py-3 flex items-center justify-between gap-3 sm:gap-5">
-          {/* Left: hamburger (mobile only) + logo. */}
-          <div className="flex items-center gap-2 min-w-0 ml-[14px]">
+        <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 py-1 flex items-center gap-3 sm:gap-5">
+          {/* Left: hamburger (mobile) + Find a Store (desktop). Takes
+              1/3 so the centre column is anchored by equal side columns. */}
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 min-w-0 flex-1">
             {!SOFT_LAUNCH && (
               <button
                 type="button"
@@ -272,26 +286,10 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                 </span>
               </button>
             )}
-            <Link
-              href="/"
-              aria-label="House Of GnanRudh — home"
-              className="flex items-center shrink-0 group"
-            >
-              <span className="font-display text-xl sm:text-2xl md:text-[1.6rem] lg:text-[1.75rem] font-semibold tracking-tight text-ink whitespace-nowrap select-none transition-opacity group-hover:opacity-85">
-                House Of GnanRudh
-              </span>
-            </Link>
-          </div>
-
-          {/* Right: utilities (lg+) + icons. On mobile the hamburger
-              drawer covers Find a Store, and a search icon still appears
-              here so touch users can reach search without opening the
-              drawer. */}
-          <div className="flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 shrink-0">
             {(() => {
               const findStoreHref = navHref('/shipping');
               const findStoreCls =
-                'group hidden lg:flex items-center gap-2 px-2 py-2 text-ink hover:text-scarlet transition-colors whitespace-nowrap leading-none';
+                'group hidden lg:flex items-center gap-2 py-2 lg:ml-5 text-ink hover:text-scarlet transition-colors whitespace-nowrap leading-none';
               const findStoreContent = (
                 <>
                   <span className="inline-flex transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-110">
@@ -312,6 +310,32 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                 </span>
               );
             })()}
+          </div>
+
+          {/* Centre: logo crest. */}
+          <Link
+            href="/"
+            aria-label="House Of GnanRudh — home"
+            className="flex items-center shrink-0 group"
+          >
+            <Image
+              src="/G-R-logo.png"
+              alt="House Of GnanRudh"
+              width={240}
+              height={240}
+              priority
+              className="h-16 sm:h-[72px] md:h-20 lg:h-[88px] w-auto select-none transition-opacity group-hover:opacity-85"
+              draggable={false}
+            />
+          </Link>
+
+          {/* Right: utilities (lg+) + icons. On mobile the hamburger
+              drawer covers Find a Store, and a search icon still appears
+              here so touch users can reach search without opening the
+              drawer. `flex-1` mirrors the left column so the centre
+              logo stays visually centred. `pr-[30px]` nudges the cluster
+              30px inward from the container edge. */}
+          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 pr-[30px]">
             <button
               type="button"
               aria-label={searchOpen ? 'Close search' : 'Open search'}
@@ -322,9 +346,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
               <span className="inline-flex transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-110">
                 <IconSearch />
               </span>
-              <span className="tracking-[0.08em] uppercase text-[0.8rem] font-bold">
-                Search
-              </span>
+              <NavSearchTeaser />
             </button>
             <button
               type="button"
@@ -437,7 +459,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                     active ? 'bg-maroon' : 'bg-maroon-deep hover:bg-maroon',
                   )
                 : active || triggered
-                ? 'text-maroon font-bold'
+                ? 'text-gold-deep font-bold'
                 : w.accent === 'maroon'
                 ? 'text-gold-deep font-bold hover:text-scarlet'
                 : 'text-ink hover:text-scarlet font-bold';
@@ -446,17 +468,34 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
               'relative text-[0.76rem] tracking-[0.1em] uppercase transition-colors whitespace-nowrap',
               cls,
             );
+            const labelContent =
+              isShopAll || isOccasions ? (
+                <span className="inline-flex items-center gap-1">
+                  {w.label}
+                  <LuChevronDown
+                    size={12}
+                    strokeWidth={2.5}
+                    aria-hidden
+                    className={clsx(
+                      'transition-transform duration-200',
+                      triggered && 'rotate-180',
+                    )}
+                  />
+                </span>
+              ) : (
+                w.label
+              );
             const link = resolvedHref ? (
               <Link
                 href={resolvedHref}
                 aria-current={active ? 'page' : undefined}
                 className={linkCls}
               >
-                {w.label}
+                {labelContent}
               </Link>
             ) : (
               <span className={clsx(linkCls, 'cursor-default')}>
-                {w.label}
+                {labelContent}
               </span>
             );
             if (isShopAll || isOccasions) {
@@ -801,4 +840,54 @@ function IconMenu() {
 
 function IconClose() {
   return <LuX size={22} strokeWidth={1.8} aria-hidden />;
+}
+
+// Nav SEARCH teaser — "Search for" is a static prefix; only the
+// category word inside the quotes cycles, fading up/out as it swaps.
+// Pure text — the parent button still handles the click.
+const NAV_SEARCH_PHRASES = [
+  'Kanjeevaram',
+  'Banarasi',
+  'Mysore Silk',
+  'Mangalagiri',
+  'Pochampally',
+  'Gadwal',
+  'Patola',
+  'Bridal',
+];
+
+const NAV_PHRASE_HOLD_MS = 2200;
+const NAV_PHRASE_FADE_MS = 320;
+
+function NavSearchTeaser() {
+  const [idx, setIdx] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const hold = window.setTimeout(() => {
+      setVisible(false);
+      const swap = window.setTimeout(() => {
+        setIdx((i) => (i + 1) % NAV_SEARCH_PHRASES.length);
+        setVisible(true);
+      }, NAV_PHRASE_FADE_MS);
+      return () => window.clearTimeout(swap);
+    }, NAV_PHRASE_HOLD_MS);
+    return () => window.clearTimeout(hold);
+  }, [idx]);
+
+  return (
+    <span className="tracking-[0.08em] uppercase text-[0.8rem] font-bold underline underline-offset-4 decoration-ink/30 group-hover:decoration-scarlet/50 transition-colors">
+      Search for &quot;
+      <span
+        className="inline-block underline underline-offset-4 decoration-ink/30 group-hover:decoration-scarlet/50 transition-all duration-300 ease-out"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(-4px)',
+        }}
+      >
+        {NAV_SEARCH_PHRASES[idx]}
+      </span>
+      &quot;
+    </span>
+  );
 }

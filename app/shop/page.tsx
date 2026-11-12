@@ -1,8 +1,6 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 import ShopView from '@/components/shop/ShopView';
-import { SOFT_LAUNCH } from '@/lib/soft-launch';
 
 export const metadata: Metadata = {
   title: 'Shop · House Of GnanRudh',
@@ -25,8 +23,11 @@ export const metadata: Metadata = {
  * ShopView is a client component that uses `useSearchParams`, which requires
  * a Suspense boundary at the route entry.
  */
+// Soft-launch gate for /shop lives inside ShopView (client-side). The
+// site is statically exported, so reading searchParams at this server
+// component isn't permitted — ShopView already has useSearchParams and
+// handles the redirect-to-home for anything that isn't `?sort=new`.
 export default function ShopPage() {
-  if (SOFT_LAUNCH) redirect('/');
   return (
     <Suspense fallback={<div className="min-h-screen bg-ivory" />}>
       <ShopView />

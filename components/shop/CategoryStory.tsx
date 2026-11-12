@@ -6,7 +6,10 @@ type Story = {
   body: string;
 };
 
-const STORIES: Record<string, Story> = {
+// Exported so sibling components (CategoryWeaveIntro) can reuse the
+// same editorial copy without duplicating the data. Re-exported with
+// an alias under its canonical brand name.
+export const WEAVE_STORIES: Record<string, Story> = {
   Kanjivaram: {
     region: 'Kanchipuram, Tamil Nadu',
     tagline: 'The bride’s first weight of silk.',
@@ -64,7 +67,7 @@ const STORIES: Record<string, Story> = {
 };
 
 export default function CategoryStory({ weave }: { weave: string }) {
-  const story = STORIES[weave];
+  const story = WEAVE_STORIES[weave];
   if (!story) return null;
 
   return (

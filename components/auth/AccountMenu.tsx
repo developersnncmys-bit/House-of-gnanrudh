@@ -2,33 +2,28 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import clsx from 'clsx';
 import {
+  LuCircleUser,
   LuUser,
-  LuCreditCard,
   LuPackage,
-  LuMapPin,
   LuHeart,
   LuLogOut,
 } from 'react-icons/lu';
 import { useAuth } from '@/lib/auth';
 import { useLoginModal } from '@/lib/login-modal';
+import { navHref } from '@/lib/soft-launch';
 
 // Soft-launch gate — mirrors the flag in `components/Nav.tsx`. When
-// true, the account icon still renders (same look) but clicks do
-// nothing: no login modal, no dropdown, no sign-out. Flip to false to
-// restore full behaviour. See memory: project_pages_unlinked_soft_launch.
-const SOFT_LAUNCH = true;
+// true, the account icon renders inert.
+const SOFT_LAUNCH = false;
 
 /**
  * AccountMenu — the user icon in the nav.
  *
- * Signed out: a single button that opens the LoginModal (sign-in / sign-up).
- * Signed in: the same icon becomes the trigger for a dropdown showing
- * "Welcome <FirstName>!", Account Details, Order History, Wishlist, Sign Out.
- *
- * Until the auth provider has hydrated we render the signed-out variant so
- * the initial server-rendered HTML matches what the client paints — no
- * "Sign In flashes then becomes Account" flicker on hard reload.
+ * Signed out: a single button that opens the LoginModal.
+ * Signed in: a tight popover anchored under the icon with
+ * "Welcome {name}!", a short list of account links, and Sign Out.
  */
 export default function AccountMenu() {
   const { user, hydrated, signOut } = useAuth();
@@ -36,25 +31,6 @@ export default function AccountMenu() {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
-  // Soft-launch: render an inert account button that keeps the same
-  // hover animation as the cart/wishlist icons, so the utility row
-  // reads consistently. onClick is a no-op; the login modal stays
-  // mounted globally in SiteShell but no trigger reaches it from here.
-  if (SOFT_LAUNCH) {
-    return (
-      <button
-        type="button"
-        aria-label="Account"
-        className="group p-2 text-ink hover:text-scarlet transition-colors cursor-default"
-      >
-        <span className="inline-flex transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-110 origin-center">
-          <IconUser />
-        </span>
-      </button>
-    );
-  }
-
-  // Close on outside click / Escape so the menu behaves like a real popover.
   useEffect(() => {
     if (!open) return;
     const onDown = (e: MouseEvent) => {
@@ -71,6 +47,20 @@ export default function AccountMenu() {
       document.removeEventListener('keydown', onKey);
     };
   }, [open]);
+
+  if (SOFT_LAUNCH) {
+    return (
+      <button
+        type="button"
+        aria-label="Account"
+        className="group p-2 text-ink hover:text-scarlet transition-colors cursor-default"
+      >
+        <span className="inline-flex transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-110 origin-center">
+          <IconUser />
+        </span>
+      </button>
+    );
+  }
 
   const signedIn = hydrated && user !== null;
 
@@ -102,14 +92,13 @@ export default function AccountMenu() {
         className="group relative p-2 text-ink hover:text-scarlet transition-colors"
       >
         <span
-          className={`inline-flex transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-110 origin-center ${
-            open ? 'text-maroon scale-110 -translate-y-0.5' : ''
-          }`}
+          className={clsx(
+            'inline-flex transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-110 origin-center',
+            open && 'text-maroon scale-110 -translate-y-0.5',
+          )}
         >
           <IconUser />
         </span>
-        {/* Signed-in dot — quiet peacock indicator that pulses on first
-            paint, then stays as a static presence chip. */}
         <span
           aria-hidden
           className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-peacock animate-badge-pop"
@@ -119,33 +108,30 @@ export default function AccountMenu() {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 top-full mt-2 w-60 bg-ivory no-pattern border border-ink/10 shadow-lg py-2 z-50 origin-top-right animate-menu-in"
+          className="absolute right-0 top-full mt-2 w-[220px] bg-white border border-ink/10 shadow-lg py-2 z-50 animate-menu-in"
         >
-          <div className="px-4 py-3 text-base text-ink">
+          <div className="px-4 py-2 text-sm text-ink">
             Welcome {firstName}!
           </div>
 
-          <MenuItem href="/account" onClick={() => setOpen(false)} icon={<IconCard />}>
+          <MenuItem
+            href={navHref('/account')}
+            onClick={() => setOpen(false)}
+            icon={<LuUser size={16} strokeWidth={1.7} aria-hidden />}
+          >
             Account Details
           </MenuItem>
           <MenuItem
-            href="/account/orders"
+            href={navHref('/account/orders')}
             onClick={() => setOpen(false)}
-            icon={<IconBox />}
+            icon={<LuPackage size={16} strokeWidth={1.7} aria-hidden />}
           >
-            Orders
+            Order History
           </MenuItem>
           <MenuItem
-            href="/account/addresses"
+            href={navHref('/shop?wishlist=1')}
             onClick={() => setOpen(false)}
-            icon={<IconPin />}
-          >
-            Addresses
-          </MenuItem>
-          <MenuItem
-            href="/shop?wishlist=1"
-            onClick={() => setOpen(false)}
-            icon={<IconHeart />}
+            icon={<LuHeart size={16} strokeWidth={1.7} aria-hidden />}
           >
             Wishlist
           </MenuItem>
@@ -157,8 +143,11 @@ export default function AccountMenu() {
               setOpen(false);
               signOut();
             }}
-            className="w-full px-4 py-2.5 text-sm text-ink hover:bg-ink/5 transition-colors text-left"
+            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-ink hover:bg-ink/5 transition-colors text-left"
           >
+            <span className="text-ink/60">
+              <LuLogOut size={16} strokeWidth={1.7} aria-hidden />
+            </span>
             Sign Out
           </button>
         </div>
@@ -173,46 +162,33 @@ function MenuItem({
   icon,
   children,
 }: {
-  href: string;
+  href: string | undefined;
   onClick: () => void;
   icon: React.ReactNode;
   children: React.ReactNode;
 }) {
-  return (
-    <Link
-      href={href}
-      role="menuitem"
-      onClick={onClick}
-      className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-ink/5 transition-colors"
-    >
-      <span className="text-ink/55">{icon}</span>
+  const cls =
+    'flex items-center gap-3 px-4 py-2 text-sm text-ink hover:bg-ink/5 transition-colors';
+  const body = (
+    <>
+      <span className="text-ink/60">{icon}</span>
       {children}
+    </>
+  );
+  if (!href) {
+    return (
+      <span role="menuitem" className={clsx(cls, 'cursor-default opacity-60')}>
+        {body}
+      </span>
+    );
+  }
+  return (
+    <Link href={href} role="menuitem" onClick={onClick} className={cls}>
+      {body}
     </Link>
   );
 }
 
-// Icon set — Lucide via react-icons. See the matching note in Nav.tsx
-// about why we use a real library instead of hand-drawn paths.
 function IconUser() {
-  return <LuUser size={20} strokeWidth={2} aria-hidden />;
-}
-
-function IconCard() {
-  return <LuCreditCard size={16} strokeWidth={1.7} aria-hidden />;
-}
-
-function IconBox() {
-  return <LuPackage size={16} strokeWidth={1.7} aria-hidden />;
-}
-
-function IconPin() {
-  return <LuMapPin size={16} strokeWidth={1.7} aria-hidden />;
-}
-
-function IconHeart() {
-  return <LuHeart size={16} strokeWidth={1.7} aria-hidden />;
-}
-
-function IconSignOut() {
-  return <LuLogOut size={16} strokeWidth={1.7} aria-hidden />;
+  return <LuCircleUser size={22} strokeWidth={1.8} aria-hidden />;
 }

@@ -4,22 +4,45 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import clsx from 'clsx';
+import {
+  LuUser,
+  LuPackage,
+  LuMapPin,
+  LuHeart,
+  LuLogOut,
+} from 'react-icons/lu';
 import { useAuth } from '@/lib/auth';
 import { useLoginModal } from '@/lib/login-modal';
 
-// Shared chrome for the /account/* section — sidebar (user card + nav)
-// on the left, content slot on the right. The same layout component is
-// reused by every account page so the active nav highlight is consistent.
+// Shared chrome for the /account/* section. A single left-column panel
+// holds the signed-in user chip, the section nav, and Sign Out; the
+// right column is a slot each page fills with its own form / list.
 //
-// Auth gate: routes under /account/* are visitor-only. If the auth
+// Auth gate: pages under /account/* are visitor-only. If the auth
 // provider has hydrated and there is no user, we bounce back to `/`
 // and open the login modal so they can sign in from there.
 
 const NAV = [
-  { href: '/account', label: 'Account Details', icon: <IconUser /> },
-  { href: '/account/orders', label: 'Orders', icon: <IconBox /> },
-  { href: '/account/addresses', label: 'Addresses', icon: <IconPin /> },
-  { href: '/shop?wishlist=1', label: 'Wishlist', icon: <IconHeart /> },
+  {
+    href: '/account',
+    label: 'Account Details',
+    icon: <LuUser size={16} strokeWidth={1.7} aria-hidden />,
+  },
+  {
+    href: '/account/orders',
+    label: 'Orders',
+    icon: <LuPackage size={16} strokeWidth={1.7} aria-hidden />,
+  },
+  {
+    href: '/account/addresses',
+    label: 'Addresses',
+    icon: <LuMapPin size={16} strokeWidth={1.7} aria-hidden />,
+  },
+  {
+    href: '/shop?wishlist=1',
+    label: 'Wishlist',
+    icon: <LuHeart size={16} strokeWidth={1.7} aria-hidden />,
+  },
 ];
 
 export default function AccountShell({
@@ -43,25 +66,49 @@ export default function AccountShell({
   }, [hydrated, user, router, openLogin]);
 
   if (!hydrated || !user) {
-    return <div className="min-h-screen bg-ivory" />;
+    return <div className="min-h-screen bg-white" />;
   }
 
+  const initial = (user.name?.[0] || user.email[0] || '?').toUpperCase();
+  const firstName = user.name?.split(' ')[0] || user.name;
+
   return (
-    <div className="bg-ivory min-h-screen">
-      <div className="max-w-[1200px] mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-6 md:gap-10">
-          {/* Sidebar */}
-          <aside>
-            <div className="border border-ink/10 bg-white p-5">
-              <div className="text-base font-semibold text-ink truncate">
-                {user.name}
-              </div>
-              <div className="mt-0.5 text-xs text-ink/60 truncate">
-                {user.email}
+    // Extra top padding compensates for Nav Row 3 (the centred link
+    // bar). SiteShell's own pt-[109px] was computed before that
+    // sub-row returned. Same pattern as NewArrivalsIntro.
+    <div className="bg-white min-h-screen pt-12 md:pt-16 lg:pt-20">
+      <div className="max-w-[1180px] mx-auto px-4 md:px-6 lg:px-8 pb-16">
+        {/* Section header — micro eyebrow + serif title. */}
+        <header className="mb-10 md:mb-12">
+          <div className="text-[0.65rem] font-semibold tracking-[0.3em] uppercase text-gold-deep mb-2">
+            My Account
+          </div>
+          <h1 className="font-display text-[2rem] md:text-[2.5rem] text-ink leading-none">
+            {title}
+          </h1>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-8 md:gap-12">
+          {/* Sidebar — one unified panel. */}
+          <aside className="md:border-r md:border-ink/10 md:pr-6">
+            <div className="flex items-center gap-3 pb-5 mb-4 border-b border-ink/10">
+              <span
+                aria-hidden
+                className="w-9 h-9 rounded-full bg-ivory text-ink flex items-center justify-center font-display text-base leading-none shrink-0 ring-1 ring-gold-deep/40"
+              >
+                {initial}
+              </span>
+              <div className="min-w-0">
+                <div className="text-sm font-semibold text-ink truncate leading-tight">
+                  {firstName}
+                </div>
+                <div className="text-xs text-ink/55 truncate mt-0.5">
+                  {user.email}
+                </div>
               </div>
             </div>
 
-            <nav className="mt-4 border border-ink/10 bg-white">
+            <nav className="flex flex-col">
               {NAV.map((item) => {
                 const active = matchesActive(pathname, item.href);
                 return (
@@ -69,38 +116,47 @@ export default function AccountShell({
                     key={item.href}
                     href={item.href}
                     className={clsx(
-                      'flex items-center gap-3 px-4 py-3 text-sm border-b border-ink/5 last:border-b-0 transition-colors',
+                      'flex items-center gap-3 py-2.5 text-sm transition-colors group',
                       active
-                        ? 'bg-ink/5 text-ink font-semibold'
-                        : 'text-ink/80 hover:bg-ink/5 hover:text-ink',
+                        ? 'text-ink font-semibold'
+                        : 'text-ink/70 hover:text-ink',
                     )}
                   >
-                    <span className="text-ink/55 shrink-0">{item.icon}</span>
-                    <span className="flex-1">{item.label}</span>
-                    <span className="text-ink/40">›</span>
+                    <span
+                      className={clsx(
+                        'shrink-0 transition-colors',
+                        active
+                          ? 'text-gold-deep'
+                          : 'text-ink/45 group-hover:text-gold-deep',
+                      )}
+                    >
+                      {item.icon}
+                    </span>
+                    <span>{item.label}</span>
+                    {active && (
+                      <span
+                        aria-hidden
+                        className="ml-auto w-1 h-4 bg-gold-deep"
+                      />
+                    )}
                   </Link>
                 );
               })}
               <button
                 type="button"
                 onClick={signOut}
-                className="w-full flex items-center gap-3 px-4 py-3 text-sm text-ink/80 hover:bg-ink/5 hover:text-ink transition-colors text-left"
+                className="flex items-center gap-3 py-2.5 mt-4 pt-4 border-t border-ink/10 text-sm text-ink/60 hover:text-ink transition-colors text-left group"
               >
-                <span className="text-ink/55 shrink-0">
-                  <IconSignOut />
+                <span className="text-ink/45 group-hover:text-ink shrink-0 transition-colors">
+                  <LuLogOut size={16} strokeWidth={1.7} aria-hidden />
                 </span>
-                <span className="flex-1">Sign Out</span>
+                <span>Sign Out</span>
               </button>
             </nav>
           </aside>
 
           {/* Content */}
-          <main>
-            <h1 className="text-2xl md:text-[1.75rem] font-semibold text-ink">
-              {title}
-            </h1>
-            <div className="mt-6">{children}</div>
-          </main>
+          <main className="min-w-0">{children}</main>
         </div>
       </div>
     </div>
@@ -109,54 +165,9 @@ export default function AccountShell({
 
 function matchesActive(pathname: string | null, href: string): boolean {
   if (!pathname) return false;
-  // /shop?wishlist=1 lives outside the account section — don't highlight it
-  // based on the bare pathname matching the link target.
+  // /shop?wishlist=1 lives outside the account section — don't highlight
+  // it based on the bare pathname matching the link target.
   if (href.startsWith('/shop')) return false;
   if (href === '/account') return pathname === '/account';
   return pathname === href || pathname.startsWith(href + '/');
-}
-
-function IconUser() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <circle cx="12" cy="8" r="4" />
-      <path d="M4 21a8 8 0 0 1 16 0" />
-    </svg>
-  );
-}
-
-function IconBox() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M3 7.5 12 3l9 4.5v9L12 21 3 16.5v-9Z" />
-      <path d="M3 7.5 12 12l9-4.5M12 12v9" />
-    </svg>
-  );
-}
-
-function IconPin() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z" />
-      <circle cx="12" cy="9" r="2.5" />
-    </svg>
-  );
-}
-
-function IconHeart() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M20.8 6.6a5.5 5.5 0 0 0-9-1.7l-.8.8-.8-.8a5.5 5.5 0 1 0-7.8 7.8l8.6 8.5 8.6-8.5a5.5 5.5 0 0 0 1.2-6.1Z" />
-    </svg>
-  );
-}
-
-function IconSignOut() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M15 17l5-5-5-5" />
-      <path d="M20 12H9" />
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-    </svg>
-  );
 }

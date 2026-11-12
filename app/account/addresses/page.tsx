@@ -1,9 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { redirect } from 'next/navigation';
 import AccountShell from '@/components/account/AccountShell';
-import { SOFT_LAUNCH } from '@/lib/soft-launch';
 
 // /account/addresses — frontend-only address book. Stored in localStorage
 // under `tridha-addresses` so the user can add/edit/delete entries that
@@ -41,7 +39,6 @@ const emptyForm = (): Address => ({
 });
 
 export default function AddressesPage() {
-  if (SOFT_LAUNCH) redirect('/');
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [hydrated, setHydrated] = useState(false);
   const [editing, setEditing] = useState<Address | null>(null);
