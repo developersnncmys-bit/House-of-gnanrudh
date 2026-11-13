@@ -5,8 +5,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { SAREES, STANDARD_COLORWAYS, BADGE_LABEL, sareeMatchesColor } from '@/lib/sarees';
 import type { Weave, BadgeKind } from '@/lib/sarees';
 import ProductCard from './ProductCard';
+import { Section, Check, RangeInput, PriceRow } from './FilterRailPrimitives';
 import NewArrivalsIntro from './NewArrivalsIntro';
 import CategoryTiles from './CategoryTiles';
+import FilterDrawer from './FilterDrawer';
+import FilterTriggerBar from './FilterTriggerBar';
 
 /**
  * NewArrivalsView — dedicated layout for /shop?sort=new. Kept fully
@@ -63,123 +66,8 @@ const SORT_LABELS: Record<Sort, string> = {
 // Collapsible filter section — Kalki pattern with a +/− toggle on
 // the right of the title bar. Local to this file so FilterRail stays
 // untouched for every other /shop view.
-function Section({
-  title,
-  children,
-  defaultOpen = true,
-}: {
-  title: string;
-  children: React.ReactNode;
-  defaultOpen?: boolean;
-}) {
-  const [open, setOpen] = useState(defaultOpen);
-  return (
-    <div className="border-b border-gray-200">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className="w-full flex items-center justify-between py-4 text-left group"
-      >
-        <span className="text-[0.78rem] font-bold text-gray-900 uppercase tracking-[0.12em]">
-          {title}
-        </span>
-        <span
-          aria-hidden
-          className="relative inline-flex items-center justify-center w-3 h-3 text-gray-700 group-hover:text-gray-900 transition-colors"
-        >
-          <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1.5px] bg-current" />
-          {!open && (
-            <span className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1.5px] bg-current" />
-          )}
-        </span>
-      </button>
-      {open && <div className="pb-5 -mt-1">{children}</div>}
-    </div>
-  );
-}
-
-function Check({
-  label, checked, onChange, count,
-}: { label: string; checked: boolean; onChange: () => void; count?: number }) {
-  return (
-    <label className="flex items-center gap-2.5 cursor-pointer group py-1.5">
-      <span className={`w-4 h-4 border flex items-center justify-center transition-colors shrink-0 ${
-        checked ? 'border-gray-900 bg-gray-900' : 'border-gray-400 group-hover:border-gray-900'
-      }`}>
-        {checked && (
-          <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-white" aria-hidden>
-            <path d="M2 6.5 5 9l5-6.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        )}
-      </span>
-      <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
-      <span className={`text-sm leading-tight flex-1 ${checked ? 'text-gray-900 font-medium' : 'text-gray-700 group-hover:text-gray-900'}`}>
-        {label}
-      </span>
-      {typeof count === 'number' && (
-        <span className="text-xs text-gray-500 tabular-nums">{count}</span>
-      )}
-    </label>
-  );
-}
-
-// Numeric From/To input — bordered pill with an optional ₹ prefix.
-// Commits the value on blur or Enter via `onCommit` so the URL only
-// updates once the user has finished typing, not on every keystroke.
-function RangeInput({
-  prefix,
-  placeholder,
-  value,
-  onChange,
-  onCommit,
-}: {
-  prefix?: string;
-  placeholder: string;
-  value: string;
-  onChange: (v: string) => void;
-  onCommit: () => void;
-}) {
-  return (
-    <span className="inline-flex items-center flex-1 border border-gray-300 focus-within:border-gray-900 h-9 px-2 text-sm bg-white">
-      {prefix && <span className="text-gray-500 mr-1">{prefix}</span>}
-      <input
-        type="text"
-        inputMode="numeric"
-        pattern="[0-9]*"
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value.replace(/[^0-9]/g, ''))}
-        onBlur={onCommit}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            onCommit();
-          }
-        }}
-        className="w-full min-w-0 bg-transparent focus:outline-none text-gray-900 placeholder:text-gray-400 tabular-nums"
-      />
-    </span>
-  );
-}
-
-// Price rows render as plain clickable text (Kalki pattern), no radio.
-function PriceRow({
-  label, checked, onChange,
-}: { label: string; checked: boolean; onChange: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onChange}
-      className={`block w-full text-left text-sm py-1.5 transition-colors ${
-        checked ? 'text-gray-900 font-semibold' : 'text-gray-700 hover:text-gray-900'
-      }`}
-    >
-      {label}
-    </button>
-  );
-}
-
+// Section / Check / RangeInput / PriceRow live in
+// FilterRailPrimitives.tsx — shared across every category view.
 export default function NewArrivalsView() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -270,6 +158,7 @@ export default function NewArrivalsView() {
   // The mirror re-syncs when the URL changes externally (e.g. Clear).
   const [minInput, setMinInput] = useState(pmin ?? '');
   const [maxInput, setMaxInput] = useState(pmax ?? '');
+  const [drawerOpen, setDrawerOpen] = useState(false);
   useEffect(() => { setMinInput(pmin ?? ''); }, [pmin]);
   useEffect(() => { setMaxInput(pmax ?? ''); }, [pmax]);
   const commitRange = () => {
@@ -380,239 +269,170 @@ export default function NewArrivalsView() {
           <span className="text-gray-900">New Arrivals</span>
         </nav>
 
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* ───── Filter rail — Kalki pattern ───── */}
-          {/* Sticky filter rail — on desktop it pins under the nav
-              (top offset = nav height + a bit of breathing room) and
-              gets its own scroll track so a long filter list scrolls
-              independently of the product grid. Mobile falls back to
-              static since the rail stacks above the grid there.
-              The wrapper uses `direction: rtl` so the vertical
-              scrollbar renders on the LEFT edge of the rail (Kalki's
-              layout); the inner panel flips back to `direction: ltr`
-              so the filter content itself stays left-aligned. */}
-          <aside className="w-full lg:w-[260px] shrink-0 lg:self-start lg:sticky lg:top-[120px]">
-            <div
-              className="lg:max-h-[calc(100vh-140px)] lg:overflow-y-auto lg:pl-2 filter-scroll"
-              style={{ direction: 'rtl' }}
-            >
-            <div style={{ direction: 'ltr' }}>
-            <div className="flex items-center justify-between pb-3 border-b-2 border-gray-900">
-              <div className="text-[0.95rem] font-bold text-gray-900 uppercase tracking-[0.15em]">
-                Filters
-              </div>
-              {activeCount > 0 && (
-                <button
-                  type="button"
-                  onClick={clearAll}
-                  className="text-xs font-bold text-maroon-deep hover:underline uppercase"
-                >
-                  Clear ({activeCount})
-                </button>
-              )}
-            </div>
+        <section>
+          <FilterTriggerBar
+            productCount={items.length}
+            activeCount={activeCount}
+            onOpenFilter={() => setDrawerOpen(true)}
+            sortValue={sort}
+            sortOptions={(Object.keys(SORT_LABELS) as Sort[]).map((s) => ({
+              value: s,
+              label: SORT_LABELS[s],
+            }))}
+            onSortChange={(v) => updateUrl({ order: v as Sort })}
+          />
 
-            <Section title="Price">
-              {PRICE_BRACKETS.map((b) => (
-                <PriceRow
-                  key={b.id}
-                  label={b.label}
-                  checked={bracket === b.id}
-                  onChange={() => selectBracket(b.id)}
+          {items.length === 0 ? (
+            <div className="py-16 text-center text-sm text-gray-600">
+              No sarees match these filters.{' '}
+              <button
+                type="button"
+                onClick={clearAll}
+                className="text-maroon-deep font-semibold underline underline-offset-2"
+              >
+                Clear filters
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-4 gap-y-8 pt-8">
+              {items.map((s, i) => (
+                <ProductCard
+                  key={s.id}
+                  saree={s}
+                  priority={i < 4}
+                  hideBadges
+                  hideDiscountOverlay
+                  showBadgesBelowPrice
+                  showViewSimilar
                 />
               ))}
-
-              {/* Custom range — From/To inputs with a leading ₹ glyph.
-                  Committed on blur or Enter; a short press of Enter in
-                  either field submits both values. Kalki's exact UX. */}
-              <div className="mt-3 flex items-center gap-2">
-                <RangeInput
-                  prefix="₹"
-                  placeholder="From"
-                  value={minInput}
-                  onChange={setMinInput}
-                  onCommit={commitRange}
-                />
-                <span className="text-gray-400">–</span>
-                <RangeInput
-                  placeholder="To"
-                  value={maxInput}
-                  onChange={setMaxInput}
-                  onCommit={commitRange}
-                />
-              </div>
-            </Section>
-
-            {/* Availability — pulled off the on-image badge overlay
-                (ProductCard gets hideBadges=true below) and surfaced
-                as multi-select chips. Toned, pill-shaped buttons so the
-                rail reads as filters instead of product adornments. */}
-            <Section title="Availability">
-              <div className="flex flex-wrap gap-2 pt-1">
-                {AVAILABILITY_BADGES.map((b) => {
-                  const active = availability.includes(b);
-                  const count = availabilityCounts[b] ?? 0;
-                  const disabled = count === 0 && !active;
-                  return (
-                    <button
-                      key={b}
-                      type="button"
-                      onClick={() => toggleAvailability(b)}
-                      disabled={disabled}
-                      aria-pressed={active}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-wide rounded-full border transition-colors ${
-                        active
-                          ? 'bg-gray-900 text-white border-gray-900'
-                          : disabled
-                          ? 'border-gray-200 text-gray-300 cursor-not-allowed'
-                          : 'border-gray-300 text-gray-700 hover:border-gray-900 hover:text-gray-900'
-                      }`}
-                    >
-                      {BADGE_LABEL[b]}
-                      <span className={`tabular-nums text-[0.68rem] font-normal ${active ? 'text-white/70' : 'text-gray-500'}`}>
-                        {count}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </Section>
-
-            <Section title="Weave">
-              {WEAVES.map((w) => (
-                <Check
-                  key={w}
-                  label={w}
-                  checked={weaves.includes(w)}
-                  onChange={() => toggleWeave(w)}
-                  count={weaveCounts[w] ?? 0}
-                />
-              ))}
-            </Section>
-
-            <Section title="Color">
-              <div className="flex flex-wrap gap-2">
-                {STANDARD_COLORWAYS.map((c) => {
-                  const active = colors.includes(c.id);
-                  const count = colorCounts[c.id] ?? 0;
-                  const disabled = count === 0 && !active;
-                  return (
-                    <button
-                      key={c.id}
-                      type="button"
-                      onClick={() => toggleColor(c.id)}
-                      aria-label={`Filter by ${c.name} (${count})`}
-                      aria-pressed={active}
-                      disabled={disabled}
-                      title={`${c.name} (${count})`}
-                      className={`relative w-8 h-8 rounded-full border-2 transition-all ${
-                        active
-                          ? 'border-gray-900 p-0.5'
-                          : disabled
-                          ? 'border-transparent opacity-30 cursor-not-allowed p-0.5'
-                          : 'border-transparent hover:border-gray-400 p-0.5'
-                      }`}
-                    >
-                      <span
-                        className="block w-full h-full rounded-full border border-gray-200"
-                        style={{ backgroundColor: c.hex }}
-                      />
-                    </button>
-                  );
-                })}
-              </div>
-            </Section>
-
-            <Section title="Discount %" defaultOpen={false}>
-              {DISCOUNT_BANDS.map((b) => (
-                <Check
-                  key={b.id}
-                  label={b.label}
-                  checked={discount === b.id}
-                  onChange={() => selectDiscount(b.id)}
-                  count={discountCounts[b.id] ?? 0}
-                />
-              ))}
-            </Section>
             </div>
-            </div>
-          </aside>
-
-          {/* ───── Product grid + sort bar ───── */}
-          <section className="flex-1 min-w-0">
-            <div className="flex items-end justify-between gap-4 flex-wrap pb-4 border-b border-gray-200">
-              <div className="text-sm text-gray-700 tabular-nums">
-                <span className="font-semibold text-gray-900">{items.length}</span>{' '}
-                {items.length === 1 ? 'product' : 'products'}
-              </div>
-              <label className="inline-flex items-center gap-2 text-sm text-gray-700">
-                <span className="uppercase tracking-wide text-[0.72rem] font-bold text-gray-500">
-                  Sort by
-                </span>
-                <select
-                  value={sort}
-                  onChange={(e) => updateUrl({ order: e.target.value as Sort })}
-                  className="border border-gray-300 px-3 py-1.5 text-sm bg-white focus:outline-none focus:border-gray-900"
-                >
-                  {(Object.keys(SORT_LABELS) as Sort[]).map((s) => (
-                    <option key={s} value={s}>{SORT_LABELS[s]}</option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            {items.length === 0 ? (
-              <div className="py-16 text-center text-sm text-gray-600">
-                No sarees match these filters.{' '}
-                <button
-                  type="button"
-                  onClick={clearAll}
-                  className="text-maroon-deep font-semibold underline underline-offset-2"
-                >
-                  Clear filters
-                </button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 pt-6">
-                {items.map((s, i) => (
-                  <ProductCard
-                    key={s.id}
-                    saree={s}
-                    priority={i < 4}
-                    hideBadges
-                    hideDiscountOverlay
-                    showBadgesBelowPrice
-                    showViewSimilar
-                  />
-                ))}
-              </div>
-            )}
-          </section>
-        </div>
+          )}
+        </section>
       </div>
 
-      {/* Scoped scrollbar styling for the sticky filter rail. Scoped
-          to .filter-scroll so it doesn't leak to the rest of the app.
-          Firefox uses `scrollbar-*`, WebKit/Blink use the pseudo. */}
-      <style jsx global>{`
-        .filter-scroll {
-          scrollbar-width: thin;
-          scrollbar-color: #9CA3AF transparent;
-        }
-        .filter-scroll::-webkit-scrollbar {
-          width: 6px;
-        }
-        .filter-scroll::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .filter-scroll::-webkit-scrollbar-thumb {
-          background-color: #D1D5DB;
-          border-radius: 3px;
-        }
-        .filter-scroll:hover::-webkit-scrollbar-thumb {
-          background-color: #9CA3AF;
-        }
-      `}</style>
+      <FilterDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        productCount={items.length}
+        activeCount={activeCount}
+        onClearAll={clearAll}
+      >
+        <Section title="Price">
+          {PRICE_BRACKETS.map((b) => (
+            <PriceRow
+              key={b.id}
+              label={b.label}
+              checked={bracket === b.id}
+              onChange={() => selectBracket(b.id)}
+            />
+          ))}
+          <div className="mt-3 flex items-center gap-2">
+            <RangeInput
+              prefix="₹"
+              placeholder="From"
+              value={minInput}
+              onChange={setMinInput}
+              onCommit={commitRange}
+            />
+            <span className="text-gray-400">–</span>
+            <RangeInput
+              placeholder="To"
+              value={maxInput}
+              onChange={setMaxInput}
+              onCommit={commitRange}
+            />
+          </div>
+        </Section>
+
+        <Section title="Availability">
+          <div className="flex flex-wrap gap-2 pt-1">
+            {AVAILABILITY_BADGES.map((b) => {
+              const active = availability.includes(b);
+              const count = availabilityCounts[b] ?? 0;
+              const disabled = count === 0 && !active;
+              return (
+                <button
+                  key={b}
+                  type="button"
+                  onClick={() => toggleAvailability(b)}
+                  disabled={disabled}
+                  aria-pressed={active}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-wide rounded-full border transition-colors ${
+                    active
+                      ? 'bg-gray-900 text-white border-gray-900'
+                      : disabled
+                      ? 'border-gray-200 text-gray-300 cursor-not-allowed'
+                      : 'border-gray-300 text-gray-700 hover:border-gray-900 hover:text-gray-900'
+                  }`}
+                >
+                  {BADGE_LABEL[b]}
+                  <span className={`tabular-nums text-[0.68rem] font-normal ${active ? 'text-white/70' : 'text-gray-500'}`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </Section>
+
+        <Section title="Weave">
+          {WEAVES.map((w) => (
+            <Check
+              key={w}
+              label={w}
+              checked={weaves.includes(w)}
+              onChange={() => toggleWeave(w)}
+              count={weaveCounts[w] ?? 0}
+            />
+          ))}
+        </Section>
+
+        <Section title="Color">
+          <div className="flex flex-wrap gap-2">
+            {STANDARD_COLORWAYS.map((c) => {
+              const active = colors.includes(c.id);
+              const count = colorCounts[c.id] ?? 0;
+              const disabled = count === 0 && !active;
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => toggleColor(c.id)}
+                  aria-label={`Filter by ${c.name} (${count})`}
+                  aria-pressed={active}
+                  disabled={disabled}
+                  title={`${c.name} (${count})`}
+                  className={`relative w-9 h-9 rounded-full border-2 transition-all ${
+                    active
+                      ? 'border-gray-900 p-0.5'
+                      : disabled
+                      ? 'border-transparent opacity-30 cursor-not-allowed p-0.5'
+                      : 'border-transparent hover:border-gray-400 p-0.5'
+                  }`}
+                >
+                  <span
+                    className="block w-full h-full rounded-full border border-gray-200"
+                    style={{ backgroundColor: c.hex }}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        </Section>
+
+        <Section title="Discount %" defaultOpen={false}>
+          {DISCOUNT_BANDS.map((b) => (
+            <Check
+              key={b.id}
+              label={b.label}
+              checked={discount === b.id}
+              onChange={() => selectDiscount(b.id)}
+              count={discountCounts[b.id] ?? 0}
+            />
+          ))}
+        </Section>
+      </FilterDrawer>
     </div>
   );
 }

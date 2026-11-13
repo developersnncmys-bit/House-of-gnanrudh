@@ -280,24 +280,24 @@ export default function AddressModal() {
         className="absolute inset-0 bg-ink/70 backdrop-blur-sm"
       />
 
-      <div className="relative w-full max-w-[560px] max-h-[92vh] flex flex-col bg-ivory no-pattern shadow-2xl">
+      <div className="relative w-full max-w-[560px] max-h-[92vh] flex flex-col bg-bone shadow-2xl">
         {/* Header */}
-        <div className="flex items-center gap-3 px-4 lg:px-5 py-3 border-b border-ink/10 bg-bone/30">
+        <div className="flex items-center gap-3 px-5 lg:px-6 py-4 border-b border-ink/10 bg-bone">
           {view === 'form' && addresses.length > 0 && (
             <button
               type="button"
               onClick={() => setView('list')}
               aria-label="Back to address list"
-              className="shrink-0 w-8 h-8 flex items-center justify-center text-ink hover:text-maroon"
+              className="shrink-0 w-8 h-8 flex items-center justify-center text-ink hover:text-maroon-deep transition-colors"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <path d="m15 18-6-6 6-6" />
               </svg>
             </button>
           )}
           <div className="flex-1 min-w-0">
-            <div className="text-[10px] font-bold tracking-widest text-ink/50">CHECKOUT</div>
-            <h2 id="address-title" className="text-sm font-bold text-ink uppercase tracking-wide leading-tight">
+            <div className="text-[10px] font-bold tracking-[0.25em] text-ink/50">CHECKOUT</div>
+            <h2 id="address-title" className="text-lg font-bold text-ink leading-tight mt-0.5">
               {headerTitle}
             </h2>
           </div>
@@ -305,9 +305,9 @@ export default function AddressModal() {
             type="button"
             aria-label="Close"
             onClick={closeAddressModal}
-            className="shrink-0 w-8 h-8 flex items-center justify-center text-ink hover:text-maroon"
+            className="shrink-0 w-8 h-8 flex items-center justify-center text-ink hover:text-maroon-deep transition-colors -mr-1"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
               <path d="m6 6 12 12M18 6 6 18" />
             </svg>
           </button>
@@ -506,13 +506,13 @@ export default function AddressModal() {
         </div>
 
         {/* Footer (sticky) */}
-        <div className="border-t border-ink/10 bg-ivory no-pattern px-4 lg:px-5 py-3">
+        <div className="border-t border-ink/10 bg-bone px-5 lg:px-6 py-4">
           {view === 'list' ? (
             <button
               type="button"
               onClick={handleContinue}
               disabled={!selectedId}
-              className="w-full bg-maroon-deep text-ivory py-3 text-sm font-semibold tracking-wide hover:bg-maroon transition-colors disabled:bg-ink/40 disabled:cursor-not-allowed"
+              className="w-full bg-ink text-white py-4 text-sm font-bold tracking-[0.18em] uppercase hover:bg-maroon-deep transition-colors disabled:bg-ink/40 disabled:cursor-not-allowed"
             >
               {modalNextRoute ? 'Deliver here · Continue' : 'Use this address'}
             </button>
@@ -520,13 +520,13 @@ export default function AddressModal() {
             <button
               type="submit"
               form="address-form"
-              className="w-full bg-maroon-deep text-ivory py-3 text-sm font-semibold tracking-wide hover:bg-maroon transition-colors"
+              className="w-full bg-ink text-white py-4 text-sm font-bold tracking-[0.18em] uppercase hover:bg-maroon-deep transition-colors"
             >
               {editingId ? 'Save changes' : 'Save address'}
             </button>
           )}
 
-          <div className="mt-2 flex items-center justify-center gap-2 text-[10px] text-ink/55">
+          <div className="mt-3 flex items-center justify-center gap-2 text-[10px] text-ink/55">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
               <path d="M12 3 4 6v6c0 5 4 8 8 9 4-1 8-4 8-9V6z" />
             </svg>
@@ -576,7 +576,7 @@ function Field({
         autoComplete={autoComplete}
         placeholder={placeholder}
         inputMode={inputMode}
-        className="w-full border border-ink/20 px-3 py-2 text-sm text-ink placeholder:text-ink/40 focus:outline-none focus:border-ink bg-ivory"
+        className="w-full border border-ink/20 px-3 py-2.5 text-sm text-ink placeholder:text-ink/40 focus:outline-none focus:border-ink bg-white"
       />
     </label>
   );
@@ -599,7 +599,7 @@ function Select({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full border border-ink/20 px-3 py-2 text-sm text-ink focus:outline-none focus:border-ink bg-ivory"
+        className="w-full border border-ink/20 px-3 py-2.5 text-sm text-ink focus:outline-none focus:border-ink bg-white"
       >
         {options.map((o) => (
           <option key={o} value={o}>{o}</option>

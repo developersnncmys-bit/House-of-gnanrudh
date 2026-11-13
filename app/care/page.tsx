@@ -17,7 +17,7 @@ export default function CarePage() {
       <PolicyHeader
         title="Saree Care Guide"
         breadcrumb="Help / Care Guide"
-        updated="29 June 2026"
+        updated="12 November 2026"
       />
 
       <section className="max-w-[1100px] mx-auto px-6 lg:px-10 py-10">

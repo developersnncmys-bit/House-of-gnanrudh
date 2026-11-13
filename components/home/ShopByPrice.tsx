@@ -21,21 +21,21 @@ const buckets: Bucket[] = [
     label: 'Everyday Drapes',
     sub: 'Under ₹5,000',
     tagline: 'Beauty That Feels as Good as It Looks.',
-    href: '/shop?max=5000',
+    href: '/shop?maxPrice=5000',
     sampleId: 'mangalagiri-tulsi',
   },
   {
     label: 'Light Festive',
     sub: 'Under ₹10,000',
     tagline: 'Experience the Royal Feel of Silk.',
-    href: '/shop?max=10000',
+    href: '/shop?maxPrice=10000',
     sampleId: 'banarasi-saanjh',
   },
   {
     label: 'Festive Picks',
     sub: 'Under ₹25,000',
     tagline: 'Where Heritage Meets Elegance.',
-    href: '/shop?max=25000',
+    href: '/shop?maxPrice=25000',
     sampleId: 'fancy-haldi',
     image: '/images/c5.webp',
   },
@@ -43,7 +43,7 @@ const buckets: Bucket[] = [
     label: 'Bridal · Heirloom',
     sub: '₹25,000 & Above',
     tagline: 'Beautiful Weaves, Beautiful Heirlooms.',
-    href: '/shop?tier=bridal',
+    href: '/shop?minPrice=25000',
     sampleId: 'banarasi-raktarani',
   },
 ];
@@ -72,7 +72,7 @@ export default function ShopByPrice() {
         <SectionHeader
           title="Shop by Price"
           description="From everyday cotton drapes to heirloom bridal silks — a curated price edit for every occasion and every budget."
-          link={{ href: '/shop', label: 'View All' }}
+          link={{ href: '/shop?sort=new', label: 'View All' }}
           showDividers={false}
         />
 

@@ -17,7 +17,7 @@ export default function ReturnsPage() {
       <PolicyHeader
         title="Return, Replacement & Refund Policy"
         breadcrumb="Help / Returns"
-        updated="29 June 2026"
+        updated="12 November 2026"
       />
 
       <section className="max-w-[1100px] mx-auto px-6 lg:px-10 py-10">
@@ -98,19 +98,19 @@ export default function ReturnsPage() {
             <li>
               <strong>Email:</strong>{' '}
               <a
-                href="mailto:support@gnanrudh.com"
+                href="mailto:hello@houseofgnanrudh.com"
                 className="text-maroon-deep underline underline-offset-2 font-semibold"
               >
-                support@gnanrudh.com
+                hello@houseofgnanrudh.com
               </a>
             </li>
             <li>
               <strong>WhatsApp:</strong>{' '}
               <a
-                href="tel:+91XXXXXXXXXX"
+                href="tel:+919876543210"
                 className="text-maroon-deep underline underline-offset-2 font-semibold"
               >
-                +91 XXXXX XXXXX
+                +91 98765 43210
               </a>
             </li>
           </ul>

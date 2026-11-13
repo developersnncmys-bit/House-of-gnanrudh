@@ -302,7 +302,7 @@ export default function TermsPage() {
   return (
     <LegalShell
       title="Terms & Conditions"
-      lastUpdated="29 June 2026"
+      lastUpdated="12 November 2026"
       intro={
         <p>
           Welcome to <strong className="text-gray-900">HOUSE OF GNANRUDH</strong>.

@@ -41,7 +41,7 @@ export default function ProductGallery({
   };
 
   return (
-    <div className="flex gap-3 lg:gap-4">
+    <div className="flex gap-3 lg:gap-4 lg:ml-[100px]">
       {/* Vertical thumbnails — desktop */}
       <div className="hidden md:flex flex-col gap-2 w-20 shrink-0">
         {images.map((src, i) => (
@@ -94,7 +94,7 @@ export default function ProductGallery({
           onTouchEnd={() => setZoom(false)}
           onTouchCancel={() => setZoom(false)}
           style={{ touchAction: 'none' }}
-          className="relative aspect-[4/5] overflow-hidden bg-gray-100 cursor-zoom-in select-none"
+          className="relative aspect-[1/1] overflow-hidden bg-gray-100 cursor-zoom-in select-none"
         >
           <Image
             src={main}

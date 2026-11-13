@@ -23,7 +23,7 @@ const promo = {
   description:
     'Celebrate tradition with our exquisite range of sarees — from everyday drapes to heirloom silks, hand-woven for every occasion in a woman’s wardrobe.',
   ctaLabel: 'Explore Now',
-  ctaHref: '/shop',
+  ctaHref: '/shop?sort=new',
 };
 
 export default function PromoBanner() {

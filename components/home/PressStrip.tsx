@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SAREES, formatINR, TIERS } from '@/lib/sarees';
 import WishlistButton from '@/components/shop/WishlistButton';
+import AddToCartButton from '@/components/shop/AddToCartButton';
 import ViewSimilarButton from '@/components/shop/ViewSimilarButton';
 import { navHref } from '@/lib/soft-launch';
 
@@ -93,9 +94,9 @@ export default function PressStrip() {
             Only a handful left — pieces our shoppers are reaching for this week.
             Once these are gone, each is one of a kind.
           </p>
-          {navHref('/shop?sort=trending') ? (
+          {navHref('/shop?sort=bestseller') ? (
             <Link
-              href="/shop?sort=trending"
+              href="/shop?sort=bestseller"
               className="text-sm font-semibold text-ink hover:text-maroon transition-colors underline underline-offset-4"
             >
               View All
@@ -173,17 +174,17 @@ export default function PressStrip() {
                     className="absolute top-2.5 right-2.5 w-9 h-9"
                     size={14}
                   />
-                  {/* Add-to-bag pill — revealed on hover, sits at the bottom
-                      of the image. Full-width now that the wishlist heart
-                      lives at top-right. */}
-                  <span className="pointer-events-none absolute left-3 right-3 bottom-3 inline-flex items-center justify-center gap-2 bg-ivory/95 no-pattern backdrop-blur-sm text-ink px-3 py-2 text-[0.7rem] font-bold uppercase tracking-wider rounded-sm opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
-                      <line x1="3" y1="6" x2="21" y2="6" />
-                      <path d="M16 10a4 4 0 0 1-8 0" />
-                    </svg>
+                  {/* Add-to-bag pill — revealed on hover, sits at the
+                      bottom of the image. Real button that calls the
+                      shop store; stops propagation so the card's
+                      wrapping Link doesn't fire. */}
+                  <AddToCartButton
+                    productId={saree.id}
+                    variant="compact"
+                    className="absolute left-3 right-3 bottom-3 !bg-ivory/95 !text-ink hover:!bg-white !py-2 !px-3 !text-[0.7rem] !tracking-wider shadow-md backdrop-blur-sm rounded-sm opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+                  >
                     Add to Bag
-                  </span>
+                  </AddToCartButton>
                 </div>
                 <div className="p-3">
                   <div className="text-[0.7rem] text-ink/55 font-medium mb-1">

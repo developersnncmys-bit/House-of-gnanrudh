@@ -22,6 +22,14 @@ export const BADGE_LABEL: Record<BadgeKind, string> = {
   last: 'Few Left',
 };
 
+// Occasions keyed off the Occasions mega-menu (Nav.tsx → OccasionsMegaMenu).
+// Each saree can suit multiple; mapping lives in SAREE_OCCASIONS at the
+// end of this file so the primary catalogue entries stay readable.
+export type Occasion =
+  | 'reception' | 'engagement' | 'haldi' | 'mehendi' | 'sangeet'
+  | 'diwali' | 'pongal' | 'navratri' | 'pooja'
+  | 'office' | 'casual' | 'home' | 'travel';
+
 export type Saree = {
   id: string;
   name: string;
@@ -693,6 +701,59 @@ export const SAREES: Saree[] = [
     },
   },
 ];
+
+// Occasion tagging per saree. Kept out of the main SAREES entries so
+// the catalogue itself stays readable. Each saree gets 1–3 occasions
+// drawn from the Occasions mega-menu taxonomy. Sarees not listed here
+// are treated as un-tagged — the occasion filter simply skips them.
+export const SAREE_OCCASIONS: Record<string, Occasion[]> = {
+  // Bridal — wedding-day drapes. All kept off `haldi` (that's yellow-
+  // specific) and heavy on reception/engagement/sangeet.
+  'banarasi-raktarani':     ['reception', 'engagement'],
+  'kanjivaram-mayura':      ['reception', 'engagement', 'sangeet'],
+  'patola-rasleela':        ['reception', 'sangeet', 'mehendi'],
+  'mixedpattu-katha':       ['reception', 'engagement'],
+  'kanjivaram-neelambari':  ['reception', 'engagement'],
+  'mixedpattu-mor':         ['reception', 'mehendi', 'sangeet'],
+  'patola-vrindavan':       ['reception', 'mehendi'],
+  'mixedpattu-ramayana':    ['reception', 'engagement'],
+  'mixedpattu-shubh':       ['reception', 'engagement', 'sangeet'],
+
+  // Festive — tagged by palette + weave character.
+  'fancy-haldi':            ['haldi', 'mehendi'],
+  'mysore-chandrika':       ['pooja', 'pongal'],
+  'banarasi-jamawar':       ['diwali', 'pooja'],
+  'mangalagiri-megha':      ['navratri', 'pongal'],
+  'banarasi-sindhoori':     ['diwali', 'pongal'],
+  'kanjivaram-surya':       ['pongal', 'diwali'],
+  'mysore-mallika':         ['pooja', 'pongal'],
+  'gadwal-konark':          ['pooja', 'pongal'],
+  'patola-rangraj':         ['diwali', 'navratri'],
+  'gadwal-krishna':         ['navratri', 'pongal'],
+  'mangalagiri-chandni':    ['pooja'],
+  'gadwal-aishwarya':       ['diwali', 'navratri'],
+  'fancy-cocktail':         ['sangeet', 'engagement'],
+
+  // Everyday — tagged by drape weight + weave.
+  'pochampally-aakash':     ['office', 'travel'],
+  'mangalagiri-tulsi':      ['office', 'home'],
+  'mysore-tara':            ['office', 'casual'],
+  'banarasi-saanjh':        ['casual', 'home'],
+  'kanjivaram-lavanya':     ['casual', 'office'],
+  'pochampally-bandhakala': ['home', 'casual'],
+  'pochampally-meghala':    ['travel', 'casual'],
+  'fancy-mehndi':           ['casual', 'mehendi'],
+};
+
+// Convenience lookup used by the shop filter pipeline.
+export function sareeMatchesOccasion(
+  saree: Saree,
+  occasion: string,
+): boolean {
+  const tags = SAREE_OCCASIONS[saree.id];
+  if (!tags) return false;
+  return (tags as string[]).includes(occasion);
+}
 
 export const REGIONS = [
   {

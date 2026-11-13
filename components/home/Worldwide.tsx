@@ -20,27 +20,42 @@ const promises = [
   },
 ];
 
+/**
+ * Worldwide — trust strip at the bottom of the home page. Reworked
+ * as a deep-wine band with gold icons and ivory text — gives the home
+ * page a confident dark brand moment before the footer, with hairline
+ * gold dividers separating each promise.
+ */
 export default function Worldwide() {
   return (
-    <section className="bg-white border-t border-ink/10">
-      <div className="max-w-[1720px] mx-auto px-6 lg:px-10 py-10 md:py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 md:gap-6">
+    <section className="relative bg-maroon-deep text-ivory overflow-hidden">
+      {/* Thin gold rules at the top and bottom of the band — reads as
+          a framed brand ribbon rather than a plain color block. */}
+      <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gold/40" />
+      <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-gold/40" />
+
+      <div className="max-w-[1720px] mx-auto px-6 lg:px-10 py-8 md:py-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-0 sm:divide-x sm:divide-ivory/15">
           {promises.map(({ Icon, title, body }) => (
             <div
               key={title}
-              className="flex flex-col items-center text-center px-4"
+              className="flex items-center justify-center gap-4 md:gap-5 sm:px-6 md:px-8"
             >
+              {/* Icon — plain glyph in gold, a step up from the earlier
+                  muted ink icon. */}
               <Icon
-                className="text-ink mb-3"
-                size={28}
-                strokeWidth={1.3}
+                className="shrink-0 text-gold"
+                size={30}
+                strokeWidth={1.4}
                 aria-hidden
               />
-              <div className="font-sans text-base md:text-lg font-bold text-ink leading-tight">
-                {title}
-              </div>
-              <div className="text-xs md:text-sm text-ink/60 mt-1.5">
-                {body}
+              <div className="min-w-0">
+                <div className="text-sm md:text-[0.95rem] font-bold tracking-[0.03em] text-ivory leading-tight uppercase">
+                  {title}
+                </div>
+                <div className="text-xs md:text-sm text-ivory/65 mt-1 leading-snug">
+                  {body}
+                </div>
               </div>
             </div>
           ))}

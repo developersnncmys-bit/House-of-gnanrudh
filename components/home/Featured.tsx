@@ -177,9 +177,9 @@ export default function Featured() {
         </div>
 
         <div className="mt-8 flex justify-center">
-          {navHref('/shop') ? (
+          {navHref('/shop?sort=new') ? (
             <Link
-              href="/shop"
+              href="/shop?sort=new"
               className="inline-flex items-center gap-2 bg-maroon-deep text-ivory px-8 py-3 text-sm font-bold uppercase tracking-wider rounded-sm hover:bg-maroon transition-colors"
             >
               View All Sarees

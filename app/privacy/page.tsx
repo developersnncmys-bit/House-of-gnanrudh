@@ -207,7 +207,7 @@ export default function PrivacyPage() {
   return (
     <LegalShell
       title="Privacy Policy"
-      lastUpdated="29 June 2026"
+      lastUpdated="12 November 2026"
       intro={
         <p>
           At <strong className="text-ink">HOUSE OF GNANRUDH</strong>, we value

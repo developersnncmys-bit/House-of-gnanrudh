@@ -31,13 +31,16 @@ const founders: { name: string; role: string; quote: string }[] = [
 // Traditions" line in the stats block. All six have artwork in
 // /public/Byweaves — Jamdani is mentioned in the Who We Are body
 // since no tile artwork exists for it yet.
-const weaves: { name: string; place: string; era: string; image: string }[] = [
-  { name: 'Kanchipuram Silk', place: 'Kanchipuram · Tamil Nadu', era: 'since the Chola dynasty', image: '/Byweaves/kanjeevaram.webp' },
-  { name: 'Banarasi', place: 'Varanasi · Uttar Pradesh', era: 'since the Mughal court', image: '/Byweaves/banarasi.webp' },
-  { name: 'Pochampally', place: 'Bhoodan Pochampally · Telangana', era: 'a UNESCO-listed handloom', image: '/Byweaves/Pochampally.webp' },
-  { name: 'Mysore Silk', place: 'Mysuru · Karnataka', era: 'since Tipu Sultan, 1780', image: '/Byweaves/Mysore%20silk.webp' },
-  { name: 'Gadwal', place: 'Jogulamba Gadwal · Telangana', era: 'since the Krishnadevaraya court', image: '/Byweaves/Gadwal.webp' },
-  { name: 'Mangalagiri', place: 'Mangalagiri · Andhra Pradesh', era: 'since the 15th century', image: '/Byweaves/mangalagiri.webp' },
+// `filter` is the ?weave= slug used across the site (nav + soft-launch
+// allowlist). Kept separate from the display `name` so copy can read as
+// "Kanchipuram Silk" while the URL stays on the canonical "Kanjivaram".
+const weaves: { name: string; place: string; era: string; image: string; filter: string }[] = [
+  { name: 'Kanchipuram Silk', place: 'Kanchipuram · Tamil Nadu', era: 'since the Chola dynasty', image: '/Byweaves/kanjeevaram.webp', filter: 'Kanjivaram' },
+  { name: 'Banarasi', place: 'Varanasi · Uttar Pradesh', era: 'since the Mughal court', image: '/Byweaves/banarasi.webp', filter: 'Banarasi' },
+  { name: 'Pochampally', place: 'Bhoodan Pochampally · Telangana', era: 'a UNESCO-listed handloom', image: '/Byweaves/Pochampally.webp', filter: 'Pochampally' },
+  { name: 'Mysore Silk', place: 'Mysuru · Karnataka', era: 'since Tipu Sultan, 1780', image: '/Byweaves/Mysore%20silk.webp', filter: 'Mysore+Silk' },
+  { name: 'Gadwal', place: 'Jogulamba Gadwal · Telangana', era: 'since the Krishnadevaraya court', image: '/Byweaves/Gadwal.webp', filter: 'Gadwal' },
+  { name: 'Mangalagiri', place: 'Mangalagiri · Andhra Pradesh', era: 'since the 15th century', image: '/Byweaves/mangalagiri.webp', filter: 'Mangalagiri' },
 ];
 
 // Headline numbers. Mirrors the reference site's stats row —
@@ -85,7 +88,7 @@ const timeline: { year: string; title: string; body: string }[] = [
 ];
 
 export default function AboutPage() {
-  const shopHref = navHref('/shop');
+  const shopHref = navHref('/shop?sort=new');
   return (
     <main className="bg-ivory text-ink">
       {/* Hero — mirrors components/home/Hero.tsx: full-bleed photo,
@@ -280,7 +283,7 @@ export default function AboutPage() {
 
           <ol className="max-w-[900px] mx-auto divide-y divide-maroon/10 border-y border-maroon/10">
             {weaves.map((w, i) => {
-              const href = navHref(`/shop?weave=${encodeURIComponent(w.name)}`);
+              const href = navHref(`/shop?weave=${w.filter}`);
               const inner = (
                 <>
                   <div

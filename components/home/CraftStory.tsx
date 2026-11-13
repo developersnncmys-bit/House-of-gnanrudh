@@ -54,7 +54,7 @@ const occasions: Occasion[] = [
   },
   {
     title: 'Wedding Day',
-    href: '/shop?tier=bridal&occasion=wedding',
+    href: '/shop?tier=bridal',
     image: '/photos/bridal.webp',
     imagePosition: '50% 20%',
   },
@@ -74,7 +74,6 @@ export default function CraftStory() {
         <SectionHeader
           title="The Bridal Edit"
           description="Heirloom silks, woven to remember — temple-border Kanjeevarams, pit-loom Banarasis and double-ikat Patolas for the day you keep."
-          ornament="/photos/swan.png"
         />
       </div>
 

@@ -29,7 +29,7 @@ export default function Tiers() {
         <SectionHeader
           title="Featured Products"
           description="A curated edit of our most-loved weaves — bridal heirlooms, festive silks and everyday drapes, hand-picked for every occasion in a woman's wardrobe."
-          link={{ href: '/shop', label: 'View All' }}
+          link={{ href: '/shop?sort=new', label: 'View All' }}
           showDividers={false}
         />
 

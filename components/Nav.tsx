@@ -82,15 +82,53 @@ const weaveLinks = [
 // Mirror additions in lib/soft-launch.ts and middleware.ts.
 const SOFT_LAUNCH_LIVE = new Set<string>([
   '/',
+  '/about',
+  '/stores',
+  '/contact',
   '/shop?sort=new',
+  '/shop?sort=bestseller',
   '/shop?wishlist=1',
+  '/shop?sale=1',
   '/shop?weave=Kanjivaram',
   '/shop?weave=Banarasi',
   '/shop?weave=Mysore+Silk',
+  '/shop?weave=Mangalagiri',
+  '/shop?weave=Pochampally',
+  '/shop?weave=Gadwal',
+  '/shop?weave=Patola',
+  '/shop?weave=Fancy+Sarees',
+  '/shop?weave=Mixed+Pattu+Sarees',
+  '/shop?tier=bridal',
+  '/shop?tier=festive',
+  '/shop?tier=everyday',
+  '/shop?tier=bridal&occasion=reception',
+  '/shop?tier=bridal&occasion=engagement',
+  '/shop?tier=bridal&occasion=haldi',
+  '/shop?tier=bridal&occasion=mehendi',
+  '/shop?tier=bridal&occasion=sangeet',
+  '/shop?tier=festive&occasion=diwali',
+  '/shop?tier=festive&occasion=pongal',
+  '/shop?tier=festive&occasion=navratri',
+  '/shop?tier=festive&occasion=pooja',
+  '/shop?tier=everyday&occasion=office',
+  '/shop?tier=everyday&occasion=casual',
+  '/shop?tier=everyday&occasion=home',
+  '/shop?tier=everyday&occasion=travel',
+  '/shop?maxPrice=10000',
+  '/shop?minPrice=10000&maxPrice=25000',
+  '/shop?minPrice=25000&maxPrice=50000',
+  '/shop?minPrice=50000&maxPrice=100000',
+  '/shop?minPrice=100000',
 ]);
 function navHref(href: string): string | undefined {
   if (!SOFT_LAUNCH) return href;
-  return SOFT_LAUNCH_LIVE.has(href) ? href : undefined;
+  if (SOFT_LAUNCH_LIVE.has(href)) return href;
+  // Product detail routes — any /shop/<id> path is live.
+  const [path] = href.split('?');
+  if (path.startsWith('/shop/') && path.length > '/shop/'.length) {
+    return href;
+  }
+  return undefined;
 }
 
 // Active-link detection. A link is active when the current path matches
@@ -287,7 +325,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
               </button>
             )}
             {(() => {
-              const findStoreHref = navHref('/shipping');
+              const findStoreHref = navHref('/stores');
               const findStoreCls =
                 'group hidden lg:flex items-center gap-2 py-2 lg:ml-5 text-ink hover:text-scarlet transition-colors whitespace-nowrap leading-none';
               const findStoreContent = (
@@ -782,7 +820,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
             {(() => {
               const storeCls =
                 'inline-flex items-center gap-2 text-sm text-ivory/85 hover:text-gold transition-colors';
-              const resolved = navHref('/shipping');
+              const resolved = navHref('/stores');
               return resolved ? (
                 <Link
                   href={resolved}

@@ -310,6 +310,12 @@ html.lenis body {
   .newsletter-rangoli { animation: none; }
 }
 
+/* Simple fade-in used by Product tabs to soften panel swaps. */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Newsletter email input — kill Chrome's blue autofill wash. There's
    no real way to override background on an autofilled input, so paint
    over it with an inset box-shadow in the ivory newsletter surface. */

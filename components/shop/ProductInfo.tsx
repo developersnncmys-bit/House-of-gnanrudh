@@ -9,8 +9,6 @@ import { useAuth } from '@/lib/auth';
 
 type Saree = (typeof SAREES)[number];
 
-const PRE_DRAPE_PRICE = 1750;
-
 export default function ProductInfo({
   saree,
   mrp,
@@ -51,13 +49,13 @@ export default function ProductInfo({
   const colorways = useMemo(() => getColorways(saree), [saree]);
   const selectedColor = colorways.find((c) => c.id === colorId) ?? colorways[0];
   const [blouseOption, setBlouseOption] = useState<'unstitched' | 'stitched'>('unstitched');
-  const [preDrape, setPreDrape] = useState(false);
-  const [showPreDrapeInfo, setShowPreDrapeInfo] = useState(false);
   const [shareNote, setShareNote] = useState<string | null>(null);
 
   const discount = mrp ? Math.round(((mrp - saree.price) / mrp) * 100) : 0;
   const stitchingFee = blouseOption === 'stitched' ? 800 : 0;
-  const total = saree.price + stitchingFee + (preDrape ? PRE_DRAPE_PRICE : 0);
+  const total = saree.price + stitchingFee;
+
+
 
   const onShare = async () => {
     if (typeof window === 'undefined') return;
@@ -80,8 +78,8 @@ export default function ProductInfo({
   return (
     <div className="lg:sticky lg:top-[200px]">
       {/* Title row + heart + share */}
-      <div className="flex items-start justify-between gap-4 mb-2">
-        <h1 className="text-xl md:text-2xl font-bold text-gray-900 leading-snug flex-1">
+      <div className="flex items-start justify-between gap-4 mb-3">
+        <h1 className="text-[1.6rem] md:text-[1.75rem] font-bold text-gray-900 leading-tight flex-1">
           {saree.name}
         </h1>
         <div className="flex items-center gap-1 shrink-0">
@@ -92,7 +90,7 @@ export default function ProductInfo({
             aria-pressed={saved}
             className="p-2 text-gray-700 hover:text-maroon-deep transition-colors"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill={saved ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill={saved ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M20.8 6.6a5.5 5.5 0 0 0-9-1.7l-.8.8-.8-.8a5.5 5.5 0 1 0-7.8 7.8l8.6 8.5 8.6-8.5a5.5 5.5 0 0 0 1.2-6.1Z" />
             </svg>
           </button>
@@ -102,7 +100,7 @@ export default function ProductInfo({
             aria-label="Share"
             className="p-2 text-gray-700 hover:text-gray-900 transition-colors relative"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
               <line x1="8.6" y1="13.5" x2="15.4" y2="17.5" />
               <line x1="15.4" y1="6.5" x2="8.6" y2="10.5" />
@@ -122,34 +120,46 @@ export default function ProductInfo({
       </div>
 
       {badge && (
-        <div className="inline-block bg-orange-100 text-orange-800 border border-orange-200 px-2 py-0.5 text-xs font-semibold mb-3">
+        <div className="inline-block bg-orange-50 text-orange-800 px-2.5 py-1 text-[0.7rem] font-semibold tracking-wide mb-4">
           {badge}
         </div>
       )}
 
-      {/* Price */}
+      {/* Price — Kalki pattern: amount + "Inclusive Of All Taxes" sit on
+          the same line, with the MRP / discount stacked underneath. */}
       <div className="flex items-baseline gap-3 flex-wrap mb-1">
-        <span className="text-2xl font-bold text-gray-900 tabular-nums">
+        <span className="text-[1.75rem] font-semibold text-gray-900 tabular-nums">
           {formatINR(saree.price)}
         </span>
-        {mrp && (
-          <>
-            <span className="text-base text-gray-500 line-through tabular-nums">
-              MRP {formatINR(mrp)}
-            </span>
-            <span className="text-base font-bold text-maroon-deep tabular-nums">
-              ({discount}% OFF)
-            </span>
-          </>
-        )}
+        <span className="text-xs text-gray-500">Inclusive Of All Taxes</span>
       </div>
-      <div className="text-xs text-gray-500 mb-5">Inclusive of all taxes</div>
+      {mrp && (
+        <div className="flex items-baseline gap-2 flex-wrap mb-6 text-sm">
+          <span className="text-gray-500 line-through tabular-nums">
+            MRP {formatINR(mrp)}
+          </span>
+          <span className="font-semibold text-scarlet tabular-nums">
+            ({discount}% OFF)
+          </span>
+        </div>
+      )}
 
-      {/* Color */}
+      {/* Color — pill-style swatches with the colour name shown inline
+          on every option, so visitors can tell the full palette at a
+          glance without hovering each dot. Active chip carries a
+          maroon ring and a tinted background wash. */}
       {colorways.length > 0 && selectedColor && (
         <div className="mb-5">
-          <div className="text-sm font-semibold text-gray-900 mb-2">
-            Color : <span className="font-normal text-gray-700">{selectedColor.name}</span>
+          <div className="flex items-baseline justify-between mb-3">
+            <div className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-gray-900">
+              Colour
+            </div>
+            <div className="text-sm text-gray-700">
+              <span className="text-gray-500">Selected: </span>
+              <span className="font-semibold text-gray-900">
+                {selectedColor.name}
+              </span>
+            </div>
           </div>
           <div className="flex flex-wrap gap-2">
             {colorways.map((c) => {
@@ -161,19 +171,41 @@ export default function ProductInfo({
                   onClick={() => onColorChange(c.id)}
                   aria-label={`Choose colour ${c.name}`}
                   aria-pressed={active}
-                  className={`w-9 h-9 rounded-full border-2 transition-all relative ${
+                  className={`group inline-flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-full border transition-all ${
                     active
-                      ? 'border-gray-900 p-0.5'
-                      : 'border-transparent hover:border-gray-400 p-0.5'
+                      ? 'border-maroon-deep bg-maroon-deep/5 shadow-[inset_0_0_0_1px_rgba(77,0,21,0.25)]'
+                      : 'border-gray-300 hover:border-gray-600 bg-white'
                   }`}
                 >
+                  <span className="relative inline-flex items-center justify-center w-6 h-6 rounded-full shrink-0">
+                    <span
+                      className="block w-6 h-6 rounded-full border border-black/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),inset_0_-1px_1px_rgba(0,0,0,0.12)]"
+                      style={{ backgroundColor: c.hex }}
+                    />
+                    {active && (
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="absolute w-3.5 h-3.5 text-white drop-shadow-[0_0_1px_rgba(0,0,0,0.4)]"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden
+                      >
+                        <path d="m5 12 5 5L20 7" />
+                      </svg>
+                    )}
+                  </span>
                   <span
-                    className="block w-full h-full rounded-full border border-gray-200"
-                    style={{ backgroundColor: c.hex }}
-                  />
-                  {active && (
-                    <span className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/40 pointer-events-none" />
-                  )}
+                    className={`text-[0.78rem] font-semibold whitespace-nowrap transition-colors ${
+                      active
+                        ? 'text-maroon-deep'
+                        : 'text-gray-700 group-hover:text-gray-900'
+                    }`}
+                  >
+                    {c.name}
+                  </span>
                 </button>
               );
             })}
@@ -181,78 +213,58 @@ export default function ProductInfo({
         </div>
       )}
 
-      {/* Blouse stitching */}
+      {/* Blouse stitching — full-width tab buttons (Kalki pattern).
+          Big side-by-side tabs feel like a choice, not a chip picker. */}
       <div className="mb-5">
         <div className="text-sm font-semibold text-gray-900 mb-2">
-          Blouse Stitching Option : <span className="font-normal text-gray-700">
-            {blouseOption === 'unstitched' ? 'Unstitched' : 'Stitched (+₹800)'}
-          </span>
+          Blouse Stitching Option
         </div>
-        <div className="flex gap-2">
-          {(['unstitched', 'stitched'] as const).map((opt) => (
-            <button
-              key={opt}
-              type="button"
-              onClick={() => setBlouseOption(opt)}
-              className={`px-4 py-2 text-sm font-semibold border transition-colors ${
-                blouseOption === opt
-                  ? 'border-gray-900 bg-gray-900 text-white'
-                  : 'border-gray-300 text-gray-900 hover:border-gray-900'
-              }`}
-            >
-              {opt === 'unstitched' ? 'Unstitched' : 'Stitched'}
-            </button>
-          ))}
+        <div className="grid grid-cols-2 gap-2 max-w-[420px]">
+          <button
+            type="button"
+            onClick={() => setBlouseOption('unstitched')}
+            className={`py-3 px-3 text-[0.72rem] font-semibold uppercase tracking-[0.08em] border transition-colors ${
+              blouseOption === 'unstitched'
+                ? 'border-gray-900 bg-ink text-white'
+                : 'border-gray-300 bg-white text-gray-900 hover:border-gray-900'
+            }`}
+          >
+            Unstitched Blouse
+          </button>
+          <button
+            type="button"
+            onClick={() => setBlouseOption('stitched')}
+            className={`py-3 px-3 text-[0.72rem] font-semibold uppercase tracking-[0.08em] border transition-colors ${
+              blouseOption === 'stitched'
+                ? 'border-gray-900 bg-ink text-white'
+                : 'border-gray-300 bg-white text-gray-900 hover:border-gray-900'
+            }`}
+          >
+            Custom Tailored (+₹800)
+          </button>
         </div>
       </div>
 
-      {/* Add-on: pre-drape */}
-      <div className="border-t border-gray-200">
-        <label className="flex items-start gap-3 py-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={preDrape}
-            onChange={() => setPreDrape(!preDrape)}
-            className="mt-0.5 w-4 h-4 accent-gray-900"
-          />
-          <div className="flex-1 text-sm">
-            <span className="font-medium text-gray-900">
-              Pre-Drape this Saree + {formatINR(PRE_DRAPE_PRICE)}
-            </span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                setShowPreDrapeInfo((v) => !v);
-              }}
-              aria-expanded={showPreDrapeInfo}
-              className="ml-2 text-xs text-maroon-deep hover:underline"
-            >
-              {showPreDrapeInfo ? 'Hide' : 'Learn More'}
-            </button>
-          </div>
-        </label>
-        {showPreDrapeInfo && (
-          <div className="mb-3 ml-7 mr-1 p-3 bg-gray-50 border-l-2 border-maroon-deep text-xs text-gray-700 leading-relaxed space-y-1.5">
-            <p>
-              Our atelier pre-pleats and stitches your saree into a ready-to-wear drape — you step in and zip up, no pinning, no folding.
-            </p>
-            <p>
-              Add <strong>+{formatINR(PRE_DRAPE_PRICE)}</strong> at checkout and provide your measurements once the order is placed. Adds 5–7 working days to dispatch.
-            </p>
-            <p className="text-gray-500">
-              Pre-draped sarees are custom-fit and therefore non-returnable.
-            </p>
-          </div>
-        )}
+      {/* Estimated delivery — Kalki pattern: "Delivered by : Wed, 18 Nov"
+          with a simple truck glyph, no coloured banner. */}
+      <div className="mt-5 flex items-center gap-2.5 text-sm text-gray-700">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="text-gray-700 shrink-0" aria-hidden>
+          <path d="M3 7h11v9H3zM14 11h4l3 3v2h-7z" />
+          <circle cx="7" cy="18" r="1.6" /><circle cx="17.5" cy="18" r="1.6" />
+        </svg>
+        <span>
+          Delivered by :{' '}
+          <strong className="font-semibold text-gray-900">{deliveryDate}</strong>
+        </span>
       </div>
 
-      {/* CTAs */}
-      <div className="mt-5 grid gap-3">
+      {/* CTAs — Kalki PDP uses chunky full-width buttons that read as
+          the page's primary actions. */}
+      <div className="mt-5 grid gap-3 max-w-[420px]">
         <button
           type="button"
           onClick={() => addToCart(saree.id, 1)}
-          className="w-full border-2 border-gray-900 text-gray-900 bg-white py-3.5 text-sm font-bold uppercase tracking-wide hover:bg-gray-900 hover:text-white transition-colors flex items-center justify-center gap-3"
+          className="w-full border border-gray-900 text-gray-900 bg-white py-3 text-[0.75rem] font-semibold uppercase tracking-[0.1em] hover:bg-gray-900 hover:text-white transition-colors flex items-center justify-center gap-2.5"
         >
           <span>Add to Cart</span>
           <span className="w-1 h-1 rounded-full bg-current" />
@@ -261,36 +273,17 @@ export default function ProductInfo({
         <button
           type="button"
           onClick={handleBuyItNow}
-          className="w-full bg-maroon-deep text-white py-3.5 text-sm font-bold uppercase tracking-wide hover:bg-maroon-deep transition-colors"
+          className="w-full bg-ink text-white py-3 text-[0.75rem] font-semibold uppercase tracking-[0.1em] hover:bg-maroon-deep transition-colors"
         >
           Buy It Now
         </button>
       </div>
 
-      {/* Viewer note */}
-      <div className="mt-4 flex items-center gap-2 text-sm text-gray-700">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-maroon-deep" aria-hidden>
-          <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z" />
-          <circle cx="12" cy="12" r="3" />
-        </svg>
-        <span><strong className="font-semibold">{viewers}</strong> people are viewing this item. Don&apos;t wait!</span>
-      </div>
-
-      {/* Estimated delivery */}
-      <div className="mt-3 flex items-center gap-2 text-sm text-gray-700 border-t border-gray-200 pt-3">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-gray-700" aria-hidden>
-          <path d="M3 7h11v9H3zM14 11h4l3 3v2h-7z" />
-          <circle cx="7" cy="18" r="1.6" /><circle cx="17.5" cy="18" r="1.6" />
-        </svg>
-        <span>Estimated delivery: <strong className="font-bold text-gray-900">{deliveryDate}</strong></span>
-      </div>
-
-      {/* Trust quartet */}
-      <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 pt-4 border-t border-gray-200">
-        <TrustItem icon="percent" label="100% Purchase Protection" />
-        <TrustItem icon="return" label="Exchange & returns within 48 Hrs*" />
+      {/* Trust trio — 3 columns on md+, stacked 3×1 on mobile. */}
+      <div className="mt-8 grid grid-cols-3 gap-x-3 gap-y-5 pt-6 border-t border-gray-200">
+        <TrustItem icon="return" label="48 Hr Exchange & Returns*" />
         <TrustItem icon="star" label="Assured Quality" />
-        <TrustItem icon="truck" label="Free shipping across India" />
+        <TrustItem icon="truck" label="Free Shipping*" />
       </div>
     </div>
   );
@@ -303,20 +296,22 @@ function TrustItem({
   icon: 'percent' | 'return' | 'star' | 'truck';
   label: string;
 }) {
+  // Vertical mini-tile: icon medallion stacked above a short label.
+  // Matches the Kalki PDP trust row where every cell is centre-aligned.
   return (
-    <div className="flex items-center gap-2 text-xs text-gray-700">
-      <span className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-gray-700 shrink-0">
+    <div className="flex flex-col items-center text-center gap-1.5 text-[0.7rem] md:text-xs leading-snug text-gray-700">
+      <span className="w-8 h-8 flex items-center justify-center text-gray-800 shrink-0">
         <Icon name={icon} />
       </span>
-      <span>{label}</span>
+      <span className="font-medium text-gray-700">{label}</span>
     </div>
   );
 }
 
 function Icon({ name }: { name: 'percent' | 'return' | 'star' | 'truck' }) {
   const c = {
-    width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none',
-    stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const,
+    width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none',
+    stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const, 'aria-hidden': true,
   };
   switch (name) {

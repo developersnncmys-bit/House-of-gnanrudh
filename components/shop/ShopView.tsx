@@ -9,12 +9,19 @@ import {
   TIERS,
   STANDARD_COLORWAYS,
   sareeMatchesColor,
+  sareeMatchesOccasion,
   getSareeColorGroup,
 } from '@/lib/sarees';
 import type { Tier, Weave } from '@/lib/sarees';
 import { SOFT_LAUNCH } from '@/lib/soft-launch';
 import NewArrivalsView from './NewArrivalsView';
 import CategoryWeaveView from './CategoryWeaveView';
+import CategoryOccasionView from './CategoryOccasionView';
+import CategoryTierView from './CategoryTierView';
+import CategorySaleView from './CategorySaleView';
+import CategoryPriceView from './CategoryPriceView';
+import CategoryBestsellerView from './CategoryBestsellerView';
+import type { Occasion } from '@/lib/sarees';
 import ProductCard from './ProductCard';
 import FilterRail, {
   EMPTY_FILTERS,
@@ -97,19 +104,80 @@ export default function ShopView() {
   // lib/soft-launch.ts — keep the three in sync when opening new URLs.
   const isSortNew = searchParams.get('sort') === 'new';
   const isWishlist = searchParams.get('wishlist') === '1';
-  // Exact-query allow-list for weave landings. Keep aligned with
-  // middleware.ts ALLOWED_WITH_QUERY and lib/soft-launch.ts.
+  // Allow-list of params that can safely layer on top of a landing's
+  // primary key without tripping the soft-launch gate. Covers:
+  //   • Drawer-written filters (bracket, color, discount, avail,
+  //     order, pmin, pmax)
+  //   • Other landing primaries (weave, tier, occasion, sort, sale,
+  //     minPrice, maxPrice, wishlist) — needed because the drawer in
+  //     one view can write URLs that layer in another view's primary
+  //     (e.g. adding `weave` from the price-band page). The dispatch
+  //     below picks which view actually renders.
+  const INNER_FILTER_PARAMS = new Set([
+    'bracket', 'color', 'discount', 'avail', 'order',
+    'pmin', 'pmax',
+    'weave', 'tier', 'occasion', 'sort', 'sale',
+    'minPrice', 'maxPrice', 'wishlist',
+  ]);
+  // Live-landing helper — given a predicate for the "primary" keys that
+  // define the landing, returns true when the URL carries only those
+  // primary keys plus any of the INNER_FILTER_PARAMS.
+  const hasOnlyAllowedExtras = (primaryKeys: Set<string>) => {
+    for (const k of Array.from(searchParams.keys())) {
+      if (!primaryKeys.has(k) && !INNER_FILTER_PARAMS.has(k)) return false;
+    }
+    return true;
+  };
+  // Weave landings — `weave=<X>` is live; the view handles any extra
+  // filter param that the drawer writes (bracket, color, avail, …).
   const isLiveWeave = (() => {
     const w = searchParams.get('weave');
     if (!w) return false;
-    // Only exact-match single weave, no extra filters layered on.
-    const otherParams = ['tier', 'bracket', 'sale', 'color', 'sort'].some(
-      (k) => searchParams.get(k),
-    );
-    if (otherParams) return false;
-    return new Set(['Kanjivaram', 'Banarasi', 'Mysore Silk']).has(w);
+    const inAllowList = new Set([
+      'Kanjivaram',
+      'Banarasi',
+      'Mysore Silk',
+      'Mangalagiri',
+      'Pochampally',
+      'Gadwal',
+      'Patola',
+      'Fancy Sarees',
+      'Mixed Pattu Sarees',
+    ]).has(w);
+    if (!inAllowList) return false;
+    return hasOnlyAllowedExtras(new Set(['weave']));
   })();
-  const softGated = SOFT_LAUNCH && !isSortNew && !isWishlist && !isLiveWeave;
+  // Sale landing — `sale=1` + any drawer filter.
+  const isLiveSale = (() => {
+    if (searchParams.get('sale') !== '1') return false;
+    return hasOnlyAllowedExtras(new Set(['sale']));
+  })();
+  // Tier landings — bridal / festive / everyday + optional `occasion=…`
+  // + any drawer filter.
+  const isLiveTier = (() => {
+    const tier = searchParams.get('tier');
+    if (!tier || !['bridal', 'festive', 'everyday'].includes(tier)) return false;
+    return hasOnlyAllowedExtras(new Set(['tier', 'occasion']));
+  })();
+  // Price-range landings — minPrice/maxPrice + any drawer filter.
+  const isLivePriceRange = (() => {
+    if (!searchParams.get('minPrice') && !searchParams.get('maxPrice')) return false;
+    return hasOnlyAllowedExtras(new Set(['minPrice', 'maxPrice']));
+  })();
+  // Bestseller landing — `sort=bestseller` + any drawer filter.
+  const isLiveBestseller = (() => {
+    if (searchParams.get('sort') !== 'bestseller') return false;
+    return hasOnlyAllowedExtras(new Set(['sort']));
+  })();
+  const softGated =
+    SOFT_LAUNCH &&
+    !isSortNew &&
+    !isWishlist &&
+    !isLiveWeave &&
+    !isLiveSale &&
+    !isLiveTier &&
+    !isLivePriceRange &&
+    !isLiveBestseller;
   useEffect(() => {
     if (softGated) router.replace('/');
   }, [softGated, router]);
@@ -198,6 +266,25 @@ export default function ShopView() {
         );
       }
     }
+    // Raw `minPrice` / `maxPrice` from the Shop-by-Price mega-menu URLs.
+    // Overlays on top of any `bracket` filter (intersection). Values
+    // coerce to numbers; non-numeric entries are ignored.
+    const minPrice = Number(searchParams.get('minPrice'));
+    const maxPrice = Number(searchParams.get('maxPrice'));
+    if (!Number.isNaN(minPrice) && minPrice > 0) {
+      items = items.filter((s) => s.price >= minPrice);
+    }
+    if (!Number.isNaN(maxPrice) && maxPrice > 0) {
+      items = items.filter((s) => s.price <= maxPrice);
+    }
+    // Occasion overlay from the Occasions mega menu (`?occasion=…`).
+    // Combined with `tier=…` this gives the WEDDING>MEHENDI, FESTIVE>
+    // DIWALI etc. sub-landings their own curation. Tag data lives in
+    // `SAREE_OCCASIONS` in lib/sarees.ts.
+    const occasion = searchParams.get('occasion');
+    if (occasion) {
+      items = items.filter((s) => sareeMatchesOccasion(s, occasion));
+    }
     if (filters.sale) {
       items = items.filter(isOnSale);
     }
@@ -223,7 +310,7 @@ export default function ShopView() {
         break;
     }
     return items;
-  }, [filters, sort]);
+  }, [filters, sort, searchParams]);
 
   // ── Pre-computed counts for the filter rail ───────────────────────────
   const counts = useMemo(() => {
@@ -291,20 +378,80 @@ export default function ShopView() {
   // untouched, so Kanjeevaram/Banarasi/Sale/etc. render exactly as
   // before.
   if (searchParams.get('sort') === 'new') return <NewArrivalsView />;
+  // Bestsellers landing — `/shop?sort=bestseller`. Any extra filter
+  // layered on top still renders the same view (it handles its own
+  // filter rail state).
+  // Note on dispatch: these early returns intentionally ignore the
+  // in-drawer filters (bracket/color/discount/avail/pmin/pmax). Each
+  // category view reads those directly off the URL and handles them
+  // internally — layering them on top no longer forces a fallthrough.
+  if (searchParams.get('sort') === 'bestseller' && !filters.tiers.length && !filters.weaves.length && !filters.sale) {
+    return <CategoryBestsellerView />;
+  }
   // Single-weave landings (Kanjeevaram, Banarasi, …) render through
   // the dedicated Kalki-style CategoryWeaveView. Only kicks in when
   // exactly one weave is selected and no other hard filter is
   // layered on — drill-down combinations (weave + color, weave +
   // sale) stay in the original ShopView grid so that path is
   // unaffected.
-  if (
-    filters.weaves.length === 1 &&
-    !filters.tiers.length &&
-    !filters.bracket &&
-    !filters.sale &&
-    !filters.colors.length
-  ) {
+  if (filters.weaves.length === 1 && !filters.tiers.length && !filters.sale) {
     return <CategoryWeaveView weave={filters.weaves[0]} />;
+  }
+  // Occasion landings — `/shop?tier=<tier>&occasion=<x>` routes through
+  // CategoryOccasionView so each occasion sub-tile (Mehendi, Diwali,
+  // Office, …) gets its own editorial header + tier+occasion-filtered
+  // grid. Any additional filter layered on top (e.g. +weave) falls back
+  // to the standard ShopView grid below.
+  {
+    const rawOccasion = searchParams.get('occasion');
+    if (
+      rawOccasion &&
+      filters.tiers.length === 1 &&
+      !filters.weaves.length &&
+      !filters.sale
+    ) {
+      return (
+        <CategoryOccasionView
+          tier={filters.tiers[0]}
+          occasion={rawOccasion as Occasion}
+        />
+      );
+    }
+  }
+  // Tier landings — bare `/shop?tier=bridal|festive|everyday` with no
+  // occasion/weave/other filters renders through CategoryTierView so
+  // Bridal / Festive / Everyday pages carry the same Kalki-style intro
+  // + rail as the weave and occasion landings.
+  if (
+    filters.tiers.length === 1 &&
+    !searchParams.get('occasion') &&
+    !filters.weaves.length &&
+    !filters.sale
+  ) {
+    return <CategoryTierView tier={filters.tiers[0]} />;
+  }
+  // Sale landing — `/shop?sale=1` on its own. Any extra filter layered
+  // on top (e.g. +weave, +tier) falls through to the standard ShopView
+  // grid with SaleHero so compound sale queries still render.
+  if (filters.sale && !filters.tiers.length && !filters.weaves.length) {
+    return <CategorySaleView />;
+  }
+  // Shop-by-Price landings — `/shop?minPrice=…&maxPrice=…`. Render only
+  // when the URL carries minPrice/maxPrice and no other filter is
+  // already parsed into FilterState.
+  {
+    const rawMin = searchParams.get('minPrice');
+    const rawMax = searchParams.get('maxPrice');
+    if (
+      (rawMin || rawMax) &&
+      !filters.tiers.length &&
+      !filters.weaves.length &&
+      !filters.sale
+    ) {
+      const pmin = rawMin ? Number(rawMin) : null;
+      const pmax = rawMax ? Number(rawMax) : null;
+      return <CategoryPriceView pmin={pmin} pmax={pmax} />;
+    }
   }
   if (mode === 'wishlist') return <WishlistPanel heading={heading} />;
   if (mode === 'bag') return <BagPanel heading={heading} />;

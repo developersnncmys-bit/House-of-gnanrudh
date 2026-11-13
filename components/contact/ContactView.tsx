@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { PolicyHeader } from '@/components/policy/PolicyChrome';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MOBILE_RE = /^[6-9]\d{9}$/;
@@ -91,26 +90,53 @@ export default function ContactView() {
 
   return (
     <main className="bg-white text-gray-900">
-      <PolicyHeader title="Contact Us" breadcrumb="Company / Contact" />
+      {/* Editorial hero — matches the stores / about treatment. */}
+      <section className="bg-ivory border-b border-gold-deep/15">
+        <div className="max-w-[1100px] mx-auto px-6 lg:px-10 py-12 md:py-16 text-center">
+          <div className="text-[0.65rem] font-semibold tracking-[0.35em] uppercase text-gold-deep mb-3">
+            We're listening
+          </div>
+          <h1 className="text-3xl md:text-5xl font-extrabold text-ink leading-[1.05] tracking-tight">
+            Contact Us
+          </h1>
+          <p className="mt-4 max-w-xl mx-auto text-sm md:text-base text-ink/65 leading-relaxed">
+            Order help, bespoke commissions, press, or just a question about a
+            drape — our care team replies within one working day.
+          </p>
+        </div>
+      </section>
 
-      <section className="max-w-[1100px] mx-auto px-6 lg:px-10 py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <section className="max-w-[1200px] mx-auto px-6 lg:px-10 py-12 md:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
           {/* Form */}
           <div className="lg:col-span-7">
             {submittedRef ? (
               <SuccessPanel referenceId={submittedRef} onReset={resetForm} />
             ) : (
               <>
-                <h2 className="text-base font-bold text-gray-900 mb-2 uppercase tracking-wide">
+                <div className="text-[0.6rem] font-semibold tracking-[0.3em] uppercase text-gold-deep mb-2">
+                  Write to us
+                </div>
+                <h2 className="text-2xl md:text-[1.75rem] font-extrabold text-ink leading-tight mb-3 tracking-tight">
                   Send us a message
                 </h2>
-                <p className="text-sm text-gray-700 mb-6">
-                  Our care team replies within one working day, Monday to Saturday,
-                  10:00 AM – 7:00 PM (IST).
+                <p className="text-sm text-ink/65 leading-relaxed mb-8">
+                  Our care team replies within one working day — Monday to Saturday
+                  10:00 AM – 9:00 PM, and Sunday 11:00 AM – 8:00 PM (IST).
                 </p>
 
-                <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <form
+                  onSubmit={handleSubmit}
+                  className="relative bg-white border border-ink/10 shadow-[0_18px_40px_-28px_rgba(0,0,0,0.2)] p-6 md:p-8 space-y-6"
+                  noValidate
+                >
+                  {/* Hairline gold accent along the top edge. */}
+                  <div
+                    aria-hidden
+                    className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-gold-deep/60 to-transparent"
+                  />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <Label htmlFor="firstName" required>First name</Label>
                       <input
@@ -118,7 +144,7 @@ export default function ContactView() {
                         type="text"
                         required
                         autoComplete="given-name"
-                        placeholder="First name"
+                        placeholder="Your first name"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         onBlur={() => markTouched('firstName')}
@@ -134,7 +160,7 @@ export default function ContactView() {
                         type="text"
                         required
                         autoComplete="family-name"
-                        placeholder="Last name"
+                        placeholder="Your last name"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         onBlur={() => markTouched('lastName')}
@@ -145,7 +171,7 @@ export default function ContactView() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <Label htmlFor="email" required>Email</Label>
                       <input
@@ -165,13 +191,13 @@ export default function ContactView() {
                     <div>
                       <Label htmlFor="mobile" required>Mobile number</Label>
                       <div
-                        className={`flex border transition-colors ${
+                        className={`flex border-b-2 transition-colors ${
                           mobileError
                             ? 'border-maroon-deep'
-                            : 'border-gray-300 focus-within:border-gray-900'
+                            : 'border-ink/20 focus-within:border-gold-deep'
                         }`}
                       >
-                        <span className="px-3 py-2.5 text-sm text-gray-500 border-r border-gray-300 bg-gray-50 select-none">
+                        <span className="pr-3 py-3 text-sm font-semibold text-ink/70 select-none border-r border-ink/15 mr-3">
                           +91
                         </span>
                         <input
@@ -186,7 +212,7 @@ export default function ContactView() {
                           onChange={(e) => setMobile(e.target.value.replace(/\D/g, ''))}
                           onBlur={() => markTouched('mobile')}
                           aria-invalid={!!mobileError}
-                          className="w-full bg-white px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                          className="w-full bg-transparent py-3 text-[0.95rem] text-ink placeholder:text-ink/35 focus:outline-none tabular-nums"
                         />
                       </div>
                       <InlineError msg={mobileError} />
@@ -195,16 +221,32 @@ export default function ContactView() {
 
                   <div>
                     <Label htmlFor="subject">Subject</Label>
-                    <select
-                      id="subject"
-                      value={subject}
-                      onChange={(e) => setSubject(e.target.value as Subject)}
-                      className="w-full border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-gray-900 appearance-none cursor-pointer"
-                    >
-                      {SUBJECTS.map((s) => (
-                        <option key={s.id} value={s.id}>{s.label}</option>
-                      ))}
-                    </select>
+                    <div className="relative">
+                      <select
+                        id="subject"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value as Subject)}
+                        className="w-full border-b-2 border-ink/20 focus:border-gold-deep bg-transparent py-3 pr-10 text-[0.95rem] text-ink focus:outline-none appearance-none cursor-pointer transition-colors"
+                      >
+                        {SUBJECTS.map((s) => (
+                          <option key={s.id} value={s.id}>{s.label}</option>
+                        ))}
+                      </select>
+                      <svg
+                        aria-hidden
+                        className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gold-deep"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </div>
                   </div>
 
                   <div>
@@ -218,18 +260,40 @@ export default function ContactView() {
                       onChange={(e) => setMessage(e.target.value)}
                       onBlur={() => markTouched('message')}
                       aria-invalid={!!messageError}
-                      className={`${fieldClass(!!messageError)} resize-y min-h-[120px]`}
+                      className={`${fieldClass(!!messageError)} resize-y min-h-[140px] leading-relaxed`}
                     />
                     <InlineError msg={messageError} />
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={submitting || !formValid}
-                    className="w-full md:w-auto bg-gray-900 text-white px-8 py-3 text-sm font-bold tracking-wide uppercase hover:bg-maroon-deep transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-900"
-                  >
-                    {submitting ? 'Sending…' : 'Send Message'}
-                  </button>
+                  <div className="flex items-center justify-between gap-4 flex-wrap pt-2">
+                    <p className="text-[0.7rem] text-ink/45 flex items-center gap-1.5">
+                      <span className="text-maroon-deep">*</span>
+                      Required fields
+                    </p>
+                    <button
+                      type="submit"
+                      disabled={submitting || !formValid}
+                      className="inline-flex items-center justify-center gap-2 bg-ink text-white px-10 py-3.5 text-xs font-semibold tracking-[0.18em] uppercase hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-ink"
+                    >
+                      {submitting ? 'Sending…' : 'Send Message'}
+                      {!submitting && (
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden
+                        >
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                          <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
                 </form>
               </>
             )}
@@ -237,65 +301,66 @@ export default function ContactView() {
 
           {/* Sidebar */}
           <aside className="lg:col-span-5 space-y-4">
+            <div className="text-[0.6rem] font-semibold tracking-[0.3em] uppercase text-gold-deep mb-1">
+              Other ways to reach us
+            </div>
+
             <ContactCard
               icon={<IconMail />}
               title="Email"
               body="Care team — replies within one working day."
-              action={{ href: 'mailto:support@gnanrudh.com', label: 'support@gnanrudh.com' }}
+              action={{ href: 'mailto:hello@houseofgnanrudh.com', label: 'hello@houseofgnanrudh.com' }}
             />
             <ContactCard
               icon={<IconPhone />}
               title="Phone"
-              body="Mon – Sat · 10:00 AM – 7:00 PM (IST)"
-              action={{ href: 'tel:+91XXXXXXXXXX', label: '+91 XXXXX XXXXX' }}
+              body="Mon – Sat · 10:00 AM – 9:00 PM  ·  Sun · 11:00 AM – 8:00 PM (IST)"
+              action={{ href: 'tel:+919876543210', label: '+91 98765 43210' }}
             />
             <ContactCard
               icon={<IconWhatsApp />}
               title="WhatsApp"
               body="Quick order help, dispatch updates and styling questions."
-              action={{ href: 'https://wa.me/91XXXXXXXXXX', label: 'Chat on WhatsApp', external: true }}
+              action={{ href: 'https://wa.me/919876543210', label: 'Chat on WhatsApp', external: true }}
             />
 
-            <div className="border border-gray-200 p-5 bg-gray-50">
-              <h3 className="text-sm font-bold text-gray-900 mb-1.5 uppercase tracking-wide">
+            <div className="bg-bone border border-gold-deep/20 p-6">
+              <div className="text-[0.6rem] font-semibold tracking-[0.3em] uppercase text-gold-deep mb-2">
+                Visit the boutique
+              </div>
+              <h3 className="text-lg font-extrabold text-ink mb-3 tracking-tight">
                 Nellore Boutique
               </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
+              <p className="text-sm text-ink/80 leading-relaxed">
                 House Of GnanRudh<br />
                 Shop No. 12, Trunk Road<br />
                 Nellore, Andhra Pradesh 524001<br />
                 India
               </p>
-              <p className="mt-3 text-xs text-gray-600">
-                Monday – Saturday · 10:00 AM – 9:00 PM · Sunday · 11:00 AM – 8:00 PM
+              <p className="mt-3 text-xs text-ink/60 leading-relaxed">
+                Mon – Sat · 10:00 AM – 9:00 PM<br />
+                Sun · 11:00 AM – 8:00 PM
               </p>
+              <Link
+                href="/stores"
+                className="inline-flex items-center gap-1.5 mt-4 text-[0.7rem] font-semibold tracking-[0.14em] uppercase text-ink border-b border-gold-deep/40 hover:border-ink pb-0.5 transition-colors"
+              >
+                View on map
+              </Link>
             </div>
 
-            <div className="border border-gray-200 p-5">
-              <h3 className="text-sm font-bold text-gray-900 mb-2 uppercase tracking-wide">
+            <div className="border border-ink/10 p-6">
+              <div className="text-[0.6rem] font-semibold tracking-[0.3em] uppercase text-gold-deep mb-2">
+                Quick links
+              </div>
+              <h3 className="text-base font-extrabold text-ink mb-3 tracking-tight">
                 Looking for help?
               </h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>
-                  <Link href="/shipping" className="text-maroon-deep hover:underline">
-                    Shipping policy →
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/returns" className="text-maroon-deep hover:underline">
-                    Returns & exchange →
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/care" className="text-maroon-deep hover:underline">
-                    Saree care guide →
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/bespoke" className="text-maroon-deep hover:underline">
-                    Commission a bespoke saree →
-                  </Link>
-                </li>
+              <ul className="space-y-2.5 text-sm">
+                <QuickLink href="/shipping">Shipping policy</QuickLink>
+                <QuickLink href="/returns">Returns & exchange</QuickLink>
+                <QuickLink href="/care">Saree care guide</QuickLink>
+                <QuickLink href="/bespoke">Commission a bespoke saree</QuickLink>
               </ul>
             </div>
           </aside>
@@ -315,7 +380,10 @@ function Label({
   children: React.ReactNode;
 }) {
   return (
-    <label htmlFor={htmlFor} className="block text-xs font-bold text-gray-900 uppercase tracking-wide mb-1.5">
+    <label
+      htmlFor={htmlFor}
+      className="block text-[0.65rem] font-bold text-ink/70 uppercase tracking-[0.2em] mb-2"
+    >
       {children}
       {required && <span className="text-maroon-deep ml-0.5" aria-hidden>*</span>}
     </label>
@@ -323,15 +391,30 @@ function Label({
 }
 
 function fieldClass(invalid: boolean) {
-  return `w-full border ${
-    invalid ? 'border-maroon-deep' : 'border-gray-300 focus:border-gray-900'
-  } bg-white px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none transition-colors`;
+  return `w-full border-b-2 ${
+    invalid ? 'border-maroon-deep' : 'border-ink/20 focus:border-gold-deep'
+  } bg-transparent py-3 text-[0.95rem] text-ink placeholder:text-ink/35 focus:outline-none transition-colors`;
 }
 
 function InlineError({ msg }: { msg?: string }) {
   if (!msg) return null;
   return (
-    <p className="mt-1 text-xs text-maroon-deep font-medium" role="alert">
+    <p className="mt-1.5 text-xs text-maroon-deep font-medium flex items-center gap-1" role="alert">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
       {msg}
     </p>
   );
@@ -349,17 +432,21 @@ function ContactCard({
   action: { href: string; label: string; external?: boolean };
 }) {
   return (
-    <div className="border border-gray-200 p-5">
-      <div className="flex items-start gap-3">
-        <div className="shrink-0 text-maroon-deep mt-0.5">{icon}</div>
-        <div className="flex-1">
-          <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">{title}</h3>
-          <p className="text-xs text-gray-600 mt-1 leading-relaxed">{body}</p>
+    <div className="border border-ink/10 p-5 hover:border-gold-deep/40 transition-colors">
+      <div className="flex items-start gap-4">
+        <div className="shrink-0 w-10 h-10 rounded-full bg-bone flex items-center justify-center text-gold-deep">
+          {icon}
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-[0.7rem] font-bold text-ink uppercase tracking-[0.18em]">
+            {title}
+          </h3>
+          <p className="text-xs text-ink/55 mt-1 leading-relaxed">{body}</p>
           <a
             href={action.href}
             target={action.external ? '_blank' : undefined}
             rel={action.external ? 'noopener noreferrer' : undefined}
-            className="inline-block mt-2 text-sm font-semibold text-maroon-deep hover:underline break-all"
+            className="inline-block mt-2 text-sm font-semibold text-ink hover:text-gold-deep transition-colors break-all"
           >
             {action.label}
           </a>
@@ -369,29 +456,57 @@ function ContactCard({
   );
 }
 
+function QuickLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <li>
+      <Link
+        href={href}
+        className="inline-flex items-center gap-1 text-ink/75 hover:text-ink transition-colors group"
+      >
+        {children}
+        <span
+          aria-hidden
+          className="text-gold-deep transition-transform group-hover:translate-x-1"
+        >
+          →
+        </span>
+      </Link>
+    </li>
+  );
+}
+
 function SuccessPanel({ referenceId, onReset }: { referenceId: string; onReset: () => void }) {
   return (
-    <div className="border border-gray-200 bg-gray-50 p-8 text-center">
-      <div className="mx-auto mb-4 w-12 h-12 border border-gray-900 flex items-center justify-center text-gray-900">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <div className="border border-gold-deep/20 bg-bone p-10 text-center">
+      <div className="mx-auto mb-5 w-14 h-14 rounded-full bg-peacock text-white flex items-center justify-center">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
           <path d="M5 12.5 10 17.5 19.5 8" />
         </svg>
       </div>
-      <h2 className="text-lg font-bold text-gray-900 mb-1.5">
+      <div className="text-[0.6rem] font-semibold tracking-[0.3em] uppercase text-gold-deep mb-2">
+        Received
+      </div>
+      <h2 className="text-xl md:text-2xl font-extrabold text-ink mb-2 tracking-tight">
         Thank you — message received
       </h2>
-      <p className="text-sm text-gray-700 max-w-md mx-auto">
+      <p className="text-sm text-ink/65 max-w-md mx-auto leading-relaxed">
         We&apos;ve sent you a confirmation by email. Our care team will reply within
         one working day.
       </p>
-      <div className="mt-4 inline-block bg-white border border-gray-200 px-4 py-2 text-xs text-gray-600">
-        Reference · <span className="font-bold text-gray-900 tabular-nums">{referenceId}</span>
+      <div className="mt-5 inline-block bg-white border border-ink/10 px-4 py-2 text-xs text-ink/70">
+        Reference · <span className="font-bold text-ink tabular-nums">{referenceId}</span>
       </div>
       <div className="mt-6">
         <button
           type="button"
           onClick={onReset}
-          className="text-sm font-semibold text-maroon-deep hover:underline"
+          className="text-xs font-semibold tracking-[0.14em] uppercase text-ink border-b border-gold-deep/40 hover:border-ink pb-0.5 transition-colors"
         >
           Send another message
         </button>

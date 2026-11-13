@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { redirect } from 'next/navigation';
 import ThankYouView from '@/components/order/ThankYouView';
-import { SOFT_LAUNCH } from '@/lib/soft-launch';
 
 export const metadata: Metadata = {
   title: 'Thank you · House Of GnanRudh',
@@ -11,7 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default function ThankYouPage() {
-  if (SOFT_LAUNCH) redirect('/');
   return (
     <Suspense fallback={<div className="min-h-screen bg-ivory" />}>
       <ThankYouView />

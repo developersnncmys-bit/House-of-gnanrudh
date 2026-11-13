@@ -20,12 +20,12 @@ const GROUPS: Group[] = [
     id: 'wedding',
     label: 'Wedding',
     tiles: [
-      { label: 'Bridal', href: '/shop?tier=bridal', image: '/product/bridal.webp' },
-      { label: 'Reception', href: '/shop?tier=bridal&occasion=reception', image: '/bestsellers/Mayura kanjee.webp' },
-      { label: 'Engagement', href: '/shop?tier=bridal&occasion=engagement', image: '/bestsellers/raktharani banarasi.webp' },
-      { label: 'Haldi', href: '/shop?tier=bridal&occasion=haldi', image: '/bestsellers/haldi paithani2.webp' },
-      { label: 'Mehendi', href: '/shop?tier=bridal&occasion=mehendi', image: '/bestsellers/katha baluchari.webp' },
-      { label: 'Sangeet', href: '/shop?tier=bridal&occasion=sangeet', image: '/bestsellers/Rasleela patola2.webp' },
+      { label: 'Bridal', href: '/shop?tier=bridal', image: '/ocassions/bridal.png' },
+      { label: 'Reception', href: '/shop?tier=bridal&occasion=reception', image: '/ocassions/reception.png' },
+      { label: 'Engagement', href: '/shop?tier=bridal&occasion=engagement', image: '/ocassions/engagement.png' },
+      { label: 'Haldi', href: '/shop?tier=bridal&occasion=haldi', image: '/ocassions/Haldi.png' },
+      { label: 'Mehendi', href: '/shop?tier=bridal&occasion=mehendi', image: '/ocassions/Mehendi.png' },
+      { label: 'Sangeet', href: '/shop?tier=bridal&occasion=sangeet', image: '/ocassions/Sangeet.png' },
     ],
   },
   {
@@ -72,7 +72,7 @@ export default function OccasionsMegaMenu({
       data-lenis-prevent
     >
       <div className="max-w-[1720px] mx-auto px-6 lg:px-10 py-6 flex gap-8">
-        <aside className="w-60 shrink-0 pr-6 pl-8 lg:pl-12 self-start">
+        <aside className="w-60 shrink-0 bg-bone -my-6 -ml-6 lg:-ml-10 py-8 pl-11 lg:pl-[60px] pr-5">
           <nav className="flex flex-col">
             {GROUPS.map((g) => {
               const isActive = g.id === activeId;
@@ -83,7 +83,7 @@ export default function OccasionsMegaMenu({
                   onMouseEnter={() => setActiveId(g.id)}
                   onFocus={() => setActiveId(g.id)}
                   className={clsx(
-                    'text-left py-2.5 text-[0.85rem] tracking-[0.1em] uppercase font-semibold transition-colors',
+                    'text-left py-2.5 text-[0.85rem] tracking-[0.1em] uppercase font-bold transition-colors',
                     isActive ? 'text-gold-deep' : 'text-ink hover:text-gold-deep',
                   )}
                 >

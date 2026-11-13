@@ -25,7 +25,7 @@ export default function ShippingPage() {
       <PolicyHeader
         title="Shipping Policy"
         breadcrumb="Help / Shipping"
-        updated="29 June 2026"
+        updated="12 November 2026"
       />
 
       <section className="max-w-[1100px] mx-auto px-6 lg:px-10 py-10">

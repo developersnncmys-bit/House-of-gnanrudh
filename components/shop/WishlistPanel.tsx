@@ -44,7 +44,7 @@ export default function WishlistPanel({
 
   return (
     <div className="bg-ivory min-h-screen text-ink">
-      <div className="max-w-[1720px] mx-auto px-6 lg:px-10 pt-24 md:pt-28 lg:pt-32 pb-12 lg:pb-16">
+      <div className="max-w-[1720px] mx-auto px-6 lg:px-10 py-12 lg:py-16">
         <h1 className="text-center text-4xl md:text-5xl font-semibold tracking-tight text-ink">
           {heading.title}
         </h1>

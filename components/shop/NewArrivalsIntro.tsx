@@ -14,11 +14,7 @@ export default function NewArrivalsIntro() {
 
   return (
     <section className="bg-ivory border-b border-gray-200">
-      {/* Extra top padding on lg+ compensates for Nav Row 3 (the
-          centred link bar) — SiteShell's main `pt-[109px]` was
-          computed before that sub-row returned, so the first element
-          in a page section gets hidden under the nav on desktop. */}
-      <div className="max-w-[1720px] mx-auto px-4 lg:px-8 pt-16 md:pt-20 lg:pt-28 pb-10 text-center">
+      <div className="max-w-[1720px] mx-auto px-4 lg:px-8 py-10 md:py-12 text-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/lotus.png"

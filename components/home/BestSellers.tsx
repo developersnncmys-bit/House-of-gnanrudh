@@ -207,9 +207,9 @@ export default function BestSellers() {
               Our most-loved pieces, carried home by shoppers who know
               their silks — heirloom weaves from six traditions.
             </p>
-            {navHref('/shop?sort=bestsellers') ? (
+            {navHref('/shop?sort=bestseller') ? (
               <Link
-                href="/shop?sort=bestsellers"
+                href="/shop?sort=bestseller"
                 className="inline-block mt-5 text-sm font-semibold text-ink hover:text-maroon transition-colors underline underline-offset-4"
               >
                 View All
@@ -249,9 +249,9 @@ export default function BestSellers() {
               ))}
             </div>
             <div className="flex justify-end mb-8">
-              {navHref('/shop?sort=bestsellers') ? (
+              {navHref('/shop?sort=bestseller') ? (
                 <Link
-                  href="/shop?sort=bestsellers"
+                  href="/shop?sort=bestseller"
                   className="text-sm font-semibold text-ink/70 hover:text-maroon transition-colors underline underline-offset-4"
                 >
                   View All

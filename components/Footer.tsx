@@ -83,7 +83,7 @@ export default function Footer() {
           banner. Gold hairline + diamond ornament top and bottom, a
           single centred column with the headline, a short note, and an
           inline subscribe form. */}
-      <div className="bg-ivory text-ink border-b border-ink/10">
+      <div className="bg-bone text-ink border-b border-ink/10">
         <div className="max-w-[720px] mx-auto px-6 md:px-10 py-16 md:py-20 text-center">
           {/* Decorative rangoli ornament — slow 360° rotation + gentle
               breathing scale. Pauses when the user prefers reduced
@@ -194,7 +194,7 @@ export default function Footer() {
             <ColumnTitle>Shop</ColumnTitle>
             <ul className="space-y-2.5">
               <li><FooterLink href="/shop" className={linkCls}>All Sarees</FooterLink></li>
-              <li><FooterLink href="/shop" className={linkCls}>New In</FooterLink></li>
+              <li><FooterLink href="/shop?sort=new" className={linkCls}>New In</FooterLink></li>
               <li><FooterLink href="/shop?tier=bridal" className={linkCls}>Bridal</FooterLink></li>
               <li><FooterLink href="/shop?tier=festive" className={linkCls}>Festive</FooterLink></li>
               <li><FooterLink href="/shop?tier=everyday" className={linkCls}>Everyday</FooterLink></li>
@@ -222,6 +222,7 @@ export default function Footer() {
             <ColumnTitle>Company</ColumnTitle>
             <ul className="space-y-2.5">
               <li><FooterLink href="/about" className={linkCls}>About Us</FooterLink></li>
+              <li><FooterLink href="/blog" className={linkCls}>Blog</FooterLink></li>
               <li><FooterLink href="/account" className={linkCls}>My Account</FooterLink></li>
               <li><FooterLink href="/account/orders" className={linkCls}>My Orders</FooterLink></li>
             </ul>

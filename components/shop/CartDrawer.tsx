@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SAREES, formatINR } from '@/lib/sarees';
 import { getProductHero } from '@/lib/product-images';
 import { useShop } from '@/lib/shop-store';
@@ -23,6 +23,10 @@ export default function CartDrawer() {
 
   useScrollLock(open);
 
+  // Policy-agreement checkbox — defaults to accepted (Kalki parity) but
+  // the user can un-tick it, which disables Checkout.
+  const [agreedToPolicies, setAgreedToPolicies] = useState(true);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -40,6 +44,9 @@ export default function CartDrawer() {
     .filter((x): x is { saree: (typeof SAREES)[number]; qty: number } => Boolean(x));
 
   const itemCount = items.reduce((sum, i) => sum + i.qty, 0);
+  const mrpTotal = items.reduce((sum, i) => sum + i.saree.mrp * i.qty, 0);
+  const discount = mrpTotal - cartSubtotal;
+  const shippingFree = cartSubtotal >= 25_000;
 
   // Don't close the drawer when launching checkout — Kalki keeps the cart
   // visible on the right while the centered popup opens beside it.
@@ -47,6 +54,7 @@ export default function CartDrawer() {
   // resume the checkout via the post-login callback.
   const handleCheckout = () => {
     if (!authHydrated) return; // wait for auth state to settle
+    if (!agreedToPolicies) return;
     if (!user) {
       openLogin(() => openCheckout());
       return;
@@ -85,33 +93,26 @@ export default function CartDrawer() {
       )}
 
       <div
-        className={`absolute top-0 right-0 h-full w-full max-w-[440px] bg-ivory no-pattern shadow-2xl flex flex-col transition-transform duration-300 ease-out ${
+        className={`absolute top-0 right-0 h-full w-full max-w-[440px] bg-bone shadow-2xl flex flex-col transition-transform duration-300 ease-out ${
           open ? 'translate-x-0' : 'translate-x-full'
         } ${
-          // On mobile the drawer is full-width — slide it off-screen when
-          // checkout opens so the centered popup gets the full viewport
-          // instead of fighting a 390px-wide drawer for space. On md+ the
-          // drawer is 440px wide with room beside it, so the side-by-side
-          // pattern (Kalki style) still works.
           open && checkoutOpen ? 'max-md:translate-x-full' : ''
         }`}
         style={{ pointerEvents: open ? 'auto' : 'none' }}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-ink/10 shrink-0">
-          <h2 id="cart-drawer-title" className="text-lg font-bold text-ink">
-            Your Cart
-            <span className="ml-2 text-sm font-normal text-ink/55 tabular-nums">
-              Items {hydrated ? itemCount : 0}
-            </span>
+        {/* Header — large "Your Cart (N Items)" with close X on the
+            right. Matches the Kalki cart drawer header. */}
+        <div className="flex items-center justify-between px-6 py-5 border-b border-ink/10 shrink-0 bg-bone">
+          <h2 id="cart-drawer-title" className="text-xl font-bold text-ink tabular-nums">
+            Your Cart ({hydrated ? itemCount : 0} {itemCount === 1 ? 'Item' : 'Items'})
           </h2>
           <button
             type="button"
             onClick={closeCart}
             aria-label="Close"
-            className="w-8 h-8 flex items-center justify-center text-ink hover:text-maroon"
+            className="w-8 h-8 flex items-center justify-center text-ink hover:text-maroon transition-colors -mr-2"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
               <path d="m6 6 12 12M18 6 6 18" />
             </svg>
           </button>
@@ -124,94 +125,170 @@ export default function CartDrawer() {
           ) : items.length === 0 ? (
             <EmptyDrawer onClose={closeCart} />
           ) : (
-            <ul className="divide-y divide-ink/10">
-              {items.map(({ saree, qty }) => (
-                <li key={saree.id} className="flex gap-3 p-4">
-                  <Link
-                    href={`/shop/${saree.id}`}
-                    onClick={closeCart}
-                    className="relative w-20 h-26 shrink-0 overflow-hidden bg-bone"
-                    style={{ aspectRatio: '3 / 4' }}
-                  >
-                    <Image
-                      src={getProductHero(saree)}
-                      alt={saree.name}
-                      fill
-                      sizes="80px"
-                      className="object-cover"
-                    />
-                  </Link>
-                  <div className="flex-1 min-w-0 flex flex-col">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="flex-1 min-w-0">
-                        <div className="text-[11px] text-ink/55">{saree.weave}</div>
+            <>
+              <ul className="divide-y divide-ink/10">
+                {items.map(({ saree, qty }) => (
+                  <li key={saree.id} className="flex gap-4 p-5 bg-white">
+                    <Link
+                      href={`/shop/${saree.id}`}
+                      onClick={closeCart}
+                      className="relative w-24 shrink-0 overflow-hidden bg-bone"
+                      style={{ aspectRatio: '3 / 4' }}
+                    >
+                      <Image
+                        src={getProductHero(saree)}
+                        alt={saree.name}
+                        fill
+                        sizes="96px"
+                        className="object-cover"
+                      />
+                    </Link>
+                    <div className="flex-1 min-w-0 flex flex-col">
+                      <div className="flex items-start justify-between gap-2">
                         <Link
                           href={`/shop/${saree.id}`}
                           onClick={closeCart}
-                          className="text-sm font-semibold text-ink leading-snug hover:text-maroon line-clamp-2"
+                          className="text-[0.95rem] font-semibold text-ink leading-tight hover:text-maroon-deep transition-colors line-clamp-2 flex-1"
                         >
-                          {qty} × {saree.name}
+                          {saree.name}
                         </Link>
+                        <button
+                          type="button"
+                          onClick={() => removeFromCart(saree.id)}
+                          aria-label={`Remove ${saree.name}`}
+                          className="shrink-0 w-7 h-7 flex items-center justify-center text-ink/55 hover:text-maroon-deep transition-colors"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                            <path d="M3 6h18M8 6V4h8v2M6 6l1 14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-14" />
+                          </svg>
+                        </button>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => removeFromCart(saree.id)}
-                        aria-label={`Remove ${saree.name}`}
-                        className="shrink-0 w-7 h-7 flex items-center justify-center text-ink/55 hover:text-maroon"
-                      >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                          <path d="M3 6h18M8 6V4h8v2M6 6l1 14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-14" />
-                        </svg>
-                      </button>
+                      <div className="mt-1 text-sm font-bold text-ink tabular-nums">
+                        MRP {formatINR(saree.price)}
+                      </div>
+                      <div className="mt-1 text-[0.72rem] text-ink/60">
+                        {saree.weave}
+                      </div>
+                      <div className="mt-auto pt-3 flex items-center justify-between gap-2">
+                        <QtyStepper
+                          qty={qty}
+                          onMinus={() => updateCartQty(saree.id, qty - 1)}
+                          onPlus={() => updateCartQty(saree.id, qty + 1)}
+                        />
+                        <div className="text-sm font-bold text-ink tabular-nums">
+                          {formatINR(saree.price * qty)}
+                        </div>
+                      </div>
                     </div>
-                    <div className="mt-1 text-sm font-bold text-ink tabular-nums">
-                      {formatINR(saree.price * qty)}
-                    </div>
-                    <div className="mt-auto pt-2 flex items-center justify-between">
-                      <QtyStepper
-                        qty={qty}
-                        onMinus={() => updateCartQty(saree.id, qty - 1)}
-                        onPlus={() => updateCartQty(saree.id, qty + 1)}
-                      />
-                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Order Summary — Kalki pattern: MRP Total, Discount on
+                  MRP (scarlet), Subtotal, Shipping (green when free),
+                  and a tinted Estimated total row at the bottom. */}
+              <div className="px-5 py-5">
+                <div className="bg-white border border-ink/10 rounded-sm overflow-hidden">
+                  <div className="px-5 pt-5 pb-3 text-lg font-bold text-ink">
+                    Order Summary
                   </div>
-                </li>
-              ))}
-            </ul>
+                  <div className="px-5 pb-4 space-y-2.5">
+                    <SummaryRow label="MRP Total" value={formatINR(mrpTotal)} />
+                    {discount > 0 && (
+                      <SummaryRow
+                        label="Discount on MRP"
+                        value={`-${formatINR(discount)}`}
+                        valueClass="text-scarlet"
+                      />
+                    )}
+                    <SummaryRow label="Subtotal" value={formatINR(cartSubtotal)} />
+                    <SummaryRow
+                      label="Shipping"
+                      value={shippingFree ? 'Free' : 'At checkout'}
+                      valueClass={shippingFree ? 'text-emerald-600 font-bold' : ''}
+                    />
+                  </div>
+                  <div className="px-5 py-3.5 bg-[#faf1ea] flex items-baseline justify-between">
+                    <span className="text-[0.95rem] font-bold text-ink">Estimated total</span>
+                    <span className="text-[0.95rem] font-bold text-ink tabular-nums">
+                      {formatINR(cartSubtotal)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* We Accept — payment logos row (Kalki parity). */}
+                <div className="mt-6 text-center">
+                  <div className="text-[0.72rem] font-bold tracking-[0.2em] uppercase text-ink/55 mb-3">
+                    We Accept
+                  </div>
+                  <PaymentLogos />
+                </div>
+              </div>
+            </>
           )}
         </div>
 
-        {/* Footer */}
+        {/* Sticky footer — Congrats (when any discount) sits ABOVE
+            Estimated total + CHECKOUT, matching the Kalki pattern where
+            the saved-amount strip is always visible with the CTA. */}
         {hydrated && items.length > 0 && (
-          <div className="border-t border-ink/10 px-5 py-4 bg-ivory no-pattern shrink-0">
-            <Row label="Subtotal" value={formatINR(cartSubtotal)} />
-            <Row
-              label="Shipping"
-              value={cartSubtotal >= 25_000 ? 'FREE' : 'At checkout'}
-              muted
-            />
-            <div className="h-px bg-ink/10 my-2" />
-            <Row label="Estimated total" value={formatINR(cartSubtotal)} strong />
-
-            <button
-              type="button"
-              onClick={handleCheckout}
-              className="mt-4 w-full bg-maroon-deep text-ivory py-3.5 text-sm font-bold tracking-wider uppercase hover:bg-maroon transition-colors"
-            >
-              Checkout
-            </button>
-
-            <p className="mt-3 text-[10px] text-ink/55 text-center leading-relaxed">
-              By clicking on checkout you agree to our{' '}
-              <Link href="/shipping" onClick={closeCart} className="text-peacock underline underline-offset-2">
-                Return Policy
-              </Link>
-              .
-            </p>
-
-            <div className="mt-3 pt-3 border-t border-ink/10">
-              <div className="text-[10px] font-bold tracking-widest text-ink/50 mb-2">WE ACCEPT</div>
-              <PaymentLogos />
+          <div className="border-t border-ink/10 bg-bone shrink-0">
+            {discount > 0 && (
+              <div className="px-5 py-3 bg-[#faf1ea] border-b border-ink/10">
+                <p className="text-[0.82rem] text-ink leading-snug">
+                  Congrats! You saved total{' '}
+                  <span className="font-bold tabular-nums">{formatINR(discount)}</span>{' '}
+                  on this order
+                </p>
+              </div>
+            )}
+            <div className="px-5 py-4">
+              <div className="flex items-baseline justify-between mb-3">
+                <span className="text-sm font-bold text-ink">Estimated total</span>
+                <span className="text-lg font-bold text-ink tabular-nums">
+                  {formatINR(cartSubtotal)}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={handleCheckout}
+                disabled={!agreedToPolicies}
+                className="w-full bg-ink text-white py-4 text-sm font-bold tracking-[0.18em] uppercase hover:bg-maroon-deep transition-colors disabled:bg-ink/40 disabled:cursor-not-allowed disabled:hover:bg-ink/40"
+              >
+                Checkout
+              </button>
+              <label className="mt-3 flex items-center justify-center gap-2 text-center cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={agreedToPolicies}
+                  onChange={(e) => setAgreedToPolicies(e.target.checked)}
+                  className="sr-only peer"
+                />
+                <span
+                  aria-hidden
+                  className="shrink-0 w-4 h-4 rounded-sm border border-ink/40 bg-white flex items-center justify-center peer-checked:bg-emerald-600 peer-checked:border-emerald-600 transition-colors"
+                >
+                  {agreedToPolicies && (
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  )}
+                </span>
+                <span className="text-[0.72rem] font-bold text-ink leading-relaxed">
+                  By clicking Checkout you agree to all our{' '}
+                  <Link
+                    href="/shipping"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeCart();
+                    }}
+                    className="underline underline-offset-2 text-ink"
+                  >
+                    policies
+                  </Link>
+                  .
+                </span>
+              </label>
             </div>
           </div>
         )}
@@ -270,25 +347,19 @@ function QtyStepper({
   );
 }
 
-function Row({
+function SummaryRow({
   label,
   value,
-  muted = false,
-  strong = false,
+  valueClass = '',
 }: {
   label: string;
   value: string;
-  muted?: boolean;
-  strong?: boolean;
+  valueClass?: string;
 }) {
   return (
-    <div className="flex items-baseline justify-between py-1">
-      <span className={`text-sm ${muted ? 'text-ink/55' : 'text-ink/80'}`}>{label}</span>
-      <span
-        className={`tabular-nums ${
-          strong ? 'text-base font-bold text-ink' : 'text-sm font-semibold text-ink'
-        }`}
-      >
+    <div className="flex items-baseline justify-between">
+      <span className="text-sm text-ink/80">{label}</span>
+      <span className={`text-sm font-semibold text-ink tabular-nums ${valueClass}`}>
         {value}
       </span>
     </div>

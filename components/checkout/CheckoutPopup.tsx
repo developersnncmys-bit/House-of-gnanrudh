@@ -3,6 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import {
+  LuSmartphone,
+  LuCreditCard,
+  LuLandmark,
+  LuBanknote,
+} from 'react-icons/lu';
 import { SAREES, formatINR } from '@/lib/sarees';
 import { getProductHero } from '@/lib/product-images';
 import { useShop } from '@/lib/shop-store';
@@ -294,7 +300,7 @@ export default function CheckoutPopup() {
             <SectionEyebrow>Delivery details</SectionEyebrow>
             <div className="px-5 pb-4">
               {selectedAddress ? (
-                <div className="border border-ink/15 bg-ivory no-pattern">
+                <div className="border border-ink/15 bg-white">
                   <div className="p-4">
                     <div className="flex items-start gap-3">
                       <span className="shrink-0 mt-0.5 text-ink/55">
@@ -361,9 +367,9 @@ export default function CheckoutPopup() {
                 <button
                   type="button"
                   onClick={() => openAddressModal()}
-                  className="w-full border border-dashed border-ink/30 px-4 py-4 text-sm font-semibold text-ink hover:border-ink hover:bg-bone/30 transition-colors flex items-center justify-center gap-2"
+                  className="w-full border border-ink/20 bg-white px-5 py-6 text-[0.95rem] font-semibold text-ink hover:border-ink hover:bg-ink/[0.02] transition-colors flex items-center justify-center gap-3"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
                     <path d="M12 5v14M5 12h14" />
                   </svg>
                   Select delivery address
@@ -410,8 +416,8 @@ export default function CheckoutPopup() {
           </div>
 
           {/* Sticky footer */}
-          <div className="border-t border-ink/10 px-5 py-3 bg-ivory no-pattern shrink-0">
-            <div className="flex items-baseline justify-between mb-2">
+          <div className="border-t border-ink/10 px-5 py-4 bg-bone shrink-0">
+            <div className="flex items-baseline justify-between mb-3">
               <div>
                 <div className="text-[10px] font-bold tracking-wider text-ink/55">TO PAY</div>
                 <div className="flex items-baseline gap-2">
@@ -428,7 +434,7 @@ export default function CheckoutPopup() {
             <button
               type="submit"
               disabled={placing || !hydrated}
-              className="w-full bg-maroon-deep text-ivory py-3 text-sm font-bold tracking-wider uppercase hover:bg-maroon transition-colors disabled:bg-ink/40 disabled:cursor-not-allowed"
+              className="w-full bg-ink text-white py-4 text-sm font-bold tracking-[0.18em] uppercase hover:bg-maroon-deep transition-colors disabled:bg-ink/40 disabled:cursor-not-allowed"
             >
               {placing
                 ? 'Placing order…'
@@ -499,7 +505,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   // depend on a flex-1 chain resolving correctly (which was unreliable
   // when stacked beside the cart drawer overlay).
   return (
-    <div className="relative w-full max-w-[580px] max-h-[92vh] flex flex-col bg-ivory no-pattern shadow-2xl overflow-hidden">
+    <div className="relative w-full max-w-[580px] max-h-[92vh] flex flex-col bg-bone shadow-2xl overflow-hidden">
       {children}
     </div>
   );
@@ -524,39 +530,27 @@ function Header({
   onChevronClick?: () => void;
 }) {
   return (
-    <div className="px-5 py-3 border-b border-ink/10 shrink-0">
+    <div className="px-5 py-4 border-b border-ink/10 shrink-0 bg-bone">
       <div className="flex items-center gap-3">
         <img
-          src="/brand/logomark.svg"
+          src="/G-R-logo.png"
           alt="House Of GnanRudh"
-          width={28}
-          height={28}
-          className="h-7 w-auto shrink-0 select-none"
+          className="h-12 w-auto shrink-0 select-none"
           draggable={false}
         />
         <h2 id="checkout-title" className="sr-only">Checkout</h2>
-        <div className="flex-1 min-w-0 text-center">
-          {savings > 0 ? (
-            <span className="text-[11px] font-semibold text-peacock tabular-nums">
-              {formatINR(savings)} saved
-              <span className="mx-1 text-ink/40">·</span>
-              <span className="text-ink/65">{itemCount} {itemCount === 1 ? 'item' : 'items'}</span>
-            </span>
-          ) : (
-            itemCount > 0 && (
-              <span className="text-[11px] font-semibold text-ink/65 tabular-nums">
-                {itemCount} {itemCount === 1 ? 'item' : 'items'}
-              </span>
-            )
-          )}
-        </div>
-        {typeof total === 'number' && onChevronClick && (
+
+        {/* Centre — item count + chevron that toggles the breakdown. */}
+        {typeof total === 'number' && onChevronClick ? (
           <button
             type="button"
             onClick={onChevronClick}
             aria-label={chevronOpen ? 'Collapse order summary' : 'Expand order summary'}
-            className="shrink-0 w-7 h-7 flex items-center justify-center text-ink/65 hover:text-ink"
+            className="flex-1 min-w-0 flex items-center justify-center gap-1.5 text-ink hover:text-maroon-deep transition-colors"
           >
+            <span className="text-sm font-semibold tabular-nums">
+              {itemCount} {itemCount === 1 ? 'item' : 'items'}
+            </span>
             <svg
               width="14" height="14" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
@@ -566,26 +560,36 @@ function Header({
               <path d="m6 9 6 6 6-6" />
             </svg>
           </button>
+        ) : (
+          <div className="flex-1" />
         )}
+
+        {typeof total === 'number' && (
+          <div className="flex flex-col items-end leading-tight shrink-0">
+            {mrp != null && (
+              <span className="text-xs text-ink/45 line-through tabular-nums">{formatINR(mrp)}</span>
+            )}
+            <span className="text-lg font-bold text-ink tabular-nums">
+              {formatINR(total)}
+            </span>
+          </div>
+        )}
+
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="shrink-0 w-7 h-7 flex items-center justify-center text-ink/65 hover:text-ink"
+          className="shrink-0 w-8 h-8 flex items-center justify-center text-ink hover:text-maroon-deep transition-colors -mr-1"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
             <path d="m6 6 12 12M18 6 6 18" />
           </svg>
         </button>
       </div>
-      {typeof total === 'number' && (
-        <div className="mt-1 flex items-baseline justify-end gap-2">
-          {mrp != null && (
-            <span className="text-xs text-ink/45 line-through tabular-nums">{formatINR(mrp)}</span>
-          )}
-          <span className="text-lg font-bold text-ink tabular-nums leading-none">
-            {formatINR(total)}
-          </span>
+
+      {savings > 0 && (
+        <div className="mt-2 text-[11px] font-semibold text-emerald-700 tabular-nums text-right">
+          {formatINR(savings)} saved
         </div>
       )}
     </div>
@@ -654,13 +658,13 @@ function PaymentRow({
     <button
       type="button"
       onClick={onClick}
-      className={`w-full flex items-center gap-3 border p-3 transition-colors mb-2 last:mb-0 text-left ${
-        checked ? 'border-ink bg-bone/40' : 'border-ink/15 hover:border-ink/40'
+      className={`w-full flex items-center gap-3 border p-4 transition-colors mb-2 last:mb-0 text-left bg-white ${
+        checked ? 'border-ink' : 'border-ink/15 hover:border-ink/40'
       }`}
     >
       <span
-        className={`shrink-0 w-9 h-9 flex items-center justify-center border ${
-          checked ? 'border-ink bg-ink/5' : 'border-ink/15 bg-bone/30'
+        className={`shrink-0 w-10 h-10 flex items-center justify-center border rounded-sm ${
+          checked ? 'border-ink bg-ink/5' : 'border-ink/15 bg-bone/50'
         }`}
       >
         <PayIcon name={icon} />
@@ -682,31 +686,16 @@ function PaymentRow({
 }
 
 function PayIcon({ name }: { name: 'upi' | 'card' | 'bank' | 'cod' }) {
+  const common = { size: 18, strokeWidth: 1.7, 'aria-hidden': true } as const;
   switch (name) {
     case 'upi':
-      return (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-          <path d="m7 4 4 8-4 8M13 4l4 8-4 8" />
-        </svg>
-      );
+      return <LuSmartphone {...common} />;
     case 'card':
-      return (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-          <rect x="3" y="6" width="18" height="13" rx="1" /><path d="M3 10h18" />
-        </svg>
-      );
+      return <LuCreditCard {...common} />;
     case 'bank':
-      return (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-          <path d="m3 10 9-6 9 6M5 10v8M19 10v8M9 10v8M15 10v8M3 20h18" />
-        </svg>
-      );
+      return <LuLandmark {...common} />;
     case 'cod':
-      return (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-          <circle cx="12" cy="12" r="8" /><path d="M9 10h6M9 14h6" strokeLinecap="round" />
-        </svg>
-      );
+      return <LuBanknote {...common} />;
   }
 }
 

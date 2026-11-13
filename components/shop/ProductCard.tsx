@@ -9,10 +9,18 @@ import ViewSimilarButton from '@/components/shop/ViewSimilarButton';
 
 type Saree = (typeof SAREES)[number];
 
+// Kalki-style availability chips — borderless. A left-to-right
+// gradient fades the tinted colour out toward the right edge, and a
+// soft inset shadow adds inner depth so the pill feels raised without
+// a hard outline. Reads premium against both white cards and darker
+// product imagery.
 const BADGE_CLASS: Record<BadgeKind, string> = {
-  ready: 'bg-green-100 text-green-800 border border-green-200',
-  fast: 'bg-orange-100 text-orange-800 border border-orange-200',
-  last: 'bg-red-100 text-red-800 border border-red-200',
+  ready:
+    'bg-gradient-to-r from-emerald-200/90 via-emerald-100/70 to-white text-emerald-800 shadow-[inset_0_1px_1px_rgba(255,255,255,0.75),inset_0_-1px_2px_rgba(16,185,129,0.18)]',
+  fast:
+    'bg-gradient-to-r from-pink-200/90 via-pink-100/70 to-white text-pink-800 shadow-[inset_0_1px_1px_rgba(255,255,255,0.75),inset_0_-1px_2px_rgba(236,72,153,0.18)]',
+  last:
+    'bg-gradient-to-r from-rose-200/90 via-rose-100/70 to-white text-rose-800 shadow-[inset_0_1px_1px_rgba(255,255,255,0.75),inset_0_-1px_2px_rgba(244,63,94,0.18)]',
 };
 
 export default function ProductCard({
@@ -99,7 +107,7 @@ export default function ProductCard({
                 <span className="text-xs text-gray-500 line-through tabular-nums">
                   {formatINR(mrp)}
                 </span>
-                <span className="inline-flex items-center text-[0.68rem] font-extrabold text-scarlet bg-scarlet/10 border border-scarlet/25 tabular-nums tracking-wide px-1.5 py-0.5 rounded-sm">
+                <span className="text-xs font-bold text-scarlet tabular-nums">
                   {discount}% OFF
                 </span>
               </>

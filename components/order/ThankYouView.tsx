@@ -56,32 +56,35 @@ export default function ThankYouView() {
       });
 
   return (
-    <div className="min-h-screen bg-white text-ink">
-      {/* Slim success strip */}
-      <div className="bg-peacock text-ivory">
-        <div className="max-w-[1100px] mx-auto px-6 lg:px-10 py-2.5 flex items-center gap-2 text-sm">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden className="shrink-0">
-            <path d="M4 12.5 10 18 20 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <span className="font-semibold">Thank you, your order is confirmed.</span>
+    <div className="min-h-screen bg-bone text-ink">
+      {/* Success hero — centred check medallion + headline + subhead.
+          Replaces the slim peacock strip + broken ornament. */}
+      <div className="bg-bone">
+        <div className="max-w-[1100px] mx-auto px-6 lg:px-10 pt-10 lg:pt-14 pb-8 text-center">
+          <div
+            aria-hidden
+            className="mx-auto w-16 h-16 rounded-full bg-emerald-600 flex items-center justify-center shadow-[0_6px_24px_-8px_rgba(5,120,80,0.45)]"
+          >
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M4 12.5 10 18 20 6" />
+            </svg>
+          </div>
+          <h1 className="mt-5 font-display text-3xl md:text-4xl font-bold text-ink leading-tight">
+            Thank you, your order is confirmed
+          </h1>
+          <p className="mt-2 text-sm text-ink/65">
+            A confirmation is on its way to{' '}
+            <span className="font-semibold text-ink">
+              {order?.address.email || fallbackEmail || 'your inbox'}
+            </span>
+            .
+          </p>
+          <span aria-hidden className="block mx-auto h-px w-10 bg-gold/70 mt-6" />
         </div>
       </div>
 
-      {/* Heritage star-flower ornament — visual punctuation between the
-          peacock success strip and the order details. From the brand kit. */}
-      <div className="flex justify-center -mt-3 mb-2">
-        <img
-          src="/brand/star-flower.svg"
-          alt=""
-          aria-hidden
-          width={28}
-          height={28}
-          className="h-7 w-7 bg-white p-1 rounded-full ring-1 ring-ink/10 relative z-10"
-        />
-      </div>
-
       {/* Compact info bar — order id, date, total, payment, delivery */}
-      <header className="border-b border-ink/10">
+      <header className="border-y border-ink/10 bg-white">
         <div className="max-w-[1100px] mx-auto px-6 lg:px-10 py-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
           <InfoCell label="Order" value={order?.id || id || 'TV00000000'} bold mono />
           <InfoCell label="Placed" value={placedDate} />
@@ -118,8 +121,8 @@ export default function ThankYouView() {
         {/* Items + summary side by side on desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
           {/* Items */}
-          <section className="border border-ink/15">
-            <div className="px-4 py-2.5 border-b border-ink/10 flex items-center justify-between">
+          <section className="border border-ink/15 bg-white">
+            <div className="px-5 py-3.5 border-b border-ink/10 flex items-center justify-between">
               <h2 className="text-sm font-bold text-ink">
                 Items <span className="text-ink/55 font-normal tabular-nums">({order?.itemCount ?? 0})</span>
               </h2>
@@ -220,13 +223,13 @@ export default function ThankYouView() {
             <div className="flex items-center gap-2">
               <Link
                 href={`/account/orders`}
-                className="flex-1 bg-maroon-deep text-ivory py-2.5 text-center text-xs font-bold tracking-wider uppercase hover:bg-maroon transition-colors"
+                className="flex-1 bg-ink text-white py-3 text-center text-xs font-bold tracking-[0.18em] uppercase hover:bg-maroon-deep transition-colors"
               >
                 Track order
               </Link>
               <Link
-                href="/shop"
-                className="flex-1 border border-ink/25 text-ink py-2.5 text-center text-xs font-bold tracking-wider uppercase hover:bg-maroon-deep hover:text-ivory transition-colors"
+                href="/shop?sort=new"
+                className="flex-1 border border-ink text-ink py-3 text-center text-xs font-bold tracking-[0.18em] uppercase hover:bg-ink hover:text-white transition-colors"
               >
                 Continue
               </Link>
@@ -245,11 +248,11 @@ export default function ThankYouView() {
             </span>.
           </span>
           <div className="flex items-center gap-3">
-            <a href="mailto:support@gnanrudh.com" className="font-semibold text-ink hover:text-maroon underline underline-offset-2">
-              support@gnanrudh.com
+            <a href="mailto:hello@houseofgnanrudh.com" className="font-semibold text-ink hover:text-maroon underline underline-offset-2">
+              hello@houseofgnanrudh.com
             </a>
-            <a href="tel:+91XXXXXXXXXX" className="font-semibold text-ink hover:text-maroon underline underline-offset-2 tabular-nums">
-              +91 XXXXX XXXXX
+            <a href="tel:+919876543210" className="font-semibold text-ink hover:text-maroon underline underline-offset-2 tabular-nums">
+              +91 98765 43210
             </a>
           </div>
         </div>
@@ -288,11 +291,11 @@ function InfoCell({
 
 function MetaBlock({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="border border-ink/15">
-      <div className="px-4 py-2.5 border-b border-ink/10">
+    <section className="border border-ink/15 bg-white">
+      <div className="px-5 py-3.5 border-b border-ink/10">
         <h2 className="text-sm font-bold text-ink">{title}</h2>
       </div>
-      <div className="p-4">{children}</div>
+      <div className="p-5">{children}</div>
     </section>
   );
 }
@@ -343,7 +346,7 @@ function StatusTracker({ eta }: { eta: string }) {
   const currentIndex = 0; // only "Confirmed" is done
 
   return (
-    <div className="border border-ink/15 px-4 py-4 lg:px-6">
+    <div className="border border-ink/15 bg-white px-4 py-5 lg:px-6">
       <div className="flex items-center justify-between gap-2">
         {steps.map((s, i) => {
           const done = i <= currentIndex;

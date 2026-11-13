@@ -92,7 +92,7 @@ export default function ShopAllMegaMenu({
         {/* Left sidebar — hover any row to change the right grid.
             `self-start` keeps it pinned to the top while the right grid
             scrolls underneath. */}
-        <aside className="w-60 shrink-0 pr-6 self-start">
+        <aside className="w-60 shrink-0 bg-bone -my-6 -ml-6 lg:-ml-10 py-8 pl-11 lg:pl-[60px] pr-5">
           <nav className="flex flex-col">
             {GROUPS.map((g) => {
               const isActive = g.id === activeId;
@@ -103,7 +103,7 @@ export default function ShopAllMegaMenu({
                   onMouseEnter={() => setActiveId(g.id)}
                   onFocus={() => setActiveId(g.id)}
                   className={clsx(
-                    'text-left py-2.5 text-[0.85rem] tracking-[0.1em] uppercase font-semibold transition-colors',
+                    'text-left py-2.5 text-[0.85rem] tracking-[0.1em] uppercase font-bold transition-colors',
                     isActive ? 'text-gold-deep' : 'text-ink hover:text-gold-deep',
                   )}
                 >

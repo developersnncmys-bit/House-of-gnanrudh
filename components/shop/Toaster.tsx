@@ -2,106 +2,109 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { LuHeart, LuShoppingBag, LuX, LuArrowRight } from 'react-icons/lu';
+import { LuHeart, LuShoppingBag, LuX, LuCheck } from 'react-icons/lu';
 import { useShop } from '@/lib/shop-store';
+import { useCartDrawer } from '@/lib/cart-drawer';
 import { SAREES, formatINR } from '@/lib/sarees';
 
 export default function Toaster() {
   const { toasts, dismissToast } = useShop();
+  const { openCart } = useCartDrawer();
 
   return (
-    <div className="fixed bottom-5 right-5 z-[80] flex flex-col gap-3 w-[340px] max-w-[calc(100vw-2.5rem)] pointer-events-none">
+    <div className="fixed bottom-5 right-5 z-[80] flex flex-col gap-3 w-[320px] max-w-[calc(100vw-2.5rem)] pointer-events-none">
       {toasts.map((t) => {
         const product = SAREES.find((s) => s.id === t.productId);
         const isAdd = t.kind === 'cart-add' || t.kind === 'wishlist-add';
         const isCart = t.kind === 'cart-add' || t.kind === 'cart-remove';
 
-        // One toast template for all four variants (cart add/remove,
-        // wishlist add/remove). The only per-variant bits are the
-        // small eyebrow icon, the eyebrow label, and whether a CTA
-        // link appears underneath.
-        const Eyebrow = isCart ? LuShoppingBag : LuHeart;
-        const eyebrowLabel = isCart
+        const StatusIcon = isAdd ? LuCheck : isCart ? LuShoppingBag : LuHeart;
+        const title = isCart
           ? isAdd ? 'Added to Bag' : 'Removed from Bag'
           : isAdd ? 'Saved to Wishlist' : 'Removed from Wishlist';
-        const ctaHref = isCart ? '/shop?bag=1' : '/shop?wishlist=1';
         const ctaLabel = isCart ? 'View Bag' : 'View Wishlist';
 
         return (
           <div
             key={t.id}
             role="status"
-            className="pointer-events-auto relative bg-ivory no-pattern shadow-[0_18px_40px_-20px_rgba(0,0,0,0.35)] rounded-sm overflow-hidden animate-[slideInRight_0.3s_ease-out]"
+            className="pointer-events-auto relative bg-white shadow-[0_12px_32px_-8px_rgba(0,0,0,0.18)] border border-ink/10 animate-[slideInRight_0.3s_ease-out]"
           >
-            {/* Gold hairline accent along the top edge — subtle brand
-                signature instead of the old chunky left border. */}
-            <div
-              aria-hidden
-              className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-gold-deep via-gold to-gold-deep"
-            />
-
             <button
               onClick={() => dismissToast(t.id)}
               aria-label="Dismiss notification"
-              className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center text-ink/40 hover:text-ink transition-colors"
+              className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center text-ink/40 hover:text-ink transition-colors"
             >
-              <LuX size={14} strokeWidth={2} aria-hidden />
+              <LuX size={14} strokeWidth={1.8} aria-hidden />
             </button>
 
-            <div className="flex items-stretch gap-3 p-3 pr-10">
+            {/* Title row — status icon + label */}
+            <div className="flex items-center gap-2 px-4 pt-3 pb-2.5 border-b border-ink/5">
+              <span
+                className={`inline-flex items-center justify-center w-5 h-5 rounded-full ${
+                  isAdd ? 'bg-peacock text-white' : 'bg-ink/10 text-ink/60'
+                }`}
+              >
+                <StatusIcon size={12} strokeWidth={2.5} aria-hidden />
+              </span>
+              <span className="text-xs font-semibold text-ink">
+                {title}
+              </span>
+            </div>
+
+            {/* Product row */}
+            <div className="flex items-center gap-3 px-4 py-3">
               {product && (
                 <Link
                   href={`/shop/${product.id}`}
-                  className="relative w-16 h-20 shrink-0 bg-bone rounded-sm overflow-hidden group"
+                  className="relative w-12 h-14 shrink-0 bg-bone overflow-hidden group"
                 >
                   <Image
                     src={product.image}
                     alt=""
                     fill
-                    sizes="64px"
+                    sizes="48px"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </Link>
               )}
 
-              <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
-                <div className="flex items-center gap-1.5">
-                  <span
-                    className={`inline-flex items-center justify-center w-4 h-4 ${
-                      isAdd ? 'text-maroon-deep' : 'text-ink/45'
-                    }`}
-                  >
-                    <Eyebrow
-                      size={12}
-                      strokeWidth={2.2}
-                      fill={!isCart && isAdd ? 'currentColor' : 'none'}
-                      aria-hidden
-                    />
-                  </span>
-                  <span className="text-[0.65rem] font-bold uppercase tracking-[0.14em] text-ink/70">
-                    {eyebrowLabel}
-                  </span>
-                </div>
-                <div className="text-sm font-semibold text-ink leading-tight truncate">
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-medium text-ink leading-tight truncate">
                   {product?.name ?? 'Saree'}
                 </div>
                 {product && (
-                  <div className="text-[0.7rem] text-ink/60 tabular-nums">
+                  <div className="text-xs text-ink/55 tabular-nums mt-0.5">
                     {formatINR(product.price)}
                   </div>
                 )}
-                {isAdd && (
-                  <Link
-                    href={ctaHref}
-                    onClick={() => dismissToast(t.id)}
-                    className="mt-1 inline-flex items-center gap-1 text-[0.7rem] font-bold uppercase tracking-[0.14em] text-maroon-deep hover:text-ink transition-colors"
-                  >
-                    {ctaLabel}
-                    <LuArrowRight size={12} strokeWidth={2.5} aria-hidden />
-                  </Link>
-                )}
               </div>
             </div>
+
+            {/* Full-width CTA — cart toasts open the drawer directly,
+                wishlist toasts link to the wishlist shop view. */}
+            {isAdd && (
+              isCart ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    dismissToast(t.id);
+                    openCart();
+                  }}
+                  className="block w-full bg-ink text-white text-center text-[0.7rem] font-semibold uppercase tracking-[0.14em] py-2.5 hover:bg-black transition-colors"
+                >
+                  {ctaLabel}
+                </button>
+              ) : (
+                <Link
+                  href="/shop?wishlist=1"
+                  onClick={() => dismissToast(t.id)}
+                  className="block bg-ink text-white text-center text-[0.7rem] font-semibold uppercase tracking-[0.14em] py-2.5 hover:bg-black transition-colors"
+                >
+                  {ctaLabel}
+                </Link>
+              )
+            )}
           </div>
         );
       })}

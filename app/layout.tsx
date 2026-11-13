@@ -3,7 +3,6 @@ import { Italiana, Raleway } from 'next/font/google';
 import SmoothScroll from '@/components/SmoothScroll';
 import AudioProvider from '@/components/AudioProvider';
 import SiteShell from '@/components/SiteShell';
-import Toaster from '@/components/shop/Toaster';
 import { ShopProvider } from '@/lib/shop-store';
 import { AuthProvider } from '@/lib/auth';
 import './globals.css';
@@ -48,6 +47,14 @@ export const metadata: Metadata = {
   title: 'House Of GnanRudh — Heirloom Sarees, Hand-Woven',
   description:
     'A house of heirloom silk sarees — Kanjeevaram, Banarasi, Mysore Silk, Mangalagiri, Pochampally, Gadwal, Patola, Fancy Sarees and Mixed Pattu drapes. Hand-woven, hand-finished, shipped worldwide.',
+  icons: {
+    // Brand crest used as the browser-tab favicon and the home-screen
+    // shortcut icon. PNG is used for both so Safari / iOS render the
+    // same artwork at a high enough resolution to look sharp.
+    icon: [{ url: '/G-R-logo.png', type: 'image/png' }],
+    shortcut: [{ url: '/G-R-logo.png' }],
+    apple: [{ url: '/G-R-logo.png' }],
+  },
 };
 
 export const viewport: Viewport = {
@@ -75,7 +82,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <SiteShell>{children}</SiteShell>
               </SmoothScroll>
             </AudioProvider>
-            <Toaster />
           </AuthProvider>
         </ShopProvider>
       </body>

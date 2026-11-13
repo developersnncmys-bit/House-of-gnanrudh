@@ -19,9 +19,7 @@ export default function CategoryWeaveIntro({ weave }: { weave: string }) {
 
   return (
     <section className="bg-ivory border-b border-gray-200">
-      {/* Top padding matches NewArrivalsIntro so the heading clears
-          the Nav Row 3 sub-row on desktop. */}
-      <div className="max-w-[1720px] mx-auto px-4 lg:px-8 pt-16 md:pt-20 lg:pt-28 pb-10 text-center">
+      <div className="max-w-[1720px] mx-auto px-4 lg:px-8 py-10 md:py-12 text-center">
         {/* Lotus ornament — same decorative glyph and sizing the
             NewArrivalsIntro uses so the two intro headers stay
             visually consistent. */}

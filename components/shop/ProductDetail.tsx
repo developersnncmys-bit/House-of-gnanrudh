@@ -11,7 +11,6 @@ import ProductAccordion from './ProductAccordion';
 import ProductRail from './ProductRail';
 import ProductReviews from './ProductReviews';
 import StickyBuyBar from './StickyBuyBar';
-import SaleHero from './SaleHero';
 
 type Saree = (typeof SAREES)[number];
 
@@ -49,8 +48,6 @@ export default function ProductDetail({ saree }: { saree: Saree }) {
 
   return (
     <div className="bg-white min-h-screen text-gray-900">
-      <SaleHero />
-
       {/* Breadcrumb */}
       <div className="border-b border-gray-200">
         <div className="max-w-[1720px] mx-auto px-4 lg:px-8 py-3 text-xs text-gray-500">
@@ -66,14 +63,14 @@ export default function ProductDetail({ saree }: { saree: Saree }) {
               {saree.weave}
             </Link>
             <span>/</span>
-            <span className="text-gray-900">{saree.name}</span>
+            <span className="text-gray-900 font-semibold" aria-current="page">{saree.name}</span>
           </nav>
         </div>
       </div>
 
       {/* Main grid: gallery + info */}
       <div className="max-w-[1720px] mx-auto px-4 lg:px-8 py-6 lg:py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-8 lg:gap-14">
           <ProductGallery
             key={colorId}
             images={galleryImages}

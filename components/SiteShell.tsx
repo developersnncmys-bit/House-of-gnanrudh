@@ -10,6 +10,7 @@ import LoginModal from '@/components/auth/LoginModal';
 import AddressModal from '@/components/checkout/AddressModal';
 import CartDrawer from '@/components/shop/CartDrawer';
 import CheckoutPopup from '@/components/checkout/CheckoutPopup';
+import Toaster from '@/components/shop/Toaster';
 import { useAudio } from '@/components/AudioProvider';
 import { LoginModalProvider } from '@/lib/login-modal';
 import { AddressProvider } from '@/lib/addresses';
@@ -63,19 +64,20 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   // and no footer. `/` is the main home and keeps the global chrome.
   const immersive = pathname === '/journey';
   const showFooter = !immersive;
-  // Nav stacks promo strip (~44px min) + main row (logo + py-3) + 1px
-  // bottom border. Sub-row has been removed — all nav links sit in the
-  // main row. Logo scales h-7 → h-10 across breakpoints.
-  //   base:  44 + (28 + 24) + 1 ≈  97 → pt-[97px]
-  //   sm:    44 + (32 + 24) + 1 ≈ 101 → pt-[101px]
-  //   md:    44 + (36 + 24) + 1 ≈ 105 → pt-[105px]
-  //   lg:    44 + (40 + 24) + 1 ≈ 109 → pt-[109px]
+  // Nav stacks promo strip (~36px min-h) + main row (py-1 wrapping a
+  // tall logo image) + 1px bottom border + a desktop-only sub-row
+  // (Row 3: `hidden lg:block` with py-3 + ~12px text + 1px border ≈
+  // 37px). Logo image is `h-16 sm:h-[72px] md:h-20 lg:h-[88px]`.
+  //   base:  36 + (64 + 8) + 1            ≈ 109 → pt-[112px]
+  //   sm:    36 + (72 + 8) + 1            ≈ 117 → pt-[120px]
+  //   md:    36 + (80 + 8) + 1            ≈ 125 → pt-[128px]
+  //   lg:    36 + (88 + 8) + 1 + 37       ≈ 170 → pt-[174px]
   // Spacer is plain white so it matches the nav's own background (nav is
   // bg-white). Using bg-ivory here would paint a visible cream stripe
   // between the nav's bottom border and the first page section.
   const mainClass = immersive
     ? ''
-    : 'pt-[97px] sm:pt-[101px] md:pt-[105px] lg:pt-[109px] bg-white';
+    : 'pt-[112px] sm:pt-[120px] md:pt-[128px] lg:pt-[174px] bg-white';
 
   return (
     <LoginModalProvider>
@@ -91,6 +93,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
             <CartDrawer />
             <CheckoutPopup />
             <AddressModal />
+            <Toaster />
             {showPreloader && <Preloader />}
           </CheckoutModalProvider>
         </CartDrawerProvider>
