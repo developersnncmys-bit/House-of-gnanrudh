@@ -132,7 +132,7 @@ export default function Hero() {
                   : 'md:justify-end justify-start md:pr-20 lg:pr-32 xl:pr-44',
               )}
             >
-              <div className="max-w-lg md:max-w-[min(32rem,38vw)] text-ivory">
+              <div className="max-w-lg md:max-w-[min(32rem,38vw)] text-ivory -translate-y-[17px] md:-translate-y-[33px] lg:-translate-y-[49px]">
                 {slide.badge && (
                   <span
                     className={clsx(

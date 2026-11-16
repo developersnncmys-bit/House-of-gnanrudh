@@ -76,6 +76,7 @@ export default function CraftStory() {
           description="Heirloom silks, woven to remember — temple-border Kanjeevarams, pit-loom Banarasis and double-ikat Patolas for the day you keep."
           ornament="/homebanner/mangala.png"
           ornamentClassName="h-12 sm:h-14 md:h-16 w-auto select-none"
+          dividerClassName="translate-y-[9px]"
         />
       </div>
 

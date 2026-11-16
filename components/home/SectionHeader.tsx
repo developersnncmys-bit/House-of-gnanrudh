@@ -13,6 +13,10 @@ type SectionHeaderProps = {
    *  specific section needs a larger/smaller mark — defaults match the
    *  lotus scale used site-wide. */
   ornamentClassName?: string;
+  /** Extra Tailwind classes applied to each hairline rule. Used when a
+   *  specific ornament has an off-centre visual weight and the divider
+   *  needs a small vertical nudge to align with its base/body. */
+  dividerClassName?: string;
   /** Hairline rules flanking the ornament. Defaults to true. */
   showDividers?: boolean;
 };
@@ -24,14 +28,14 @@ export default function SectionHeader({
   className = 'mb-6 md:mb-8',
   ornament = '/lotus.png',
   ornamentClassName = 'h-7 sm:h-8 md:h-9 w-auto select-none',
+  dividerClassName = '',
   showDividers = true,
 }: SectionHeaderProps) {
+  const dividerCls = `h-px w-10 sm:w-14 md:w-20 bg-[#D1001F] ${dividerClassName}`.trim();
   return (
     <div className={`text-center ${className}`}>
       <div className="flex items-center justify-center gap-3 md:gap-4 mb-3">
-        {showDividers && (
-          <span className="h-px w-10 sm:w-14 md:w-20 bg-[#D1001F]" aria-hidden />
-        )}
+        {showDividers && <span className={dividerCls} aria-hidden />}
         <Image
           src={ornament}
           alt=""
@@ -41,9 +45,7 @@ export default function SectionHeader({
           draggable={false}
           aria-hidden
         />
-        {showDividers && (
-          <span className="h-px w-10 sm:w-14 md:w-20 bg-[#D1001F]" aria-hidden />
-        )}
+        {showDividers && <span className={dividerCls} aria-hidden />}
       </div>
       <h2 className="font-display text-3xl md:text-4xl font-bold text-ink leading-tight">
         {title}

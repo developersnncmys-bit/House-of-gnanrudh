@@ -87,8 +87,8 @@ const posts: Post[] = [
   },
 ];
 
-const INSTAGRAM_HANDLE = '@gnanrudh';
-const INSTAGRAM_URL = 'https://instagram.com/gnanrudh';
+const INSTAGRAM_HANDLE = '@houseofgnanrudh';
+const INSTAGRAM_URL = 'https://instagram.com/houseofgnanrudh';
 
 export default function InstagramFeed() {
   return (

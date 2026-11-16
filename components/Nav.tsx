@@ -335,7 +335,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                     <IconStore />
                   </span>
                   <span className="tracking-[0.08em] uppercase text-[0.8rem] font-bold">
-                    Find a Store
+                    Find Store
                   </span>
                 </>
               );
@@ -829,12 +829,12 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                   className={storeCls}
                 >
                   <IconStore />
-                  Find a Store
+                  Find Store
                 </Link>
               ) : (
                 <span className={clsx(storeCls, 'cursor-default')}>
                   <IconStore />
-                  Find a Store
+                  Find Store
                 </span>
               );
             })()}

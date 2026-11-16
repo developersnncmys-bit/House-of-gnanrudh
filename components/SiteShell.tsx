@@ -56,9 +56,16 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
 
   // Save current scroll position continuously (throttled to rAF), keyed
   // by the FULL url (pathname + search). Filter changes get their own
-  // slots so each filter state remembers its own scroll depth. Saves
-  // one final time on unmount so forward-nav snapshots the leaving page.
-  useEffect(() => {
+  // slots so each filter state remembers its own scroll depth.
+  //
+  // IMPORTANT — this MUST be a useLayoutEffect, not useEffect. When
+  // pathname changes, React runs the scroll-to-top useLayoutEffect
+  // (further down) in the commit phase, BEFORE useEffect cleanups. If
+  // we save in a useEffect cleanup, scrollY has already been zeroed by
+  // the scroll-to-top, so we'd persist 0 for the leaving page and the
+  // back button would land at the top. useLayoutEffect cleanups run
+  // first, so we capture the real pre-navigation scrollY.
+  useLayoutEffect(() => {
     if (typeof window === 'undefined') return;
     const key = () =>
       `scroll:${window.location.pathname}${window.location.search}`;
