@@ -130,6 +130,124 @@ export function Check({
   );
 }
 
+// ColorRow — one row per colour in the filter drawer. Shows a filled
+// swatch dot, the colour name, and the match count — same shape as the
+// Check chip but with a coloured leading dot instead of a grey one so
+// the palette stays scannable. Admin can later edit `name`/`hex` on
+// each STANDARD_COLORWAYS entry and the label here updates with it.
+export function ColorRow({
+  name,
+  hex,
+  checked,
+  onChange,
+  count,
+  disabled = false,
+}: {
+  name: string;
+  hex: string;
+  checked: boolean;
+  onChange: () => void;
+  count?: number;
+  disabled?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onChange}
+      aria-pressed={checked}
+      disabled={disabled}
+      className={`group inline-flex items-center gap-2.5 w-full text-left px-3 py-2 mb-1.5 rounded-full border transition-all ${
+        checked
+          ? 'bg-maroon-deep text-white border-maroon-deep shadow-[0_2px_8px_-2px_rgba(4,37,9,0.25)]'
+          : disabled
+          ? 'bg-white text-gray-400 border-gray-200 cursor-not-allowed opacity-60'
+          : 'bg-white text-gray-800 border-gray-200 hover:border-gray-900 hover:bg-gray-50'
+      }`}
+    >
+      <span
+        aria-hidden
+        className={`inline-block w-3.5 h-3.5 rounded-full shrink-0 ring-1 transition-colors ${
+          checked ? 'ring-white/60' : 'ring-gray-300'
+        }`}
+        style={{ backgroundColor: hex }}
+      />
+      <span
+        className={`text-[0.78rem] leading-tight flex-1 transition-colors ${
+          checked ? 'font-semibold' : 'font-medium'
+        }`}
+      >
+        {name}
+      </span>
+      {typeof count === 'number' && (
+        <span
+          className={`text-[0.65rem] tabular-nums font-bold px-1.5 py-0.5 rounded-full transition-colors shrink-0 min-w-[20px] text-center ${
+            checked
+              ? 'bg-white/20 text-white'
+              : 'bg-gray-100 text-gray-600 group-hover:bg-gray-200'
+          }`}
+        >
+          {count}
+        </span>
+      )}
+    </button>
+  );
+}
+
+// ColorList — wraps the ColorRow grid with a "Show N more" toggle so
+// long palettes don't take over the drawer. Keeps any already-selected
+// colours visible even when collapsed, so a user who ticked an entry
+// deep in the palette doesn't lose sight of their active filter.
+export function ColorList({
+  colors,
+  selectedIds,
+  counts,
+  onToggle,
+  initialVisible = 6,
+}: {
+  colors: { id: string; name: string; hex: string }[];
+  selectedIds: string[];
+  counts: Record<string, number>;
+  onToggle: (id: string) => void;
+  initialVisible?: number;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded
+    ? colors
+    : colors.filter((c, i) => i < initialVisible || selectedIds.includes(c.id));
+  const hiddenCount = colors.length - visible.length;
+  const canToggle = colors.length > initialVisible;
+
+  return (
+    <>
+      {visible.map((c) => {
+        const active = selectedIds.includes(c.id);
+        const count = counts[c.id] ?? 0;
+        const disabled = count === 0 && !active;
+        return (
+          <ColorRow
+            key={c.id}
+            name={c.name}
+            hex={c.hex}
+            checked={active}
+            count={count}
+            disabled={disabled}
+            onChange={() => onToggle(c.id)}
+          />
+        );
+      })}
+      {canToggle && (
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          className="mt-1 text-[0.75rem] font-semibold text-maroon-deep hover:text-maroon underline underline-offset-4 decoration-maroon-deep/40 hover:decoration-maroon transition-colors"
+        >
+          {expanded ? 'Show Less' : `+ Show ${hiddenCount} More`}
+        </button>
+      )}
+    </>
+  );
+}
+
 // RangeInput — bordered numeric input with an optional currency prefix.
 // Focus adds a maroon ring to distinguish from the chip outlines above.
 export function RangeInput({

@@ -3,6 +3,7 @@ import { Italiana, Raleway } from 'next/font/google';
 import SmoothScroll from '@/components/SmoothScroll';
 import AudioProvider from '@/components/AudioProvider';
 import SiteShell from '@/components/SiteShell';
+import PromoSplash from '@/components/promo/PromoSplash';
 import { ShopProvider } from '@/lib/shop-store';
 import { AuthProvider } from '@/lib/auth';
 import './globals.css';
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <SmoothScroll>
                 <SiteShell>{children}</SiteShell>
               </SmoothScroll>
+              <PromoSplash />
             </AudioProvider>
           </AuthProvider>
         </ShopProvider>

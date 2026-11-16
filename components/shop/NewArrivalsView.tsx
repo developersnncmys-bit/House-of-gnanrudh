@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { SAREES, STANDARD_COLORWAYS, BADGE_LABEL, sareeMatchesColor } from '@/lib/sarees';
 import type { Weave, BadgeKind } from '@/lib/sarees';
 import ProductCard from './ProductCard';
-import { Section, Check, RangeInput, PriceRow } from './FilterRailPrimitives';
+import { Section, Check, RangeInput, PriceRow, ColorList } from './FilterRailPrimitives';
 import NewArrivalsIntro from './NewArrivalsIntro';
 import CategoryTiles from './CategoryTiles';
 import FilterDrawer from './FilterDrawer';
@@ -89,7 +89,12 @@ export default function NewArrivalsView() {
   const bracket = searchParams.get('bracket');
   const pmin = searchParams.get('pmin');
   const pmax = searchParams.get('pmax');
-  const discount = searchParams.get('discount');
+  const discounts = useMemo<string[]>(() => {
+    const csv = searchParams.get('discount');
+    if (!csv) return [];
+    const valid = new Set(DISCOUNT_BANDS.map((d) => d.id));
+    return csv.split(',').filter((d) => valid.has(d));
+  }, [searchParams]);
   const availability = useMemo<BadgeKind[]>(() => {
     const csv = searchParams.get('avail');
     if (!csv) return [];
@@ -112,7 +117,7 @@ export default function NewArrivalsView() {
       order?: Sort;
       pmin?: string | null;
       pmax?: string | null;
-      discount?: string | null;
+      discounts?: string[];
       availability?: BadgeKind[];
     },
   ) => {
@@ -124,14 +129,14 @@ export default function NewArrivalsView() {
     const o = next.order ?? sort;
     const pn = next.pmin === undefined ? pmin : next.pmin;
     const px = next.pmax === undefined ? pmax : next.pmax;
-    const d = next.discount === undefined ? discount : next.discount;
+    const dd = next.discounts ?? discounts;
     const av = next.availability ?? availability;
     if (w.length) params.set('weave', w.join(','));
     if (c.length) params.set('color', c.join(','));
     if (b) params.set('bracket', b);
     if (pn) params.set('pmin', pn);
     if (px) params.set('pmax', px);
-    if (d) params.set('discount', d);
+    if (dd.length) params.set('discount', dd.join(','));
     if (av.length) params.set('avail', av.join(','));
     if (o && o !== 'newest') params.set('order', o);
     router.replace(`/shop?${params.toString()}`, { scroll: false });
@@ -143,8 +148,12 @@ export default function NewArrivalsView() {
     updateUrl({ colors: colors.includes(id) ? colors.filter((x) => x !== id) : [...colors, id] });
   const selectBracket = (id: string) =>
     updateUrl({ bracket: bracket === id ? null : id });
-  const selectDiscount = (id: string) =>
-    updateUrl({ discount: discount === id ? null : id });
+  const toggleDiscount = (id: string) =>
+    updateUrl({
+      discounts: discounts.includes(id)
+        ? discounts.filter((x) => x !== id)
+        : [...discounts, id],
+    });
   const toggleAvailability = (b: BadgeKind) =>
     updateUrl({
       availability: availability.includes(b)
@@ -191,12 +200,12 @@ export default function NewArrivalsView() {
     const nMax = pmax ? Number(pmax) : null;
     if (nMin !== null && !Number.isNaN(nMin)) list = list.filter((s) => s.price >= nMin);
     if (nMax !== null && !Number.isNaN(nMax)) list = list.filter((s) => s.price <= nMax);
-    if (discount) {
-      const db = DISCOUNT_BANDS.find((d) => d.id === discount);
-      if (db) {
+    if (discounts.length) {
+      const bands = DISCOUNT_BANDS.filter((d) => discounts.includes(d.id));
+      if (bands.length) {
         list = list.filter((s) => {
           const d = discountPct(s);
-          return d >= db.min && d < db.max;
+          return bands.some((b) => d >= b.min && d < b.max);
         });
       }
     }
@@ -206,7 +215,7 @@ export default function NewArrivalsView() {
     if (sort === 'price-asc') list = [...list].sort((a, b) => a.price - b.price);
     else if (sort === 'price-desc') list = [...list].sort((a, b) => b.price - a.price);
     return list;
-  }, [base, weaves, colors, bracket, pmin, pmax, discount, availability, sort]);
+  }, [base, weaves, colors, bracket, pmin, pmax, discounts, availability, sort]);
 
   // Per-filter counts — drives the small grey numbers next to each row.
   const weaveCounts = useMemo(() => {
@@ -253,7 +262,7 @@ export default function NewArrivalsView() {
     colors.length +
     (bracket ? 1 : 0) +
     (pmin || pmax ? 1 : 0) +
-    (discount ? 1 : 0) +
+    discounts.length +
     availability.length;
 
   return (
@@ -389,36 +398,12 @@ export default function NewArrivalsView() {
         </Section>
 
         <Section title="Color">
-          <div className="flex flex-wrap gap-2">
-            {STANDARD_COLORWAYS.map((c) => {
-              const active = colors.includes(c.id);
-              const count = colorCounts[c.id] ?? 0;
-              const disabled = count === 0 && !active;
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => toggleColor(c.id)}
-                  aria-label={`Filter by ${c.name} (${count})`}
-                  aria-pressed={active}
-                  disabled={disabled}
-                  title={`${c.name} (${count})`}
-                  className={`relative w-9 h-9 rounded-full border-2 transition-all ${
-                    active
-                      ? 'border-gray-900 p-0.5'
-                      : disabled
-                      ? 'border-transparent opacity-30 cursor-not-allowed p-0.5'
-                      : 'border-transparent hover:border-gray-400 p-0.5'
-                  }`}
-                >
-                  <span
-                    className="block w-full h-full rounded-full border border-gray-200"
-                    style={{ backgroundColor: c.hex }}
-                  />
-                </button>
-              );
-            })}
-          </div>
+          <ColorList
+            colors={STANDARD_COLORWAYS}
+            selectedIds={colors}
+            counts={colorCounts}
+            onToggle={toggleColor}
+          />
         </Section>
 
         <Section title="Discount %" defaultOpen={false}>
@@ -426,8 +411,8 @@ export default function NewArrivalsView() {
             <Check
               key={b.id}
               label={b.label}
-              checked={discount === b.id}
-              onChange={() => selectDiscount(b.id)}
+              checked={discounts.includes(b.id)}
+              onChange={() => toggleDiscount(b.id)}
               count={discountCounts[b.id] ?? 0}
             />
           ))}

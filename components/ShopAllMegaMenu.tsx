@@ -92,7 +92,7 @@ export default function ShopAllMegaMenu({
         {/* Left sidebar — hover any row to change the right grid.
             `self-start` keeps it pinned to the top while the right grid
             scrolls underneath. */}
-        <aside className="w-60 shrink-0 bg-bone -my-6 -ml-6 lg:-ml-10 py-8 pl-11 lg:pl-[60px] pr-5">
+        <aside className="w-72 shrink-0 bg-bone -my-6 -ml-6 lg:-ml-10 py-8 pl-11 lg:pl-[60px] pr-5">
           <nav className="flex flex-col">
             {GROUPS.map((g) => {
               const isActive = g.id === activeId;
@@ -103,8 +103,17 @@ export default function ShopAllMegaMenu({
                   onMouseEnter={() => setActiveId(g.id)}
                   onFocus={() => setActiveId(g.id)}
                   className={clsx(
-                    'text-left py-2.5 text-[0.85rem] tracking-[0.1em] uppercase font-bold transition-colors',
-                    isActive ? 'text-gold-deep' : 'text-ink hover:text-gold-deep',
+                    // Transition `color` only — if we transition bg-color
+                    // too, pointer transits between rows briefly paint
+                    // both the outgoing and incoming cream fills, giving
+                    // a doubled-pill flicker.
+                    'relative text-left whitespace-nowrap py-2.5 -ml-3 pl-3 pr-3 text-[0.85rem] tracking-[0.1em] uppercase font-bold transition-[color] duration-150',
+                    // Active row: cream fill that bleeds past the sidebar's
+                    // right padding AND across the flex gap so it visually
+                    // attaches to the right-side image grid (also ivory).
+                    isActive
+                      ? 'bg-white text-gold-deep rounded-l-sm -mr-[52px]'
+                      : 'text-ink hover:text-gold-deep',
                   )}
                 >
                   {g.label}

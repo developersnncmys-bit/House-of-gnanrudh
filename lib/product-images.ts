@@ -184,6 +184,41 @@ function rgbDistance(a: string, b: string): number {
 
 const MAX_GALLERY = 4;
 
+// Returns the PDP "You May Also Like" strip — the saree itself first,
+// then up to four same-weave siblings ranked by palette-colour
+// distance. Semantically the strip is a real variant picker: on a
+// Mangalagiri PDP it only shows other Mangalagiris; on a Kanjeevaram
+// PDP it only shows other Kanjeevarams. If a weave has no siblings
+// the strip collapses to just this saree and the caller can hide it.
+const PDP_VARIANT_COUNT = 5;
+export function getPdpVariants(saree: Saree): Saree[] {
+  const siblings = SAREES
+    .filter((s) => s.id !== saree.id && s.weave === saree.weave)
+    .map((s) => ({ s, d: rgbDistance(s.palette[0] ?? '#000000', saree.palette[0] ?? '#000000') }))
+    .sort((a, b) => a.d - b.d)
+    .slice(0, PDP_VARIANT_COUNT - 1)
+    .map((x) => x.s);
+  return [saree, ...siblings];
+}
+
+// Returns the top-ranked "other saree" whose primary hex is closest to
+// the picked colourway. Used by the PDP thumbnail strip so the row can
+// label each tile with the actual saree name it represents, not the
+// generic palette colour. Returns null for the primary colourway (which
+// is this saree itself) or when there is no sensible match.
+export function getColorwaySaree(saree: Saree, colorwayId: string): Saree | null {
+  const colorways = getColorways(saree);
+  if (colorways.length === 0) return null;
+  const primary = colorways[0];
+  const selected = colorways.find((c) => c.id === colorwayId) ?? primary;
+  if (selected.id === primary.id) return null;
+  const ranked = SAREES
+    .filter((s) => s.id !== saree.id)
+    .map((s) => ({ s, d: rgbDistance(s.palette[0] ?? '#000000', selected.hex) }))
+    .sort((a, b) => a.d - b.d);
+  return ranked[0]?.s ?? null;
+}
+
 export function getColorwayGallery(saree: Saree, colorwayId: string): string[] {
   const colorways = getColorways(saree);
   if (colorways.length === 0) return getProductGallery(saree);

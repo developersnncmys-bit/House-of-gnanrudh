@@ -118,18 +118,6 @@ export default function ProductGallery({
               transition: 'opacity 150ms',
             }}
           />
-          {/* Brand watermark — subtle T+V monogram in the lower-right corner.
-              Stays visible in both the static and the zoomed view so the
-              brand mark is present on any screenshot of the hero shot.
-              Cream monogram + multiply blend reads softly on both dark and
-              light photography without ever competing with the saree. */}
-          <img
-            src="/brand/logomark-cream.svg"
-            alt=""
-            aria-hidden
-            className="absolute bottom-4 right-4 w-12 h-12 md:w-14 md:h-14 pointer-events-none select-none"
-            style={{ opacity: 0.32, mixBlendMode: 'overlay' }}
-          />
           {/* Zoom-hint pill — bottom centre. Hides while zoomed so it
               doesn't sit on top of detail the user is trying to inspect.
               Copy works for both pointer types: hover on desktop, press

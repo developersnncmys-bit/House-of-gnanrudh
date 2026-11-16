@@ -37,6 +37,7 @@ export const WISHLIST_DISABLED = false;
  */
 const SOFT_LAUNCH_ALLOWED = new Set<string>([
   '/',
+  '/shop',
   '/about',
   '/stores',
   '/contact',

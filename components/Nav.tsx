@@ -82,6 +82,7 @@ const weaveLinks = [
 // Mirror additions in lib/soft-launch.ts and middleware.ts.
 const SOFT_LAUNCH_LIVE = new Set<string>([
   '/',
+  '/shop',
   '/about',
   '/stores',
   '/contact',
@@ -295,7 +296,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
   return (
     <header
       className={clsx(
-        'fixed top-0 inset-x-0 z-40 transition-shadow duration-300 bg-white',
+        'fixed top-0 inset-x-0 z-40 transition-shadow duration-300 bg-bone',
         scrolled && 'shadow-[0_1px_0_rgba(77,0,21,0.08)]',
       )}
     >

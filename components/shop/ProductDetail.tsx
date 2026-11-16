@@ -88,8 +88,11 @@ export default function ProductDetail({ saree }: { saree: Saree }) {
         </div>
       </div>
 
+      {/* The House Promise — full-width editorial trust band */}
+      <GalleryTrustRow />
+
       {/* Long-form details */}
-      <div className="max-w-[1720px] mx-auto px-4 lg:px-8 pb-8">
+      <div className="max-w-[1720px] mx-auto px-4 lg:px-8 py-10 md:py-14">
         <ProductAccordion saree={saree} />
       </div>
 
@@ -106,6 +109,120 @@ export default function ProductDetail({ saree }: { saree: Saree }) {
       <StickyBuyBar saree={saree} mrp={mrp} />
     </div>
   );
+}
+
+function GalleryTrustRow() {
+  const items: { icon: 'return' | 'star' | 'truck'; title: string; caption: string }[] = [
+    {
+      icon: 'return',
+      title: '48 Hr Exchange',
+      caption: 'Easy returns within two days of delivery',
+    },
+    {
+      icon: 'star',
+      title: 'Assured Quality',
+      caption: 'Five-step inspection before every dispatch',
+    },
+    {
+      icon: 'truck',
+      title: 'Free Shipping',
+      caption: 'Insured & tracked across India',
+    },
+  ];
+  return (
+    <section className="bg-bone/60 border-y border-ink/10">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-10 py-10 md:py-12">
+        <div className="text-center mb-8 md:mb-10">
+          <GoldOrnament />
+          <div className="mt-3 text-[0.62rem] md:text-[0.68rem] tracking-[0.38em] uppercase font-bold text-gold-deep">
+            The House Promise
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-10 sm:divide-x divide-ink/10">
+          {items.map((it) => (
+            <div
+              key={it.title}
+              className="flex flex-col items-center text-center px-4 md:px-8"
+            >
+              <span className="w-10 h-10 md:w-11 md:h-11 flex items-center justify-center rounded-full bg-white ring-1 ring-gold-deep/50 text-maroon-deep shadow-[0_1px_2px_rgba(77,0,21,0.05)]">
+                <TrustIcon name={it.icon} />
+              </span>
+              <h3 className="mt-3 font-display font-bold text-[0.85rem] md:text-[0.9rem] text-ink leading-none">
+                {it.title}
+              </h3>
+              <div className="mt-2.5 flex items-center gap-2" aria-hidden>
+                <span className="h-px w-5 bg-gold/70" />
+                <span className="w-1 h-1 rotate-45 bg-gold-deep" />
+                <span className="h-px w-5 bg-gold/70" />
+              </div>
+              <p className="mt-1.5 text-[0.66rem] md:text-[0.7rem] text-ink/65 leading-relaxed max-w-[220px]">
+                {it.caption}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function GoldOrnament() {
+  return (
+    <div className="flex items-center justify-center gap-2" aria-hidden>
+      <span
+        className="h-px w-16"
+        style={{
+          backgroundImage:
+            'linear-gradient(90deg, transparent 0%, #A66D23 100%)',
+        }}
+      />
+      <span className="w-1.5 h-1.5 rotate-45 bg-gold-deep" />
+      <span
+        className="h-px w-16"
+        style={{
+          backgroundImage:
+            'linear-gradient(90deg, #A66D23 0%, transparent 100%)',
+        }}
+      />
+    </div>
+  );
+}
+
+function TrustIcon({ name }: { name: 'return' | 'star' | 'truck' }) {
+  const c = {
+    width: 18,
+    height: 18,
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.6,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    'aria-hidden': true,
+  };
+  switch (name) {
+    case 'return':
+      return (
+        <svg {...c}>
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>
+      );
+    case 'star':
+      return (
+        <svg {...c}>
+          <path d="m12 2 2.9 6.9L22 10l-5.5 4.8L18.2 22 12 18.3 5.8 22l1.7-7.2L2 10l7.1-1.1L12 2Z" />
+        </svg>
+      );
+    case 'truck':
+      return (
+        <svg {...c}>
+          <path d="M3 7h11v9H3zM14 11h4l3 3v2h-7z" />
+          <circle cx="7" cy="18" r="1.6" />
+          <circle cx="17.5" cy="18" r="1.6" />
+        </svg>
+      );
+  }
 }
 
 function computeDeliveryDate(daysFromNow: number): string {

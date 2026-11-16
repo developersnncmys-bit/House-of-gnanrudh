@@ -15,6 +15,7 @@ import {
 import type { Tier, Weave } from '@/lib/sarees';
 import { SOFT_LAUNCH } from '@/lib/soft-launch';
 import NewArrivalsView from './NewArrivalsView';
+import AllSareesView from './AllSareesView';
 import CategoryWeaveView from './CategoryWeaveView';
 import CategoryOccasionView from './CategoryOccasionView';
 import CategoryTierView from './CategoryTierView';
@@ -169,8 +170,14 @@ export default function ShopView() {
     if (searchParams.get('sort') !== 'bestseller') return false;
     return hasOnlyAllowedExtras(new Set(['sort']));
   })();
+  // Bare /shop (no query params) OR any /shop?view=all[&…filters] drill-down
+  // — the "All Sarees" landing + its in-drawer filter permutations.
+  const isLiveAll =
+    Array.from(searchParams.keys()).length === 0 ||
+    searchParams.get('view') === 'all';
   const softGated =
     SOFT_LAUNCH &&
+    !isLiveAll &&
     !isSortNew &&
     !isWishlist &&
     !isLiveWeave &&
@@ -373,6 +380,16 @@ export default function ShopView() {
   // router.replace('/'), so just render a blank shell until navigation
   // takes over. Placed after every hook so no Rules-of-Hooks violation.
   if (softGated) return <div className="min-h-screen bg-ivory" />;
+  // Bare /shop (no query params) or any /shop?view=all[&…filters]
+  // drill-down → the All-Sarees Kalki-style landing. Dispatched first
+  // so filter selections written by its drawer (view=all&weave=…) stay
+  // on this view instead of falling into CategoryWeaveView below.
+  if (
+    Array.from(searchParams.keys()).length === 0 ||
+    searchParams.get('view') === 'all'
+  ) {
+    return <AllSareesView />;
+  }
   // /shop?sort=new runs its own self-contained page (Kalki-style). All
   // other /shop views continue through the original ShopView body
   // untouched, so Kanjeevaram/Banarasi/Sale/etc. render exactly as

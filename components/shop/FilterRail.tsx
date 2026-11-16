@@ -2,6 +2,7 @@
 
 import { TIERS, STANDARD_COLORWAYS } from '@/lib/sarees';
 import type { Tier, Weave } from '@/lib/sarees';
+import { ColorList } from './FilterRailPrimitives';
 
 const WEAVES: Weave[] = [
   'Kanjivaram', 'Banarasi', 'Mysore Silk', 'Mangalagiri',
@@ -159,36 +160,12 @@ export default function FilterRail({
       </Section>
 
       <Section title="Color">
-        <div className="flex flex-wrap gap-2">
-          {STANDARD_COLORWAYS.map((c) => {
-            const active = filters.colors.includes(c.id);
-            const count = counts.color[c.id] ?? 0;
-            const disabled = count === 0 && !active;
-            return (
-              <button
-                key={c.id}
-                type="button"
-                onClick={() => toggleColor(c.id)}
-                aria-label={`Filter by ${c.name} (${count})`}
-                aria-pressed={active}
-                disabled={disabled}
-                title={`${c.name} (${count})`}
-                className={`relative w-8 h-8 rounded-full border-2 transition-all ${
-                  active
-                    ? 'border-gray-900 p-0.5'
-                    : disabled
-                    ? 'border-transparent opacity-30 cursor-not-allowed p-0.5'
-                    : 'border-transparent hover:border-gray-400 p-0.5'
-                }`}
-              >
-                <span
-                  className="block w-full h-full rounded-full border border-gray-200"
-                  style={{ backgroundColor: c.hex }}
-                />
-              </button>
-            );
-          })}
-        </div>
+        <ColorList
+          colors={STANDARD_COLORWAYS}
+          selectedIds={filters.colors}
+          counts={counts.color}
+          onToggle={toggleColor}
+        />
         {filters.colors.length > 0 && (
           <div className="mt-2 text-xs text-gray-600">
             {filters.colors

@@ -158,10 +158,15 @@ export default function Featured() {
                     <span className="text-[0.7rem] text-ink/55">({meta.reviews})</span>
                   </div>
                   <div className="flex items-end justify-between gap-2">
-                    <div className="flex items-baseline gap-2 min-w-0">
+                    <div className="flex items-baseline gap-2 flex-wrap min-w-0">
                       <span className="text-base font-bold text-ink">{formatINR(saree.price)}</span>
                       {saree.mrp > saree.price && (
-                        <span className="text-xs text-ink/45 line-through">{formatINR(saree.mrp)}</span>
+                        <>
+                          <span className="text-xs text-ink/45 line-through">{formatINR(saree.mrp)}</span>
+                          <span className="text-xs font-semibold text-scarlet tabular-nums">
+                            {discount}% Off
+                          </span>
+                        </>
                       )}
                     </div>
                     <ViewSimilarButton

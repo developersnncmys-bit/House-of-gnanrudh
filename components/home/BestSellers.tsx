@@ -61,19 +61,29 @@ function ProductCard({ saree }: { saree: (typeof SAREES)[number] }) {
         </div>
       </CardTag>
 
-      {/* Add-to-cart row — underlined label on the left, wishlist heart
-          on the right. Sits directly under the arch image with a hairline
-          divider so it reads as a quiet utility strip, not a loud CTA. */}
-      <div className="flex items-center justify-between gap-2 border-y border-ink/15 py-2.5 mt-1">
+      {/* Add-to-cart row — filled dark CTA with bag icon on the left,
+          wishlist heart on the right. The dark fill makes it read as a
+          real button instead of a passive label. */}
+      <div className="flex items-center justify-between gap-2 mt-2">
         {productHref ? (
           <Link
             href={productHref}
-            className="text-[0.72rem] font-bold tracking-[0.14em] uppercase underline underline-offset-4 text-ink hover:text-maroon transition-colors"
+            className="inline-flex items-center gap-1.5 bg-ink text-ivory px-3.5 py-2 text-[0.65rem] font-bold tracking-[0.18em] uppercase hover:bg-maroon-deep transition-colors"
           >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
             Add to Cart
           </Link>
         ) : (
-          <span className="text-[0.72rem] font-bold tracking-[0.14em] uppercase underline underline-offset-4 text-ink cursor-default">
+          <span className="inline-flex items-center gap-1.5 bg-ink/60 text-ivory px-3.5 py-2 text-[0.65rem] font-bold tracking-[0.18em] uppercase cursor-default">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
             Add to Cart
           </span>
         )}
@@ -108,21 +118,21 @@ function TitleBlock({
 }) {
   return (
     <>
-      {discount > 0 && (
-        <span className="inline-block bg-maroon-deep text-ivory px-2 py-0.5 text-[0.6rem] font-bold tracking-wider uppercase rounded-sm mb-2">
-          {discount}% Off
-        </span>
-      )}
       <h3 className="text-sm font-semibold text-ink line-clamp-1 mb-1 group-hover:text-maroon transition-colors">
         {saree.name}
       </h3>
-      <div className="flex items-baseline gap-2">
+      <div className="flex items-baseline gap-2 flex-wrap">
         <span className="text-base font-bold text-ink tabular-nums">
           {formatINR(saree.price)}
         </span>
         {saree.mrp > saree.price && (
           <span className="text-xs text-ink/45 line-through tabular-nums">
             {formatINR(saree.mrp)}
+          </span>
+        )}
+        {discount > 0 && (
+          <span className="text-xs font-semibold text-scarlet tabular-nums">
+            {discount}% Off
           </span>
         )}
       </div>
@@ -160,25 +170,9 @@ export default function BestSellers() {
     el.scrollBy({ left: dir * (el.clientWidth + 16), behavior: 'smooth' });
   };
 
-  // Category tabs sit above the rail — Pothys pattern. "All" is the
-  // default; the others filter the bestseller lineup by weave so the
-  // same curated-id list powers every tab.
-  type Category = 'all' | 'kanjivaram' | 'mysore' | 'banarasi';
-  const categories: { id: Category; label: string; weave: string | null }[] = [
-    { id: 'all', label: 'All', weave: null },
-    { id: 'kanjivaram', label: 'Kanjeevaram', weave: 'Kanjivaram' },
-    { id: 'mysore', label: 'Mysore Silk', weave: 'Mysore Silk' },
-    { id: 'banarasi', label: 'Banarasi', weave: 'Banarasi' },
-  ];
-  const [category, setCategory] = useState<Category>('all');
-
-  const allItems = bestSellerIds
+  const items = bestSellerIds
     .map((id) => SAREES.find((s) => s.id === id))
     .filter((s): s is (typeof SAREES)[number] => Boolean(s));
-  const currentCategory = categories.find((c) => c.id === category)!;
-  const items = currentCategory.weave
-    ? allItems.filter((s) => s.weave === currentCategory.weave)
-    : allItems;
 
   return (
     <section className="bg-ivory py-10 md:py-14">
@@ -189,7 +183,7 @@ export default function BestSellers() {
               the visitor scrolls the cards or the page. Top offset keeps
               it clear of the fixed nav; extra `pt-*` nudges the block
               down so it doesn't crowd the section's top edge. */}
-          <div className="md:pt-32 lg:pt-44">
+          <div className="md:pt-28 lg:pt-36">
             <div>
             <Image
               src="/lotus.png"
@@ -222,59 +216,14 @@ export default function BestSellers() {
             </div>
           </div>
 
-          {/* Right column — category tabs + View All + card rail. */}
+          {/* Right column — card rail only. The weave-filter tabs and
+              the right-column View All were removed so the carousel
+              sits flush with the top of the heading column. */}
           <div className="relative min-w-0">
-            {/* Category tabs — Pothys pattern. Each tab is separated by
-                a vertical hairline; the active tab is bold ink, inactive
-                ones are muted. Tabs filter the bestseller lineup by tier. */}
-            <div className="flex items-center justify-end flex-wrap gap-x-5 md:gap-x-7 mb-5">
-              {categories.map((c, i) => (
-                <div key={c.id} className="flex items-center gap-x-5 md:gap-x-7">
-                  <button
-                    type="button"
-                    onClick={() => setCategory(c.id)}
-                    aria-pressed={category === c.id}
-                    className={`font-sans text-sm md:text-[0.95rem] tracking-[0.14em] uppercase font-semibold transition-colors whitespace-nowrap ${
-                      category === c.id
-                        ? 'text-ink underline underline-offset-[10px] decoration-2'
-                        : 'text-ink/50 hover:text-ink'
-                    }`}
-                  >
-                    {c.label}
-                  </button>
-                  {i < categories.length - 1 && (
-                    <span className="h-4 w-px bg-ink/25" aria-hidden />
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-end mb-8">
-              {navHref('/shop?sort=bestseller') ? (
-                <Link
-                  href="/shop?sort=bestseller"
-                  className="text-sm font-semibold text-ink/70 hover:text-maroon transition-colors underline underline-offset-4"
-                >
-                  View All
-                </Link>
-              ) : (
-                <span className="text-sm font-semibold text-ink/70 underline underline-offset-4 cursor-default">
-                  View All
-                </span>
-              )}
-            </div>
-
-            <div
-              ref={railRef}
-              className="flex gap-4 md:gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-2"
-            >
-              {items.map((saree) => (
-                <ProductCard key={saree.id} saree={saree} />
-              ))}
-            </div>
-
-            {/* Arrow controls — anchored to the bottom-right of the rail
-                so they read as rail chrome, not a floating widget. */}
-            <div className="hidden md:flex items-center gap-2 justify-end mt-4">
+            {/* Arrow controls — anchored to the top-right of the rail
+                so navigation is reachable before the visitor has to
+                scroll past the full carousel to find it. */}
+            <div className="hidden md:flex items-center gap-2 justify-end mb-4">
               <button
                 onClick={() => scrollBy(-1)}
                 disabled={!canPrev}
@@ -291,6 +240,15 @@ export default function BestSellers() {
               >
                 <LuChevronRight size={18} strokeWidth={2} aria-hidden />
               </button>
+            </div>
+
+            <div
+              ref={railRef}
+              className="flex gap-4 md:gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-2"
+            >
+              {items.map((saree) => (
+                <ProductCard key={saree.id} saree={saree} />
+              ))}
             </div>
           </div>
         </div>

@@ -74,6 +74,33 @@ const values: { title: string; body: string }[] = [
   },
 ];
 
+// Four-chapter production story — from the first bolt of yarn at the
+// weaver's door to the saree folded on the customer's shelf. Written
+// for the About page so a visitor can trace exactly what happens
+// between "we chose this weave" and "it arrived at your door".
+const process: { title: string; body: string; image: string }[] = [
+  {
+    title: 'Sourcing the silk',
+    body: 'Mulberry silk and tested zari, bought directly from weaver cooperatives so every thread is traceable and every weaver is paid fairly.',
+    image: '/about/sourcing.png',
+  },
+  {
+    title: 'Dyeing in small batches',
+    body: 'Yarn is dyed in vats of jewel colours — rani pink, emerald, saffron — and sun-dried before it ever touches the loom.',
+    image: '/about/dying.png',
+  },
+  {
+    title: 'Weaving by hand',
+    body: 'A single Kanchipuram takes two weavers up to three weeks on a pit loom. The korvai join of border and body is tied by hand.',
+    image: '/about/weaving.png',
+  },
+  {
+    title: 'Finishing & the first drape',
+    body: 'Fall and pico are hand-stitched in our Nellore atelier, the blouse piece is cut to match, and every saree is draped for a final inspection before it is folded in muslin and dispatched.',
+    image: '/about/drape.png',
+  },
+];
+
 const timeline: { year: string; title: string; body: string }[] = [
   {
     year: '2025',
@@ -96,7 +123,7 @@ export default function AboutPage() {
           Headline taken verbatim from the brand's own site. */}
       <section className="relative w-full h-[calc(70vh-10px)] min-h-[420px] md:min-h-[520px] max-h-[740px] bg-[#1B0E0A] overflow-hidden">
         <Image
-          src="/homebanner/banner5.png"
+          src="/homebanner/saree3.png"
           alt=""
           fill
           priority
@@ -328,6 +355,58 @@ export default function AboutPage() {
               );
             })}
           </ol>
+        </div>
+      </section>
+
+      {/* From loom to your wardrobe — the four-chapter process story,
+          laid out as a horizontal strip of tall portrait cards. Each
+          card: a bone-chip numeral badge straddling the image/caption
+          border, a display-serif chapter title, and a short paragraph
+          explaining that step. Mirrors the atlas-row rhythm of the
+          Six Weaves list above so the two sections read as one
+          editorial sequence. */}
+      <section className="bg-bone py-12 md:py-16 border-t border-maroon/10">
+        <div className="max-w-[1720px] mx-auto px-6 lg:px-10">
+          <SectionHeader
+            title="From loom to your wardrobe"
+            description="Every saree takes weeks of patient craft. Here is how a GnanRudh silk comes to life — four chapters, from the first thread to the first drape."
+            showDividers={false}
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-[1300px] mx-auto">
+            {process.map((p, i) => (
+              <article
+                key={p.title}
+                className="flex flex-col text-center"
+              >
+                <div className="aspect-[3/5] overflow-hidden bg-bone p-2 md:p-3">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={p.image}
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
+                {/* Numeral badge — overlaps the image/caption seam */}
+                <div className="relative -mt-5 mb-4 flex justify-center">
+                  <span
+                    className="inline-flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full bg-bone ring-1 ring-maroon/15 font-display text-base md:text-lg font-semibold text-maroon tabular-nums shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                </div>
+                <h3 className="font-display text-xl md:text-[1.5rem] font-semibold text-ink leading-tight">
+                  {p.title}
+                </h3>
+                <p className="mt-3 text-sm text-ink/70 leading-[1.8] max-w-[32ch] mx-auto">
+                  {p.body}
+                </p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 

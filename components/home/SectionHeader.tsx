@@ -9,6 +9,10 @@ type SectionHeaderProps = {
   className?: string;
   /** Override the default lotus ornament. Pass a path under `/public`. */
   ornament?: string;
+  /** Tailwind sizing classes for the ornament. Only override when a
+   *  specific section needs a larger/smaller mark — defaults match the
+   *  lotus scale used site-wide. */
+  ornamentClassName?: string;
   /** Hairline rules flanking the ornament. Defaults to true. */
   showDividers?: boolean;
 };
@@ -19,6 +23,7 @@ export default function SectionHeader({
   link,
   className = 'mb-6 md:mb-8',
   ornament = '/lotus.png',
+  ornamentClassName = 'h-7 sm:h-8 md:h-9 w-auto select-none',
   showDividers = true,
 }: SectionHeaderProps) {
   return (
@@ -32,7 +37,7 @@ export default function SectionHeader({
           alt=""
           width={160}
           height={160}
-          className="h-7 sm:h-8 md:h-9 w-auto select-none"
+          className={ornamentClassName}
           draggable={false}
           aria-hidden
         />

@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 import Lenis from '@studio-freight/lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -17,24 +16,9 @@ declare global {
 }
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
-  // Reset scroll to top whenever the route changes. Next.js' App Router
-  // tries to do this natively, but Lenis owns the scroll position and
-  // ignores the framework's scrollTo(0) — so a navigation lands the
-  // visitor wherever the previous page was scrolled. We only listen on
-  // `pathname` (not search params) so filter changes inside /shop keep
-  // their scroll position; only actual page hops snap to the top.
-  const pathname = usePathname();
-
-  useEffect(() => {
-    const lenis = window.__lenis;
-    if (lenis) {
-      // `immediate: true` so the visitor doesn't watch a long glide back
-      // to the top after every click — they expect a clean page boundary.
-      lenis.scrollTo(0, { immediate: true });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'auto' });
-    }
-  }, [pathname]);
+  // Scroll-position management on route change lives in SiteShell —
+  // it handles both the forward-nav "snap to top" and the back/forward
+  // "restore where you were". SmoothScroll just owns Lenis setup.
 
   useEffect(() => {
     const lenis = new Lenis({

@@ -1,11 +1,15 @@
 'use client';
 
+import Image from 'next/image';
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { type SAREES, formatINR, getColorways } from '@/lib/sarees';
+import { getPdpVariants, getProductHero } from '@/lib/product-images';
 import { useShop } from '@/lib/shop-store';
 import { useCheckoutModal } from '@/lib/checkout-modal';
 import { useLoginModal } from '@/lib/login-modal';
 import { useAuth } from '@/lib/auth';
+import { navHref } from '@/lib/soft-launch';
 
 type Saree = (typeof SAREES)[number];
 
@@ -48,6 +52,10 @@ export default function ProductInfo({
   };
   const colorways = useMemo(() => getColorways(saree), [saree]);
   const selectedColor = colorways.find((c) => c.id === colorId) ?? colorways[0];
+  // Same-weave variants for the "More in ..." strip — a true variant
+  // picker. First entry is this saree itself; the rest are other
+  // sarees in the same weave category ranked by palette proximity.
+  const variants = useMemo(() => getPdpVariants(saree), [saree]);
   const [blouseOption, setBlouseOption] = useState<'unstitched' | 'stitched'>('unstitched');
   const [shareNote, setShareNote] = useState<string | null>(null);
 
@@ -120,7 +128,13 @@ export default function ProductInfo({
       </div>
 
       {badge && (
-        <div className="inline-block bg-orange-50 text-orange-800 px-2.5 py-1 text-[0.7rem] font-semibold tracking-wide mb-4">
+        <div
+          className="inline-block text-white px-3.5 py-1 text-[0.7rem] font-semibold tracking-[0.12em] uppercase mb-4 shadow-[0_1px_2px_rgba(77,0,21,0.18)]"
+          style={{
+            backgroundImage:
+              'linear-gradient(135deg, #B07A2A 0%, #8A5A1F 35%, #7A1F2E 70%, #4D0015 100%)',
+          }}
+        >
           {badge}
         </div>
       )}
@@ -139,74 +153,86 @@ export default function ProductInfo({
             MRP {formatINR(mrp)}
           </span>
           <span className="font-semibold text-scarlet tabular-nums">
-            ({discount}% OFF)
+            {discount}% OFF
           </span>
         </div>
       )}
 
-      {/* Color — pill-style swatches with the colour name shown inline
-          on every option, so visitors can tell the full palette at a
-          glance without hovering each dot. Active chip carries a
-          maroon ring and a tinted background wash. */}
-      {colorways.length > 0 && selectedColor && (
+      {/* Same-weave variant strip — a true "more colours" row in the
+          sense a saree customer expects: every tile is another piece
+          in THIS weave (Mangalagiri, Kanjeevaram, etc.), ranked by
+          palette proximity. First tile is this saree (active, not a
+          link); the rest link to their own PDP. */}
+      {variants.length > 1 && (
         <div className="mb-5">
-          <div className="flex items-baseline justify-between mb-3">
-            <div className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-gray-900">
-              Colour
-            </div>
-            <div className="text-sm text-gray-700">
-              <span className="text-gray-500">Selected: </span>
-              <span className="font-semibold text-gray-900">
-                {selectedColor.name}
-              </span>
-            </div>
+          <div className="flex items-baseline gap-2 mb-3">
+            <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-gray-900">
+              More in {saree.weave}
+            </span>
+            <span aria-hidden className="h-px w-5 bg-gold/70" />
+            <span className="font-display italic text-[0.95rem] text-maroon-deep">
+              {saree.name}
+            </span>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {colorways.map((c) => {
-              const active = c.id === selectedColor.id;
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => onColorChange(c.id)}
-                  aria-label={`Choose colour ${c.name}`}
-                  aria-pressed={active}
-                  className={`group inline-flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-full border transition-all ${
-                    active
-                      ? 'border-maroon-deep bg-maroon-deep/5 shadow-[inset_0_0_0_1px_rgba(77,0,21,0.25)]'
-                      : 'border-gray-300 hover:border-gray-600 bg-white'
-                  }`}
-                >
-                  <span className="relative inline-flex items-center justify-center w-6 h-6 rounded-full shrink-0">
-                    <span
-                      className="block w-6 h-6 rounded-full border border-black/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),inset_0_-1px_1px_rgba(0,0,0,0.12)]"
-                      style={{ backgroundColor: c.hex }}
-                    />
-                    {active && (
-                      <svg
-                        viewBox="0 0 24 24"
-                        className="absolute w-3.5 h-3.5 text-white drop-shadow-[0_0_1px_rgba(0,0,0,0.4)]"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden
-                      >
-                        <path d="m5 12 5 5L20 7" />
-                      </svg>
-                    )}
-                  </span>
+          <div className="flex flex-wrap items-start gap-2.5">
+            {variants.map((v) => {
+              const active = v.id === saree.id;
+              const tile = (
+                <>
                   <span
-                    className={`text-[0.78rem] font-semibold whitespace-nowrap transition-colors ${
+                    className={`relative block w-14 h-[72px] overflow-hidden bg-bone transition-all ${
                       active
-                        ? 'text-maroon-deep'
-                        : 'text-gray-700 group-hover:text-gray-900'
+                        ? 'ring-1 ring-maroon-deep ring-offset-2 ring-offset-white'
+                        : 'ring-1 ring-black/15 group-hover:ring-black/45'
                     }`}
                   >
-                    {c.name}
+                    <Image
+                      src={getProductHero(v)}
+                      alt=""
+                      fill
+                      sizes="56px"
+                      className={`object-cover transition-all duration-300 ${
+                        active
+                          ? 'scale-105'
+                          : 'saturate-[0.85] group-hover:saturate-100 group-hover:scale-105'
+                      }`}
+                    />
+                    <span
+                      aria-hidden
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        boxShadow:
+                          'inset 0 1px 1px rgba(255,255,255,0.18), inset 0 -2px 4px rgba(0,0,0,0.22)',
+                      }}
+                    />
                   </span>
-                </button>
+                  <span
+                    aria-hidden
+                    className={`h-[2px] w-6 transition-all ${
+                      active ? 'bg-maroon-deep' : 'bg-transparent'
+                    }`}
+                  />
+                </>
+              );
+              return active ? (
+                <div
+                  key={v.id}
+                  aria-current="page"
+                  title={`${v.name} (current)`}
+                  className="group flex flex-col items-center gap-1.5"
+                >
+                  {tile}
+                </div>
+              ) : (
+                <Link
+                  key={v.id}
+                  href={navHref(`/shop/${v.id}`)}
+                  aria-label={`View ${v.name}`}
+                  title={v.name}
+                  className="group flex flex-col items-center gap-1.5 focus:outline-none"
+                >
+                  {tile}
+                </Link>
               );
             })}
           </div>
@@ -279,49 +305,6 @@ export default function ProductInfo({
         </button>
       </div>
 
-      {/* Trust trio — 3 columns on md+, stacked 3×1 on mobile. */}
-      <div className="mt-8 grid grid-cols-3 gap-x-3 gap-y-5 pt-6 border-t border-gray-200">
-        <TrustItem icon="return" label="48 Hr Exchange & Returns*" />
-        <TrustItem icon="star" label="Assured Quality" />
-        <TrustItem icon="truck" label="Free Shipping*" />
-      </div>
     </div>
   );
-}
-
-function TrustItem({
-  icon,
-  label,
-}: {
-  icon: 'percent' | 'return' | 'star' | 'truck';
-  label: string;
-}) {
-  // Vertical mini-tile: icon medallion stacked above a short label.
-  // Matches the Kalki PDP trust row where every cell is centre-aligned.
-  return (
-    <div className="flex flex-col items-center text-center gap-1.5 text-[0.7rem] md:text-xs leading-snug text-gray-700">
-      <span className="w-8 h-8 flex items-center justify-center text-gray-800 shrink-0">
-        <Icon name={icon} />
-      </span>
-      <span className="font-medium text-gray-700">{label}</span>
-    </div>
-  );
-}
-
-function Icon({ name }: { name: 'percent' | 'return' | 'star' | 'truck' }) {
-  const c = {
-    width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none',
-    stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const, 'aria-hidden': true,
-  };
-  switch (name) {
-    case 'percent':
-      return (<svg {...c}><circle cx="12" cy="12" r="9" /><path d="m8 16 8-8" /><circle cx="9" cy="9" r="1.2" /><circle cx="15" cy="15" r="1.2" /></svg>);
-    case 'return':
-      return (<svg {...c}><path d="M3 12a9 9 0 1 0 3-6.7" /><path d="M3 4v5h5" /></svg>);
-    case 'star':
-      return (<svg {...c}><path d="m12 2 2.9 6.9L22 10l-5.5 4.8L18.2 22 12 18.3 5.8 22l1.7-7.2L2 10l7.1-1.1L12 2Z" /></svg>);
-    case 'truck':
-      return (<svg {...c}><path d="M3 7h11v9H3zM14 11h4l3 3v2h-7z" /><circle cx="7" cy="18" r="1.6" /><circle cx="17.5" cy="18" r="1.6" /></svg>);
-  }
 }

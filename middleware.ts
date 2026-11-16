@@ -14,6 +14,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const ALLOWED = new Set<string>([
   '/',
+  '/shop',
   '/about',
   '/stores',
   '/contact',

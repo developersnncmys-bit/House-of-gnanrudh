@@ -32,7 +32,7 @@ type Slide = {
 const SLIDES: Slide[] = [
   {
     id: 'festive-new-arrivals',
-    image: '/homebanner/banner1.png',
+    image: '/homebanner/saree1.png',
     objectPosition: '50% 25%',
     textSide: 'right',
     eyebrow: 'Festive',
@@ -45,7 +45,7 @@ const SLIDES: Slide[] = [
   },
   {
     id: 'bridal-edit',
-    image: '/homebanner/banner2.png',
+    image: '/homebanner/saree2.png',
     objectPosition: '50% 22%',
     textSide: 'right',
     eyebrow: 'Wedding Season',
@@ -120,11 +120,16 @@ export default function Hero() {
             <div className="md:hidden absolute inset-0 bg-[#1B0E0A]/70 pointer-events-none" />
 
             {/* Text panel — aligned by `isLeft`. On mobile always
-                centre-left so copy doesn't get cramped. */}
+                centre-left so copy doesn't get cramped. When the text
+                sits on the right, add extra right padding so the block
+                breathes away from the viewport edge and reads as pulled
+                leftward into the frame rather than hugging the corner. */}
             <div
               className={clsx(
                 'relative h-full max-w-[1720px] mx-auto px-6 md:px-10 lg:px-14 flex items-center',
-                isLeft ? 'justify-start' : 'md:justify-end justify-start',
+                isLeft
+                  ? 'justify-start'
+                  : 'md:justify-end justify-start md:pr-20 lg:pr-32 xl:pr-44',
               )}
             >
               <div className="max-w-lg md:max-w-[min(32rem,38vw)] text-ivory">

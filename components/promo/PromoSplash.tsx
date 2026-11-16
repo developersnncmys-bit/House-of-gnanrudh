@@ -78,75 +78,62 @@ export default function PromoSplash() {
       />
 
       <div
-        className={`relative w-full max-w-[680px] aspect-[16/10] max-h-[68vh] overflow-hidden shadow-2xl bg-[#1B0E0A] flex transition-all duration-300 ${
+        className={`relative w-full max-w-[860px] aspect-[16/10] max-h-[78vh] overflow-hidden shadow-2xl bg-ink transition-all duration-300 ${
           closing ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
         }`}
       >
-        {/* Left — solid cocoa panel with all the text */}
-        <div className="relative w-[55%] bg-[#1B0E0A] flex flex-col justify-between p-6 md:p-8 lg:p-9 text-ivory z-10">
-          <div className="flex flex-col items-start">
-            <img
-              src="/brand/cream-logo-horizontal.svg"
-              alt="House Of GnanRudh"
-              width={160}
-              height={48}
-              className="h-10 md:h-12 w-auto select-none"
-              draggable={false}
-            />
+        {/* Full-bleed hero photograph — no side panel, no scrim */}
+        <Image
+          src="/blog/nivi-style2.png"
+          alt=""
+          fill
+          sizes="(max-width: 768px) 100vw, 860px"
+          priority={false}
+          className="object-cover object-[70%_18%]"
+        />
+
+        {/* Text content sits directly on the image, bottom-left.
+            Text-shadow handles legibility instead of a dark overlay. */}
+        <div
+          className="absolute inset-x-0 bottom-0 p-6 md:p-9 lg:p-10 text-ivory max-w-[560px]"
+          style={{
+            textShadow:
+              '0 2px 12px rgba(0,0,0,0.55), 0 0 2px rgba(0,0,0,0.4)',
+          }}
+        >
+          <div className="text-[0.6rem] md:text-[0.65rem] tracking-[0.4em] uppercase text-gold">
+            New Arrivals · Festive 2026
           </div>
-
-          <div>
-            <div className="text-[0.6rem] md:text-[0.65rem] tracking-[0.4em] uppercase text-gold">
-              Festive Edit
-            </div>
-            <h2
-              id="promo-title"
-              className="mt-2 text-3xl md:text-4xl lg:text-[2.6rem] font-bold leading-[0.95] tracking-tight"
-            >
-              FLAT 20–30%<br />OFF
-            </h2>
-            <p className="mt-3 text-xs md:text-[0.85rem] text-ivory/85 leading-relaxed max-w-[34ch]">
-              On select hand-loomed heirlooms across Kanjeevaram, Banarasi and Gadwal. This week only.
-            </p>
-
-            <div className="mt-5 flex flex-wrap items-center gap-3">
-              <Link
-                href="/shop?sale=1"
-                onClick={dismiss}
-                className="inline-flex items-center gap-2 bg-ivory text-ink px-5 py-2.5 text-xs font-semibold tracking-wide hover:bg-gold hover:text-ink transition-colors"
-              >
-                Shop the Edit
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
-                  <path d="M5 12h14M13 5l7 7-7 7" />
-                </svg>
-              </Link>
-              <button
-                type="button"
-                onClick={dismiss}
-                className="text-xs tracking-[0.18em] uppercase text-ivory/70 hover:text-ivory underline underline-offset-4 px-2 py-2"
-              >
-                Maybe later
-              </button>
-            </div>
-          </div>
-
-          <p className="text-[0.55rem] tracking-[0.32em] uppercase text-ivory/45">
-            Limited time · T&amp;C apply
+          <h2
+            id="promo-title"
+            className="mt-2 font-display font-semibold text-3xl md:text-4xl lg:text-5xl leading-[1.05]"
+          >
+            The Festive Edit
+          </h2>
+          <p className="mt-3 text-xs md:text-[0.9rem] text-ivory leading-relaxed max-w-[42ch]">
+            A new chapter of hand-loomed heirlooms — Paithani, Kanjeevaram and Banarasi, photographed across the atelier floor.
           </p>
-        </div>
 
-        {/* Right — image */}
-        <div className="relative w-[45%]">
-          <Image
-            src="/homebanner/Haldi Paithani.webp"
-            alt=""
-            fill
-            sizes="(max-width: 768px) 100vw, 400px"
-            priority={false}
-            className="object-cover object-[65%_8%]"
-          />
-          {/* Soft feather where the cocoa panel meets the image */}
-          <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[#1B0E0A] to-transparent pointer-events-none" />
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <Link
+              href="/shop?sort=new"
+              onClick={dismiss}
+              className="inline-flex items-center gap-2 bg-ivory text-ink px-5 py-2.5 text-xs font-semibold tracking-[0.15em] uppercase hover:bg-gold hover:text-ink transition-colors"
+              style={{ textShadow: 'none' }}
+            >
+              Explore Collection
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+                <path d="M5 12h14M13 5l7 7-7 7" />
+              </svg>
+            </Link>
+            <button
+              type="button"
+              onClick={dismiss}
+              className="text-xs tracking-[0.18em] uppercase text-ivory hover:text-gold underline underline-offset-4 px-2 py-2"
+            >
+              Not now
+            </button>
+          </div>
         </div>
 
         {/* Close */}
@@ -154,7 +141,7 @@ export default function PromoSplash() {
           type="button"
           onClick={dismiss}
           aria-label="Close"
-          className="absolute top-3 right-3 z-20 w-8 h-8 flex items-center justify-center text-ivory/90 hover:text-ivory bg-[#1B0E0A]/40 hover:bg-[#1B0E0A]/70 backdrop-blur-sm transition-colors"
+          className="absolute top-3 right-3 z-20 w-8 h-8 flex items-center justify-center text-ivory/90 hover:text-ivory bg-ink/40 hover:bg-ink/70 backdrop-blur-sm transition-colors"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
             <path d="m6 6 12 12M18 6 6 18" />

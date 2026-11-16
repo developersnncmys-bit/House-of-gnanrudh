@@ -14,22 +14,22 @@ type Tile = {
 const TILES: Tile[] = [
   {
     href: '/shop?tier=bridal',
-    title: 'Bridal Wear',
-    caption: 'Wedding-ready bridal silks, woven for the day you keep.',
+    title: 'Bridal',
+    caption: 'Wedding-ready silks, woven for the day you keep.',
     image: '/product/bridal.webp',
   },
   {
     href: '/shop?tier=festive',
-    title: 'Festive Wear',
+    title: 'Festive',
     caption: 'Festive & reception sarees — our quickest movers.',
-    image: '/product/partywear.webp',
+    image: '/product/Explore-patola.webp',
     badge: 'Bestseller',
   },
   {
-    href: '/shop?weave=Banarasi',
-    title: 'Banarasi Sarees',
-    caption: 'Pure pit-loom silks from the looms of Varanasi.',
-    image: '/product/banarasi.webp',
+    href: '/shop?tier=everyday',
+    title: 'Everyday',
+    caption: 'Hand-woven cottons and lightweight silks for the daily.',
+    image: '/pattu%20sarees/pa3.webp',
   },
 ];
 

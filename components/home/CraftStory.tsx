@@ -43,25 +43,25 @@ const occasions: Occasion[] = [
   {
     title: 'Haldi Hues',
     href: '/shop?tier=bridal&occasion=haldi',
-    image: '/bestsellers/haldi%20paithani2.webp',
+    image: '/ocassions/Haldi.png',
     imagePosition: '50% 30%',
   },
   {
     title: 'Mehendi Moments',
     href: '/shop?tier=bridal&occasion=mehendi',
-    image: '/bestsellers/Mayura%20kanjee.webp',
+    image: '/ocassions/Mehendi.png',
     imagePosition: '50% 25%',
   },
   {
     title: 'Wedding Day',
     href: '/shop?tier=bridal',
-    image: '/photos/bridal.webp',
+    image: '/ocassions/bridal.png',
     imagePosition: '50% 20%',
   },
   {
     title: 'The Reception',
     href: '/shop?tier=bridal&occasion=reception',
-    image: '/images/c12.jpg',
+    image: '/product/banarasi.webp',
     imagePosition: '50% 25%',
   },
 ];
@@ -74,10 +74,12 @@ export default function CraftStory() {
         <SectionHeader
           title="The Bridal Edit"
           description="Heirloom silks, woven to remember — temple-border Kanjeevarams, pit-loom Banarasis and double-ikat Patolas for the day you keep."
+          ornament="/homebanner/mangala.png"
+          ornamentClassName="h-12 sm:h-14 md:h-16 w-auto select-none"
         />
       </div>
 
-      <div className="relative w-full min-h-[510px] md:min-h-[calc(75vh+30px)] overflow-hidden">
+      <div className="relative w-full min-h-[640px] md:min-h-[calc(95vh+30px)] overflow-hidden">
         <Image
           src={feature.image}
           alt=""
@@ -92,8 +94,8 @@ export default function CraftStory() {
             regardless of what sits under it in the photograph. */}
         <div className="absolute inset-0 bg-gradient-to-l from-ink/70 via-ink/30 to-transparent md:via-ink/10" />
 
-        <div className="relative z-10 min-h-[510px] md:min-h-[calc(75vh+30px)] flex items-center justify-end">
-          <div className="w-full md:w-3/5 lg:w-1/2 px-6 md:px-12 lg:px-20 py-14 text-ivory flex flex-col items-center text-center">
+        <div className="relative z-10 min-h-[640px] md:min-h-[calc(95vh+30px)] flex items-center justify-end">
+          <div className="w-full md:w-3/5 lg:w-1/2 px-6 md:px-12 lg:px-20 py-14 text-ivory flex flex-col items-center text-center translate-y-3 md:translate-y-6 lg:translate-y-10">
             <h3
               className="font-normal text-6xl md:text-7xl lg:text-7xl leading-[1.05] tracking-tight"
               style={{
