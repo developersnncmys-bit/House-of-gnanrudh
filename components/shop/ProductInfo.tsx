@@ -177,6 +177,7 @@ export default function ProductInfo({
           <div className="flex flex-wrap items-start gap-2.5">
             {variants.map((v) => {
               const active = v.id === saree.id;
+              const safeHref = navHref(`/shop/${v.id}`);
               const tile = (
                 <>
                   <span
@@ -214,19 +215,22 @@ export default function ProductInfo({
                   />
                 </>
               );
-              return active ? (
-                <div
-                  key={v.id}
-                  aria-current="page"
-                  title={`${v.name} (current)`}
-                  className="group flex flex-col items-center gap-1.5"
-                >
-                  {tile}
-                </div>
-              ) : (
+              if (active || !safeHref) {
+                return (
+                  <div
+                    key={v.id}
+                    aria-current={active ? 'page' : undefined}
+                    title={active ? `${v.name} (current)` : v.name}
+                    className="group flex flex-col items-center gap-1.5 cursor-default"
+                  >
+                    {tile}
+                  </div>
+                );
+              }
+              return (
                 <Link
                   key={v.id}
-                  href={navHref(`/shop/${v.id}`)}
+                  href={safeHref}
                   aria-label={`View ${v.name}`}
                   title={v.name}
                   className="group flex flex-col items-center gap-1.5 focus:outline-none"
