@@ -88,12 +88,20 @@ export default function Hero() {
             }}
             aria-hidden={i !== active}
           >
-            {/* Full-bleed background image. */}
+            {/* Full-bleed background image. Every slide is `priority` so
+                Next pre-loads the whole carousel — the first slide is LCP,
+                and because the carousel auto-advances every 7s the second
+                slide becomes above-the-fold almost immediately. `fetchPriority`
+                is bumped to "high" on slide 0 only (browsers cap one high-
+                priority image per page to be meaningful). `quality=85`
+                strikes a sharp/weight balance for the 2k-wide hero banner. */}
             <Image
               src={slide.image}
               alt=""
               fill
-              priority={i === 0}
+              priority
+              fetchPriority={i === 0 ? 'high' : 'auto'}
+              quality={85}
               sizes="100vw"
               className="object-cover"
               style={{

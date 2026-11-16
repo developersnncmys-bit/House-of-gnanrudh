@@ -123,10 +123,12 @@ export default function AboutPage() {
           Headline taken verbatim from the brand's own site. */}
       <section className="relative w-full h-[calc(70vh-10px)] min-h-[420px] md:min-h-[520px] max-h-[740px] bg-[#1B0E0A] overflow-hidden">
         <Image
-          src="/homebanner/saree3.png"
+          src="/homebanner/saree4.png"
           alt=""
           fill
           priority
+          fetchPriority="high"
+          quality={75}
           sizes="100vw"
           className="object-cover"
           style={{ objectPosition: '50% 30%' }}
