@@ -243,8 +243,11 @@ export default function ProductInfo({
         </div>
       )}
 
-      {/* Blouse stitching — full-width tab buttons (Kalki pattern).
-          Big side-by-side tabs feel like a choice, not a chip picker. */}
+      {/* Blouse stitching — hidden from the PDP for now. The underlying
+          `blouseOption` state + `stitchingFee` calc still live on the
+          component (default 'unstitched' → fee ₹0), so re-enabling this
+          block is a pure uncomment — no state or pricing wiring needed. */}
+      {/*
       <div className="mb-5">
         <div className="text-sm font-semibold text-gray-900 mb-2">
           Blouse Stitching Option
@@ -274,6 +277,7 @@ export default function ProductInfo({
           </button>
         </div>
       </div>
+      */}
 
       {/* Estimated delivery — Kalki pattern: "Delivered by : Wed, 18 Nov"
           with a simple truck glyph, no coloured banner. */}
