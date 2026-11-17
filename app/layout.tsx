@@ -49,12 +49,13 @@ export const metadata: Metadata = {
   description:
     'A house of heirloom silk sarees — Kanjeevaram, Banarasi, Mysore Silk, Mangalagiri, Pochampally, Gadwal, Patola, Fancy Sarees and Mixed Pattu drapes. Hand-woven, hand-finished, shipped worldwide.',
   icons: {
-    // Brand crest used as the browser-tab favicon and the home-screen
-    // shortcut icon. PNG is used for both so Safari / iOS render the
-    // same artwork at a high enough resolution to look sharp.
-    icon: [{ url: '/G-R-logo.png', type: 'image/png' }],
-    shortcut: [{ url: '/G-R-logo.png' }],
-    apple: [{ url: '/G-R-logo.png' }],
+    // Favicon on a baked-in white tile (512×512, 8% padding). The flat
+    // white surface keeps the crest readable against dark browser tabs
+    // and dark iOS home-screen themes where a transparent PNG would
+    // otherwise disappear into the chrome.
+    icon: [{ url: '/fav-icon-white.png', type: 'image/png' }],
+    shortcut: [{ url: '/fav-icon-white.png' }],
+    apple: [{ url: '/fav-icon-white.png' }],
   },
 };
 

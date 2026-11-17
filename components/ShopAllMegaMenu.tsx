@@ -80,7 +80,7 @@ export default function ShopAllMegaMenu({
   return (
     <div
       className={clsx(
-        'absolute left-0 right-0 top-full bg-white border-t border-ink/10 shadow-[0_12px_28px_-12px_rgba(77,0,21,0.18)] transition-all duration-200 origin-top',
+        'absolute left-0 right-0 top-full bg-ivory border-t border-ink/10 shadow-[0_12px_28px_-12px_rgba(77,0,21,0.18)] transition-all duration-200 origin-top',
         open
           ? 'opacity-100 translate-y-0 pointer-events-auto'
           : 'opacity-0 -translate-y-2 pointer-events-none',
@@ -112,7 +112,7 @@ export default function ShopAllMegaMenu({
                     // right padding AND across the flex gap so it visually
                     // attaches to the right-side image grid (also ivory).
                     isActive
-                      ? 'bg-white text-gold-deep rounded-l-sm -mr-[52px]'
+                      ? 'bg-ivory text-gold-deep rounded-l-sm -mr-[52px]'
                       : 'text-ink hover:text-gold-deep',
                   )}
                 >

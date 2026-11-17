@@ -296,39 +296,60 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
   return (
     <header
       className={clsx(
-        'fixed top-0 inset-x-0 z-40 transition-shadow duration-300 bg-bone',
+        'fixed top-0 inset-x-0 z-40 transition-shadow duration-300 bg-ivory',
         scrolled && 'shadow-[0_1px_0_rgba(77,0,21,0.08)]',
       )}
     >
       {/* Top promo strip — rotating Kalki-style announcement */}
       <PromoStrip />
 
-      {/* Row 2 — hamburger (mobile) on the left, centred logo crest in
-          the middle, utility icons on the right. Centering is done with
-          a 3-section flex so the logo stays truly centered regardless
-          of what fills the left/right sections. */}
+      {/* Row 2 — logo flush-left (brand anchor), utilities right-aligned.
+          Find Store lives in the right cluster directly adjacent to the
+          search teaser so the eye reads: brand → actions → account. The
+          mobile hamburger (gated on !SOFT_LAUNCH) still sits at the very
+          left, before the logo. */}
       <div>
-        <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 py-1 flex items-center gap-3 sm:gap-5">
-          {/* Left: hamburger (mobile) + Find a Store (desktop). Takes
-              1/3 so the centre column is anchored by equal side columns. */}
-          <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 min-w-0 flex-1">
-            {!SOFT_LAUNCH && (
-              <button
-                type="button"
-                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-                aria-expanded={menuOpen}
-                onClick={() => setMenuOpen((v) => !v)}
-                className="group lg:hidden text-ink p-1 -ml-1"
-              >
-                <span className="inline-flex transition-transform duration-300 ease-out group-hover:scale-110">
-                  {menuOpen ? <IconClose /> : <IconMenu />}
-                </span>
-              </button>
-            )}
+        <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 py-[6px] flex items-center gap-3 sm:gap-5">
+          {!SOFT_LAUNCH && (
+            <button
+              type="button"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((v) => !v)}
+              className="group lg:hidden text-ink p-1 -ml-1"
+            >
+              <span className="inline-flex transition-transform duration-300 ease-out group-hover:scale-110">
+                {menuOpen ? <IconClose /> : <IconMenu />}
+              </span>
+            </button>
+          )}
+
+          {/* Left: logo crest, nudged 10px inward from the container's
+              left edge for breathing room against the padding. */}
+          <Link
+            href="/"
+            aria-label="House Of GnanRudh — home"
+            className="flex items-center shrink-0 group ml-[10px]"
+          >
+            <Image
+              src="/G-R-logo.png"
+              alt="House Of GnanRudh"
+              width={240}
+              height={240}
+              priority
+              className="h-14 sm:h-[64px] md:h-[72px] lg:h-[76px] w-auto select-none transition-opacity group-hover:opacity-85"
+              draggable={false}
+            />
+          </Link>
+
+          {/* Right: Find Store + search + account/wishlist/bag. `flex-1
+              justify-end` fills the remaining width and anchors the
+              cluster to the right edge; `pr-[30px]` nudges inward. */}
+          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 pr-[30px]">
             {(() => {
               const findStoreHref = navHref('/stores');
               const findStoreCls =
-                'group hidden lg:flex items-center gap-2 py-2 lg:ml-5 text-ink hover:text-scarlet transition-colors whitespace-nowrap leading-none';
+                'group hidden lg:flex items-center gap-2 py-2 text-ink hover:text-scarlet transition-colors whitespace-nowrap leading-none';
               const findStoreContent = (
                 <>
                   <span className="inline-flex transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-110">
@@ -349,32 +370,6 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                 </span>
               );
             })()}
-          </div>
-
-          {/* Centre: logo crest. */}
-          <Link
-            href="/"
-            aria-label="House Of GnanRudh — home"
-            className="flex items-center shrink-0 group"
-          >
-            <Image
-              src="/G-R-logo.png"
-              alt="House Of GnanRudh"
-              width={240}
-              height={240}
-              priority
-              className="h-16 sm:h-[72px] md:h-20 lg:h-[88px] w-auto select-none transition-opacity group-hover:opacity-85"
-              draggable={false}
-            />
-          </Link>
-
-          {/* Right: utilities (lg+) + icons. On mobile the hamburger
-              drawer covers Find a Store, and a search icon still appears
-              here so touch users can reach search without opening the
-              drawer. `flex-1` mirrors the left column so the centre
-              logo stays visually centred. `pr-[30px]` nudges the cluster
-              30px inward from the container edge. */}
-          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 pr-[30px]">
             <button
               type="button"
               aria-label={searchOpen ? 'Close search' : 'Open search'}
