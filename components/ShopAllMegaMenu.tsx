@@ -14,10 +14,10 @@ import clsx from 'clsx';
  * component just paints the panel and handles group switching.
  */
 
-type Tile = { label: string; href: string; image?: string };
-type Group = { id: string; label: string; tiles: Tile[] };
+export type Tile = { label: string; href: string; image?: string };
+export type Group = { id: string; label: string; tiles: Tile[] };
 
-const GROUPS: Group[] = [
+export const GROUPS: Group[] = [
   {
     id: 'weaves',
     label: 'Shop by Weave',

@@ -67,12 +67,18 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   // first, so we capture the real pre-navigation scrollY.
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return;
-    const key = () =>
-      `scroll:${window.location.pathname}${window.location.search}`;
+    // Capture the key ONCE at effect setup. If we read window.location
+    // inside save(), the cleanup run (which fires on pathname change)
+    // would read the NEW url — because history has already updated by
+    // the time React's useLayoutEffect cleanup runs — and we'd write
+    // the leaving page's scrollY under the arriving page's key. Net
+    // result: the position we want to restore on Back is gone, and
+    // Back lands at the top of the home page every time.
+    const effectKey = `scroll:${window.location.pathname}${window.location.search}`;
     let raf = 0;
     const save = () => {
       try {
-        sessionStorage.setItem(key(), String(window.scrollY));
+        sessionStorage.setItem(effectKey, String(window.scrollY));
       } catch {}
     };
     const onScroll = () => {
@@ -105,32 +111,54 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
     else window.scrollTo(0, 0);
   }, [pathname]);
 
-  // Back / forward navigation (POP) → restore the saved scroll for
-  // the target url. Deferred behind two rAFs + a 120ms retry so the
-  // new DOM has time to lay out enough height for the target Y to be
-  // reachable; snapping synchronously here would clamp to 0 when the
-  // page hadn't rendered yet.
+  // Back / forward navigation (POP) → restore the saved scroll for the
+  // target url. The hard part is that below-the-fold content (hero
+  // image, product rails with lazy images, async-rendered sections) may
+  // still be laying out when this effect fires, so scrollHeight is too
+  // small for the target Y and the browser clamps us to the current
+  // max. Strategy: attempt immediately, then on every rAF for up to ~1s,
+  // bailing out as soon as scrollY actually matches the target (or the
+  // page has clearly grown past it). This way slow-loading pages still
+  // land back where the shopper left off instead of near the top.
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (!popRef.current) return;
     popRef.current = false;
     const key = `scroll:${window.location.pathname}${window.location.search}`;
     const targetY = Number(sessionStorage.getItem(key) ?? 0);
+    if (!targetY) return;
+
+    let cancelled = false;
+    let attemptsLeft = 40; // ~640ms at 16ms/frame; enough for lazy rails
+
     const apply = () => {
+      if (cancelled) return;
+      const maxY =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const y = Math.min(targetY, Math.max(0, maxY));
       const lenis = window.__lenis;
-      if (lenis) lenis.scrollTo(targetY, { immediate: true });
-      else window.scrollTo(0, targetY);
+      if (lenis) lenis.scrollTo(y, { immediate: true });
+      else window.scrollTo(0, y);
+
+      // Done if we reached the target OR the page can't grow any taller
+      // (maxY stopped increasing and we're clamped — accept the clamp).
+      if (Math.abs(window.scrollY - targetY) < 2) return;
+      if (maxY < targetY && attemptsLeft > 0) {
+        attemptsLeft -= 1;
+        requestAnimationFrame(apply);
+      }
     };
+
+    // First attempt after 2 rAFs (give React paint a tick), then the
+    // loop above keeps re-trying while content grows.
     const r1 = requestAnimationFrame(() => {
-      const r2 = requestAnimationFrame(apply);
-      (apply as unknown as { _r2?: number })._r2 = r2;
+      if (cancelled) return;
+      requestAnimationFrame(apply);
     });
-    const t = window.setTimeout(apply, 120);
+
     return () => {
+      cancelled = true;
       cancelAnimationFrame(r1);
-      const r2 = (apply as unknown as { _r2?: number })._r2;
-      if (r2) cancelAnimationFrame(r2);
-      window.clearTimeout(t);
     };
   }, [pathname]);
   // The journey long-read (/journey) is a self-contained cinematic
@@ -138,20 +166,20 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   // and no footer. `/` is the main home and keeps the global chrome.
   const immersive = pathname === '/journey';
   const showFooter = !immersive;
-  // Nav stacks promo strip (~36px min-h) + main row (py-1 wrapping a
+  // Nav stacks promo strip (~36px min-h) + main row (py-[6px] wrapping a
   // tall logo image) + 1px bottom border + a desktop-only sub-row
   // (Row 3: `hidden lg:block` with py-3 + ~12px text + 1px border ≈
-  // 37px). Logo image is `h-16 sm:h-[72px] md:h-20 lg:h-[88px]`.
-  //   base:  36 + (64 + 8) + 1            ≈ 109 → pt-[112px]
-  //   sm:    36 + (72 + 8) + 1            ≈ 117 → pt-[120px]
-  //   md:    36 + (80 + 8) + 1            ≈ 125 → pt-[128px]
-  //   lg:    36 + (88 + 8) + 1 + 37       ≈ 170 → pt-[174px]
+  // 37px). Logo image is `h-11 sm:h-[64px] md:h-[72px] lg:h-[76px]`.
+  //   base:  36 + (44 + 12) + 1           ≈  93 → pt-[96px]
+  //   sm:    36 + (64 + 12) + 1           ≈ 113 → pt-[120px]
+  //   md:    36 + (72 + 12) + 1           ≈ 121 → pt-[128px]
+  //   lg:    36 + (76 + 12) + 1 + 37      ≈ 162 → pt-[174px]
   // Spacer background must match the nav's own background (nav is
   // bg-bone) — otherwise a visible stripe appears between the nav's
   // bottom border and the first page section.
   const mainClass = immersive
     ? ''
-    : 'pt-[112px] sm:pt-[120px] md:pt-[128px] lg:pt-[174px] bg-bone';
+    : 'pt-[96px] sm:pt-[120px] md:pt-[128px] lg:pt-[174px] bg-bone';
 
   return (
     <LoginModalProvider>

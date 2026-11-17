@@ -26,15 +26,25 @@ export default function FilterTriggerBar({
   onSortChange: (value: string) => void;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4 flex-wrap pb-5 border-b border-gray-200">
-      <div className="flex items-center gap-4">
+    <div className="pb-5 border-b border-gray-200">
+      {/* Mobile-only product count — small line above the pill row so
+          the two action pills below can take equal width without the
+          count elbowing them. Hidden on sm+ where the count sits
+          inline next to the filter pill. */}
+      <div className="sm:hidden mb-3 text-sm text-gray-700 tabular-nums">
+        <span className="font-semibold text-gray-900">{productCount}</span>{' '}
+        {productCount === 1 ? 'product' : 'products'}
+      </div>
+
+      <div className="flex items-center justify-between gap-3 sm:gap-4">
+      <div className="flex items-center gap-3 sm:gap-4 flex-1 sm:flex-initial">
         {/* Show Filters — premium pill: ink-filled icon medallion
             inside a bordered chip, tracked-out label, gold active
             badge. Hover darkens the border and lifts the shadow. */}
         <button
           type="button"
           onClick={onOpenFilter}
-          className="group inline-flex items-center gap-2.5 bg-white border border-gray-900 hover:border-maroon-deep text-gray-900 pl-1 pr-4 py-1 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_-2px_rgba(0,0,0,0.12)] transition-all"
+          className="group inline-flex items-center justify-center sm:justify-start gap-2.5 bg-white border border-gray-900 hover:border-maroon-deep text-gray-900 pl-1 pr-4 py-1 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_-2px_rgba(0,0,0,0.12)] transition-all flex-1 sm:flex-initial"
         >
           <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-ink text-white group-hover:bg-maroon-deep transition-colors">
             <SlidersIcon />
@@ -48,7 +58,7 @@ export default function FilterTriggerBar({
             </span>
           )}
         </button>
-        <div className="text-sm text-gray-700 tabular-nums">
+        <div className="hidden sm:block text-sm text-gray-700 tabular-nums">
           <span className="font-semibold text-gray-900">{productCount}</span>{' '}
           {productCount === 1 ? 'product' : 'products'}
         </div>
@@ -58,11 +68,11 @@ export default function FilterTriggerBar({
           medallion inset at the left, same tracked label, same border
           + shadow. Native <select> sits transparently on top of the
           label so the pill reads consistent with its sibling. */}
-      <label className="inline-flex items-center gap-3 text-sm text-gray-700">
-        <span className="uppercase tracking-[0.18em] text-[0.68rem] font-bold text-gray-500">
+      <label className="flex sm:inline-flex items-center gap-3 text-sm text-gray-700 flex-1 sm:flex-initial">
+        <span className="hidden sm:inline uppercase tracking-[0.18em] text-[0.68rem] font-bold text-gray-500">
           Sort by
         </span>
-        <div className="group relative inline-flex items-center gap-2.5 bg-white border border-gray-900 hover:border-maroon-deep text-gray-900 pl-1 pr-10 py-1 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_-2px_rgba(0,0,0,0.12)] transition-all">
+        <div className="group relative inline-flex items-center justify-center sm:justify-start gap-2.5 bg-white border border-gray-900 hover:border-maroon-deep text-gray-900 pl-1 pr-10 py-1 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_-2px_rgba(0,0,0,0.12)] transition-all w-full sm:w-auto">
           <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-ink text-white group-hover:bg-maroon-deep transition-colors">
             <SortIcon />
           </span>
@@ -95,6 +105,7 @@ export default function FilterTriggerBar({
           </svg>
         </div>
       </label>
+      </div>
     </div>
   );
 }

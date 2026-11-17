@@ -16,8 +16,8 @@ import {
 import { PiStorefront } from 'react-icons/pi';
 import AnimatedSearchBar from '@/components/AnimatedSearchBar';
 import PromoStrip from '@/components/PromoStrip';
-import ShopAllMegaMenu from '@/components/ShopAllMegaMenu';
-import OccasionsMegaMenu from '@/components/OccasionsMegaMenu';
+import ShopAllMegaMenu, { GROUPS as SHOP_ALL_GROUPS } from '@/components/ShopAllMegaMenu';
+import OccasionsMegaMenu, { GROUPS as OCCASIONS_GROUPS } from '@/components/OccasionsMegaMenu';
 import { useShop } from '@/lib/shop-store';
 import { useCartDrawer } from '@/lib/cart-drawer';
 import { useScrollLock } from '@/lib/scroll-lock';
@@ -28,7 +28,7 @@ import { CART_DISABLED, WISHLIST_DISABLED } from '@/lib/soft-launch';
 // Popular Choices — surfaced in the search panel as quick-filter pills.
 // Each entry drops the visitor onto /shop with the right query param.
 const POPULAR_CHOICES = [
-  { label: 'Silk Sarees', href: '/shop?weave=Kanjivaram' },
+  { label: 'Silk Sarees', href: '/shop' },
   { label: 'Kanchipuram / Kanjivaram', href: '/shop?weave=Kanjivaram' },
   { label: 'Banarasi Sarees', href: '/shop?weave=Banarasi' },
   { label: 'Wedding Sarees', href: '/shop?tier=bridal' },
@@ -197,6 +197,17 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  // Mobile drawer accordion state. Tracks which top-level ('shop-all' /
+  // 'occasions') and nested section keys are currently expanded. Keyed
+  // by freeform strings so nested groups can share the same set.
+  const [drawerExpanded, setDrawerExpanded] = useState<Set<string>>(new Set());
+  const toggleDrawerExpand = (key: string) =>
+    setDrawerExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
   // Search icon in the centre cluster toggles this. When true, a thin
   // overlay row slides down below the top bar carrying AnimatedSearchBar.
   // Keeps the main row visually quiet (Pothys pattern) while giving
@@ -293,6 +304,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
 
   if (isImmersive) return null;
 
+  // (touched to force Next dev-server HMR re-parse — no behavior change)
   return (
     <header
       className={clsx(
@@ -310,19 +322,17 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
           left, before the logo. */}
       <div>
         <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 py-[6px] flex items-center gap-3 sm:gap-5">
-          {!SOFT_LAUNCH && (
-            <button
-              type="button"
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={menuOpen}
-              onClick={() => setMenuOpen((v) => !v)}
-              className="group lg:hidden text-ink p-1 -ml-1"
-            >
-              <span className="inline-flex transition-transform duration-300 ease-out group-hover:scale-110">
-                {menuOpen ? <IconClose /> : <IconMenu />}
-              </span>
-            </button>
-          )}
+          <button
+            type="button"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}
+            className="group lg:hidden text-ink p-1 -ml-1"
+          >
+            <span className="inline-flex transition-transform duration-300 ease-out group-hover:scale-110">
+              {menuOpen ? <IconClose /> : <IconMenu />}
+            </span>
+          </button>
 
           {/* Left: logo crest, nudged 10px inward from the container's
               left edge for breathing room against the padding. */}
@@ -337,7 +347,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
               width={240}
               height={240}
               priority
-              className="h-14 sm:h-[64px] md:h-[72px] lg:h-[76px] w-auto select-none transition-opacity group-hover:opacity-85"
+              className="h-11 sm:h-[64px] md:h-[72px] lg:h-[76px] w-auto select-none transition-opacity group-hover:opacity-85"
               draggable={false}
             />
           </Link>
@@ -348,7 +358,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
               Desktop gap steps up (lg:gap-6 → xl:gap-8) so Find Store,
               the search bar and the icon cluster each read as a
               distinct zone instead of a cramped row. */}
-          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3 lg:gap-6 xl:gap-8 pr-[30px]">
+          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3 lg:gap-6 xl:gap-8 pr-0 sm:pr-[30px]">
             {(() => {
               const findStoreHref = navHref('/stores');
               const findStoreCls =
@@ -490,7 +500,11 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
           get their own horizontal lane under the logo/icons. Hidden on
           mobile — the hamburger drawer carries these at small widths. */}
       <nav className="hidden lg:block border-b border-ink/10">
-        <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 py-3 flex items-center justify-center gap-5 xl:gap-7 overflow-x-auto no-scrollbar">
+        {/* Tablet/iPad range (1024–1279px) uses the tighter gap/padding/
+            font values so all 13 weave links fit without clipping — the
+            `xl:` overrides restore the roomier laptop treatment from
+            1280px on, so desktop views are unchanged. */}
+        <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-4 xl:px-10 py-2.5 xl:py-3 flex items-center justify-center gap-2 xl:gap-7 overflow-x-auto no-scrollbar">
           {weaveLinks.map((w) => {
             const active = isLinkActive(w.href, pathname, searchParams);
             const isShopAll = w.label === 'Shop All';
@@ -511,7 +525,10 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                 : 'text-ink hover:text-scarlet font-bold';
             const resolvedHref = navHref(w.href);
             const linkCls = clsx(
-              'relative text-[0.76rem] tracking-[0.1em] uppercase transition-colors whitespace-nowrap',
+              // text/tracking are tighter at lg (iPad Pro range) and
+              // relax at xl (desktop) — matches the gap/padding step-up
+              // applied on the row container above.
+              'relative text-[0.7rem] xl:text-[0.76rem] tracking-[0.08em] xl:tracking-[0.1em] uppercase transition-colors whitespace-nowrap',
               cls,
             );
             const labelContent =
@@ -544,6 +561,12 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                 {labelContent}
               </span>
             );
+            // "Home" is redundant with the logo above, which also
+            // links to `/`. At the lg → xl range (iPad / small laptop)
+            // the full 12-link row overflows past the viewport, so we
+            // drop Home there and bring it back at xl+ where there's
+            // enough horizontal space for everything.
+            const isHome = w.label === 'Home';
             if (isShopAll || isOccasions) {
               const id: MegaId = isShopAll ? 'shop' : 'occasions';
               return (
@@ -557,7 +580,14 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                 </div>
               );
             }
-            return <span key={w.href + w.label}>{link}</span>;
+            return (
+              <span
+                key={w.href + w.label}
+                className={isHome ? 'hidden xl:inline' : undefined}
+              >
+                {link}
+              </span>
+            );
           })}
         </div>
       </nav>
@@ -807,6 +837,36 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
             </div>
             <nav className="flex flex-col mb-7">
               {weaveLinks.map((w) => {
+                // Shop All + Occasions open accordions instead of
+                // navigating, so the desktop mega-menu's sub-tree is
+                // reachable on mobile without an extra stop on /shop.
+                if (w.label === 'Shop All') {
+                  return (
+                    <DrawerAccordion
+                      key="drawer-shop-all"
+                      id="shop-all"
+                      label={w.label}
+                      groups={SHOP_ALL_GROUPS}
+                      expanded={drawerExpanded}
+                      onToggle={toggleDrawerExpand}
+                      onNavigate={() => setMenuOpen(false)}
+                    />
+                  );
+                }
+                if (w.label === 'Occasions') {
+                  return (
+                    <DrawerAccordion
+                      key="drawer-occasions"
+                      id="occasions"
+                      label={w.label}
+                      groups={OCCASIONS_GROUPS}
+                      expanded={drawerExpanded}
+                      onToggle={toggleDrawerExpand}
+                      onNavigate={() => setMenuOpen(false)}
+                    />
+                  );
+                }
+
                 const active = isLinkActive(w.href, pathname, searchParams);
                 const drawerCls = clsx(
                   'text-sm tracking-[0.1em] uppercase py-2 border-b border-ivory/10 transition-colors',
@@ -863,6 +923,105 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
       </div>
 
     </header>
+  );
+}
+
+/* — Mobile drawer accordion — */
+
+// Two-level accordion for Shop All and Occasions inside the mobile
+// drawer. Top row toggles the whole section; each group toggles its
+// own tile list. Tiles are rendered as inert spans when their href
+// isn't in the soft-launch allow-list, matching the rest of the drawer.
+function DrawerAccordion({
+  id,
+  label,
+  groups,
+  expanded,
+  onToggle,
+  onNavigate,
+}: {
+  id: string;
+  label: string;
+  groups: { id: string; label: string; tiles: { label: string; href: string }[] }[];
+  expanded: Set<string>;
+  onToggle: (key: string) => void;
+  onNavigate: () => void;
+}) {
+  const topKey = id;
+  const isOpen = expanded.has(topKey);
+  return (
+    <div className="border-b border-ivory/10">
+      <button
+        type="button"
+        onClick={() => onToggle(topKey)}
+        aria-expanded={isOpen}
+        className="w-full flex items-center justify-between py-2 text-sm tracking-[0.1em] uppercase text-ivory/90 hover:text-gold transition-colors"
+      >
+        <span>{label}</span>
+        <LuChevronDown
+          size={16}
+          aria-hidden
+          className={clsx(
+            'transition-transform duration-200',
+            isOpen ? 'rotate-180' : 'rotate-0',
+          )}
+        />
+      </button>
+      {isOpen && (
+        <div className="pb-2">
+          {groups.map((g) => {
+            const groupKey = `${topKey}:${g.id}`;
+            const groupOpen = expanded.has(groupKey);
+            return (
+              <div key={g.id} className="border-t border-ivory/[0.07]">
+                <button
+                  type="button"
+                  onClick={() => onToggle(groupKey)}
+                  aria-expanded={groupOpen}
+                  className="w-full flex items-center justify-between py-2 pl-3 text-[0.78rem] tracking-[0.1em] uppercase text-ivory/80 hover:text-gold transition-colors"
+                >
+                  <span>{g.label}</span>
+                  <LuChevronDown
+                    size={14}
+                    aria-hidden
+                    className={clsx(
+                      'transition-transform duration-200',
+                      groupOpen ? 'rotate-180' : 'rotate-0',
+                    )}
+                  />
+                </button>
+                {groupOpen && (
+                  <ul className="flex flex-col pb-2">
+                    {g.tiles.map((t) => {
+                      const resolved = navHref(t.href);
+                      const linkCls =
+                        'block py-1.5 pl-6 pr-3 text-[0.78rem] tracking-wide text-ivory/75 hover:text-gold transition-colors';
+                      return (
+                        <li key={t.href + t.label}>
+                          {resolved ? (
+                            <Link
+                              href={resolved}
+                              onClick={onNavigate}
+                              className={linkCls}
+                            >
+                              {t.label}
+                            </Link>
+                          ) : (
+                            <span className={clsx(linkCls, 'cursor-default')}>
+                              {t.label}
+                            </span>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 }
 

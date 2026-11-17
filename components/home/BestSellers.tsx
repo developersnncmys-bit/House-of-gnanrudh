@@ -126,14 +126,16 @@ function TitleBlock({
           {formatINR(saree.price)}
         </span>
         {saree.mrp > saree.price && (
-          <span className="text-xs text-ink/45 line-through tabular-nums">
-            {formatINR(saree.mrp)}
-          </span>
-        )}
-        {discount > 0 && (
-          <span className="text-xs font-semibold text-scarlet tabular-nums">
-            {discount}% Off
-          </span>
+          <>
+            <span className="text-xs text-ink/45 line-through tabular-nums">
+              {formatINR(saree.mrp)}
+            </span>
+            {discount > 0 && (
+              <span className="text-xs font-bold text-scarlet tabular-nums">
+                {discount}% OFF
+              </span>
+            )}
+          </>
         )}
       </div>
     </>

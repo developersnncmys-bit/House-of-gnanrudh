@@ -84,7 +84,7 @@ export default function PromoSplash() {
       >
         {/* Full-bleed hero photograph — no side panel, no scrim */}
         <Image
-          src="/blog/nivi-style2.png"
+          src="/blog/nivi-style2.webp"
           alt=""
           fill
           sizes="(max-width: 768px) 100vw, 860px"

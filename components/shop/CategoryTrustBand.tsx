@@ -40,7 +40,7 @@ export default function CategoryTrustBand() {
           {cells.map((c) => (
             <article
               key={c.title}
-              className="flex items-center justify-center gap-4 px-6 py-4 md:py-2"
+              className="flex items-center justify-start md:justify-center gap-4 px-4 md:px-6 py-3.5 md:py-2"
             >
               <span className="text-gold-deep shrink-0">{c.icon}</span>
               <div className="min-w-0">

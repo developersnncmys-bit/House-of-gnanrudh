@@ -33,7 +33,7 @@ const STORES: Store[] = [
     city: 'Nellore',
     name: 'House Of GnanRudh — Nellore',
     tagline: 'Our flagship atelier',
-    image: '/homebanner/banner2.png',
+    image: '/homebanner/store.png',
     address: 'Shop No. 12, Trunk Road, Nellore, Andhra Pradesh 524001',
     phone: '+91 98765 43210',
     hours: 'Mon – Sat · 10:00 AM – 9:00 PM  ·  Sun · 11:00 AM – 8:00 PM',

@@ -247,12 +247,12 @@ export default function LoginModal() {
         </button>
 
         {/* Left: promotional pane */}
-        <div className="relative hidden md:block bg-[#1B0E0A] min-h-[380px]">
+        <div className="relative bg-[#1B0E0A] min-h-[180px] md:min-h-[380px]">
           <Image
             src="/homebanner/login-popup.png"
             alt=""
             fill
-            sizes="(max-width: 768px) 0px, 380px"
+            sizes="(max-width: 768px) 100vw, 380px"
             className="object-cover object-[50%_25%]"
             priority={false}
           />
@@ -267,8 +267,8 @@ export default function LoginModal() {
             }}
           />
           {/* Top-left editorial headline — Kalki-style "Be part of the Circle" overlay. */}
-          <div className="relative h-full p-8 flex items-start">
-            <h2 className="text-ivory text-[1.9rem] leading-[1.1] font-semibold max-w-[80%] drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
+          <div className="relative h-full p-5 md:p-8 flex items-start">
+            <h2 className="text-ivory text-[1.4rem] md:text-[1.9rem] leading-[1.1] font-semibold max-w-[80%] drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
               Be part of the<br />House Circle!
             </h2>
           </div>

@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
@@ -17,6 +16,10 @@ import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 type Slide = {
   id: string;
   image: string;
+  // Mobile-specific crop. Rendered via <picture><source media="(max-width:
+  // 767px)"> so phones download ONLY this file and desktops download
+  // ONLY `image`. Falls back to `image` when omitted.
+  mobileImage?: string;
   objectPosition?: string;
   // Alternates across the array so each neighbour differs.
   textSide: 'left' | 'right';
@@ -32,7 +35,8 @@ type Slide = {
 const SLIDES: Slide[] = [
   {
     id: 'festive-new-arrivals',
-    image: '/homebanner/saree1.png',
+    image: '/homebanner/saree1.webp',
+    mobileImage: '/homebanner/mob-saree1.webp',
     objectPosition: '50% 25%',
     textSide: 'right',
     eyebrow: 'Festive',
@@ -45,7 +49,8 @@ const SLIDES: Slide[] = [
   },
   {
     id: 'bridal-edit',
-    image: '/homebanner/saree2.png',
+    image: '/homebanner/saree2.webp',
+    mobileImage: '/homebanner/mob-saree2.webp',
     objectPosition: '50% 22%',
     textSide: 'right',
     eyebrow: 'Wedding Season',
@@ -75,7 +80,7 @@ export default function Hero() {
     setActive((a) => (a - 1 + SLIDES.length) % SLIDES.length);
 
   return (
-    <section className="relative w-full h-[calc(78vh-10px)] min-h-[430px] sm:min-h-[510px] md:min-h-[560px] max-h-[820px] bg-[#1B0E0A] overflow-hidden">
+    <section className="relative w-full h-[calc(88vh+6px)] sm:h-[calc(78vh-10px)] lg:h-[calc(85vh-10px)] xl:h-[calc(78vh-10px)] min-h-[526px] sm:min-h-[510px] md:min-h-[560px] lg:min-h-[720px] xl:min-h-[560px] max-h-[820px] lg:max-h-[1100px] xl:max-h-[820px] bg-[#1B0E0A] overflow-hidden">
       {SLIDES.map((slide, i) => {
         const isLeft = slide.textSide === 'left';
         return (
@@ -88,33 +93,41 @@ export default function Hero() {
             }}
             aria-hidden={i !== active}
           >
-            {/* Full-bleed background image. Every slide is `priority` so
-                Next pre-loads the whole carousel — the first slide is LCP,
-                and because the carousel auto-advances every 7s the second
-                slide becomes above-the-fold almost immediately. `fetchPriority`
-                is bumped to "high" on slide 0 only (browsers cap one high-
-                priority image per page to be meaningful). `quality=85`
-                strikes a sharp/weight balance for the 2k-wide hero banner. */}
-            <Image
-              src={slide.image}
-              alt=""
-              fill
-              priority
-              fetchPriority={i === 0 ? 'high' : 'auto'}
-              quality={85}
-              sizes="100vw"
-              className="object-cover"
-              style={{
-                objectPosition:
-                  slide.objectPosition ?? DEFAULT_OBJECT_POSITION,
-              }}
-            />
+            {/* Full-bleed background image. Rendered as a native <picture>
+                so the browser fetches the matching crop ONLY: mobile
+                phones download mob-saree*.webp and never touch the
+                desktop file (and vice-versa). This is why Next's <Image>
+                isn't used here — its srcset is width-based, not
+                art-direction aware. `fetchPriority="high"` on slide 0
+                keeps the LCP image at the top of the network queue. */}
+            <picture>
+              {slide.mobileImage && (
+                <source
+                  media="(max-width: 767px)"
+                  srcSet={slide.mobileImage}
+                />
+              )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={slide.image}
+                alt=""
+                fetchPriority={i === 0 ? 'high' : 'auto'}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{
+                  objectPosition:
+                    slide.objectPosition ?? DEFAULT_OBJECT_POSITION,
+                }}
+              />
+            </picture>
 
             {/* Darkening gradient on the text side. Keeps the text
                 legible on whichever half it lands, lets the image breathe
-                on the other half. Flipped per slide via `isLeft`. */}
+                on the other half. Flipped per slide via `isLeft`. Desktop
+                only — mobile shows the photograph un-dimmed. */}
             <div
-              className="absolute inset-0 pointer-events-none"
+              className="hidden md:block absolute inset-0 pointer-events-none"
               style={{
                 background: isLeft
                   ? 'linear-gradient(90deg, rgba(27,14,10,0.82) 0%, rgba(27,14,10,0.55) 30%, rgba(27,14,10,0.15) 55%, transparent 72%)'
@@ -122,10 +135,6 @@ export default function Hero() {
               }}
             />
 
-            {/* Small-screen blanket: on mobile the image sits behind the
-                text (no side split), so a flat dark wash guarantees
-                readable copy regardless of the photo. */}
-            <div className="md:hidden absolute inset-0 bg-[#1B0E0A]/70 pointer-events-none" />
 
             {/* Text panel — aligned by `isLeft`. On mobile always
                 centre-left so copy doesn't get cramped. When the text
@@ -134,17 +143,17 @@ export default function Hero() {
                 leftward into the frame rather than hugging the corner. */}
             <div
               className={clsx(
-                'relative h-full max-w-[1720px] mx-auto px-6 md:px-10 lg:px-14 flex items-center',
+                'relative h-full max-w-[1720px] mx-auto px-6 md:px-10 lg:px-14 flex items-start md:items-center justify-center',
                 isLeft
-                  ? 'justify-start'
-                  : 'md:justify-end justify-start md:pr-20 lg:pr-32 xl:pr-44',
+                  ? 'md:justify-start'
+                  : 'md:justify-end md:pr-20 lg:pr-32 xl:pr-44',
               )}
             >
-              <div className="max-w-lg md:max-w-[min(32rem,38vw)] text-ivory -translate-y-[11px] md:-translate-y-[27px] lg:-translate-y-[43px]">
+              <div className="max-w-lg md:max-w-[min(32rem,38vw)] text-ivory text-center md:text-left pt-10 md:pt-0 md:-translate-y-[27px] lg:-translate-y-[43px]">
                 {slide.badge && (
                   <span
                     className={clsx(
-                      'inline-block px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-wider rounded-sm mb-5',
+                      'hidden md:inline-block px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-wider rounded-sm mb-5',
                       slide.badge.tone === 'gold'
                         ? 'bg-gold text-ink'
                         : 'bg-maroon text-ivory',
@@ -153,11 +162,11 @@ export default function Hero() {
                     {slide.badge.label}
                   </span>
                 )}
-                <div className="text-xs md:text-sm font-medium text-ivory/65 mb-3 uppercase tracking-[0.2em]">
+                <div className="text-[0.7rem] md:text-sm font-medium text-ivory/65 mb-2 md:mb-3 uppercase tracking-[0.2em]">
                   {slide.eyebrow}
                 </div>
                 <h1
-                  className="text-5xl md:text-7xl lg:text-7xl font-semibold leading-[1] mb-5"
+                  className="text-3xl md:text-7xl lg:text-7xl font-semibold leading-[1] mb-3 md:mb-5"
                   style={{
                     fontFamily:
                       'var(--font-hero), "Italiana", Georgia, serif',
@@ -178,12 +187,12 @@ export default function Hero() {
                 >
                   {slide.headline}
                 </h1>
-                <p className="text-sm md:text-base text-ivory/80 leading-relaxed mb-7 max-w-md">
+                <p className="text-xs md:text-base text-ivory/80 leading-relaxed mb-4 md:mb-7 max-w-md mx-auto md:mx-0">
                   {slide.supporting}
                 </p>
                 <Link
                   href={slide.ctaHref}
-                  className="inline-flex items-center bg-white hover:bg-gold text-ink hover:text-ink px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-[0.18em] rounded-sm transition-colors"
+                  className="inline-flex items-center bg-white hover:bg-gold text-ink hover:text-ink px-5 sm:px-7 py-2 sm:py-3 text-[0.7rem] sm:text-sm font-bold uppercase tracking-[0.15em] sm:tracking-[0.18em] rounded-sm transition-colors"
                 >
                   {slide.ctaLabel}
                 </Link>
@@ -195,7 +204,7 @@ export default function Hero() {
 
       {/* Slide arrows — paired bottom-right. Dark translucent circles. */}
 
-      <div className="absolute bottom-6 right-6 lg:bottom-8 lg:right-8 z-10 hidden md:flex items-center gap-2">
+      <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-10 flex items-center gap-2">
         <button
           onClick={prev}
           className="bg-black/35 hover:bg-black/55 text-ivory w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"

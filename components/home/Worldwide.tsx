@@ -44,8 +44,7 @@ export default function Worldwide() {
               {/* Icon — plain glyph in gold, a step up from the earlier
                   muted ink icon. */}
               <Icon
-                className="shrink-0 text-gold"
-                size={30}
+                className="shrink-0 text-gold w-[22px] h-[22px] md:w-[30px] md:h-[30px]"
                 strokeWidth={1.4}
                 aria-hidden
               />

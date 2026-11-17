@@ -174,15 +174,34 @@ function PostLink({
 function PostHero({ post, blogHref }: { post: BlogPost; blogHref?: string }) {
   return (
     <section className="relative w-full h-[calc(70vh-10px)] min-h-[460px] md:min-h-[560px] max-h-[760px] bg-[#1B0E0A] overflow-hidden">
-      <Image
-        src={post.hero}
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-        style={{ objectPosition: '50% 35%' }}
-      />
+      {post.heroLaptop ? (
+        // Art-directed hero — lg (≥1024px) viewports swap to a wider
+        // crop while mobile/tablet keep the portrait-friendly default.
+        // <picture> lets the browser pick exactly one; next/image can
+        // only do width-based srcset, not media-based art direction.
+        <picture>
+          <source media="(min-width: 1024px)" srcSet={post.heroLaptop} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={post.hero}
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: '50% 35%' }}
+          />
+        </picture>
+      ) : (
+        <Image
+          src={post.hero}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: '50% 35%' }}
+        />
+      )}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{

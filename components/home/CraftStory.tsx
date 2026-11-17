@@ -17,7 +17,12 @@ type Feature = {
   ctaLabel: string;
   ctaHref: string;
   image: string;
+  // Mobile-specific crop. Rendered via <picture><source media="(max-width:
+  // 767px)"> so phones download ONLY this file and desktops download
+  // ONLY `image`. Falls back to `image` when omitted.
+  mobileImage?: string;
   imagePosition?: string;
+  mobileImagePosition?: string;
 };
 
 const feature: Feature = {
@@ -25,8 +30,10 @@ const feature: Feature = {
   subhead: 'Curated drapes for the bride and her moment.',
   ctaLabel: 'Shop Now',
   ctaHref: '/shop?tier=bridal',
-  image: '/homebanner/banner3.png',
+  image: '/homebanner/banner3.webp',
+  mobileImage: '/homebanner/mob-bridal.webp',
   imagePosition: '85% 40%',
+  mobileImagePosition: '50% 30%',
 };
 
 // Four bridal-occasion sub-edits, mirrored on the Kalki "Wedding
@@ -81,24 +88,56 @@ export default function CraftStory() {
       </div>
 
       <div className="relative w-full min-h-[640px] md:min-h-[calc(95vh+30px)] overflow-hidden">
-        <Image
-          src={feature.image}
-          alt=""
-          fill
-          priority={false}
-          sizes="100vw"
-          style={{ objectPosition: feature.imagePosition }}
-          className="object-cover"
-        />
+        {/* Art-directed hero — phones get mob-bridal.webp (portrait
+            crop), desktops get banner3.webp (landscape). The native
+            <picture> element lets the browser pick exactly one; Next's
+            <Image> can't do art direction (only width-based srcset). */}
+        <picture>
+          {feature.mobileImage && (
+            <source
+              media="(max-width: 767px)"
+              srcSet={feature.mobileImage}
+            />
+          )}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={feature.image}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover [object-position:var(--obj-pos-mobile)] md:[object-position:var(--obj-pos)]"
+            style={
+              {
+                '--obj-pos': feature.imagePosition ?? '50% 50%',
+                '--obj-pos-mobile':
+                  feature.mobileImagePosition ??
+                  feature.imagePosition ??
+                  '50% 50%',
+              } as React.CSSProperties
+            }
+          />
+        </picture>
 
         {/* Dark gradient on the right so the copy is always readable
-            regardless of what sits under it in the photograph. */}
-        <div className="absolute inset-0 bg-gradient-to-l from-ink/70 via-ink/30 to-transparent md:via-ink/10" />
+            regardless of what sits under it in the photograph. Desktop
+            only — on mobile the image shows through un-dimmed. */}
+        <div className="hidden md:block absolute inset-0 bg-gradient-to-l from-ink/70 via-ink/10 to-transparent" />
 
-        <div className="relative z-10 min-h-[640px] md:min-h-[calc(95vh+30px)] flex items-center justify-end">
-          <div className="w-full md:w-3/5 lg:w-1/2 px-6 md:px-12 lg:px-20 py-14 text-ivory flex flex-col items-center text-center translate-y-3 md:translate-y-6 lg:translate-y-10">
+        {/* Mobile-only wash behind the bottom-aligned text block.
+            Opaque near the bottom, fading to transparent as it rises,
+            so the headline + CTA stay legible against any photograph. */}
+        <div
+          className="md:hidden absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0.15) 75%, transparent 100%)',
+          }}
+        />
+
+        <div className="relative z-10 min-h-[640px] md:min-h-[calc(95vh+30px)] flex items-end md:items-center justify-center md:justify-end">
+          <div className="w-full md:w-3/5 lg:w-1/2 px-6 md:px-12 lg:px-20 pt-6 pb-10 md:py-14 text-ivory flex flex-col items-center text-center md:translate-y-6 lg:translate-y-10">
             <h3
-              className="font-normal text-6xl md:text-7xl lg:text-7xl leading-[1.05] tracking-tight"
+              className="font-bold text-3xl md:text-7xl lg:text-7xl leading-[1.05] tracking-tight"
               style={{
                 fontFamily:
                   'var(--font-hero), "Italiana", Georgia, serif',
@@ -118,19 +157,19 @@ export default function CraftStory() {
               {feature.headline}
             </h3>
 
-            <p className="mt-4 text-sm md:text-base text-ivory/90 leading-relaxed max-w-md">
+            <p className="mt-2 md:mt-4 text-xs md:text-base text-ivory/90 leading-relaxed max-w-md">
               {feature.subhead}
             </p>
 
             {ctaHref ? (
               <Link
                 href={ctaHref}
-                className="inline-flex items-center justify-center mt-7 bg-white text-ink px-10 py-3.5 text-sm font-bold uppercase tracking-[0.2em] hover:bg-gold hover:text-ink transition-colors"
+                className="inline-flex items-center justify-center mt-4 md:mt-7 bg-white text-ink px-6 py-2 md:px-10 md:py-3.5 text-[0.7rem] md:text-sm font-bold uppercase tracking-[0.15em] md:tracking-[0.2em] hover:bg-gold hover:text-ink transition-colors"
               >
                 {feature.ctaLabel}
               </Link>
             ) : (
-              <span className="inline-flex items-center justify-center mt-7 bg-white text-ink px-10 py-3.5 text-sm font-bold uppercase tracking-[0.2em] cursor-default">
+              <span className="inline-flex items-center justify-center mt-4 md:mt-7 bg-white text-ink px-6 py-2 md:px-10 md:py-3.5 text-[0.7rem] md:text-sm font-bold uppercase tracking-[0.15em] md:tracking-[0.2em] cursor-default">
                 {feature.ctaLabel}
               </span>
             )}
@@ -159,11 +198,11 @@ export default function CraftStory() {
                 {/* Dark gradient veil — stronger at the bottom so the
                     title + CTA stay legible on any photo underneath. */}
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent pointer-events-none" />
-                <div className="absolute inset-x-0 bottom-0 p-5 md:p-7 flex flex-col items-center text-center">
+                <div className="absolute inset-x-0 bottom-0 p-3 md:p-7 flex flex-col items-center text-center">
                   <h3 className="font-display text-xl md:text-2xl lg:text-3xl font-semibold text-ivory leading-tight">
                     {o.title}
                   </h3>
-                  <span className="inline-flex items-center justify-center mt-4 bg-white text-ink px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] group-hover:bg-gold group-hover:text-ink transition-colors">
+                  <span className="inline-flex items-center justify-center mt-2.5 md:mt-4 bg-white text-ink px-4 py-1.5 md:px-8 md:py-3 text-[0.65rem] md:text-xs font-bold uppercase tracking-[0.15em] md:tracking-[0.2em] group-hover:bg-gold group-hover:text-ink transition-colors">
                     Shop Now
                   </span>
                 </div>

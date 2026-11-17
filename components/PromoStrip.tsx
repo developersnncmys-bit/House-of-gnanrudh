@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import type { IconType } from 'react-icons';
-import { LuTruck, LuGlobe, LuHand, LuShirt, LuRotateCcw } from 'react-icons/lu';
+import {
+  PiTruckFill,
+  PiGlobeFill,
+  PiHandFill,
+  PiTShirtFill,
+  PiArrowCounterClockwiseBold,
+} from 'react-icons/pi';
 
 /**
  * PromoStrip — top-of-page rotating announcement strip mirroring the Kalki
@@ -69,14 +75,14 @@ type IconName = 'truck' | 'globe' | 'hand' | 'shirt' | 'return';
 // so the message list stays declarative and we can swap the icon set
 // (Phosphor, Heroicons, etc.) in one place later.
 const ICONS: Record<IconName, IconType> = {
-  truck: LuTruck,
-  globe: LuGlobe,
-  hand: LuHand,
-  shirt: LuShirt,
-  return: LuRotateCcw,
+  truck: PiTruckFill,
+  globe: PiGlobeFill,
+  hand: PiHandFill,
+  shirt: PiTShirtFill,
+  return: PiArrowCounterClockwiseBold,
 };
 
 function Icon({ name }: { name: IconName }) {
   const Cmp = ICONS[name];
-  return <Cmp size={18} strokeWidth={1.8} aria-hidden />;
+  return <Cmp size={18} aria-hidden />;
 }

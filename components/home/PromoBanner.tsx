@@ -34,29 +34,35 @@ export default function PromoBanner() {
       {/* Full-bleed grid — no max-width container so the flanking
           model photos run edge-to-edge with the viewport. The centre
           maroon panel's own padding handles its internal breathing room. */}
-      <div className="grid md:grid-cols-[1fr_1.4fr_1fr] min-h-[420px] md:min-h-[500px] lg:min-h-[560px] overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-[1fr_1.4fr_1fr] md:min-h-[500px] lg:min-h-[560px] overflow-hidden">
           {/* LEFT — arch background with model photograph laid on top,
               anchored at the bottom so she stands inside the mihrab
-              cut-out. Hidden on mobile so the centre panel owns the
-              viewport width. */}
-          <div className="relative hidden md:block">
-            <Image
-              src={leftImage}
-              alt=""
-              fill
-              sizes="(max-width: 768px) 0vw, 28vw"
-              className="object-cover"
-              style={{ objectPosition: '50% 0%' }}
-            />
+              cut-out. On mobile it stacks above the centre panel with
+              a fixed height so the fill-image has a defined box. */}
+          <div className="relative h-[400px] md:h-auto">
+            {/* Arch bg sits inside a bottom-anchored wrapper so at the
+                md/lg (iPad) range it drops ~10% from the top, giving
+                breathing room above the mihrab. `xl:inset-0` restores
+                the original full-cover layout on laptop/desktop. */}
+            <div className="absolute inset-x-0 bottom-0 h-full md:h-[90%] xl:inset-0 xl:h-full">
+              <Image
+                src={leftImage}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, 28vw"
+                className="object-cover"
+                style={{ objectPosition: '50% 0%' }}
+              />
+            </div>
             {/* Model is wrapped in a smaller, bottom-anchored box so
                 the figure shrinks (h-[80%]) while still touching the
                 bottom edge of the panel. */}
-            <div className="absolute inset-x-0 bottom-0 h-[80%] pointer-events-none">
+            <div className="absolute inset-x-0 bottom-0 h-[80%] md:h-[70%] xl:h-[80%] pointer-events-none">
               <Image
                 src="/homebanner/women1.png"
                 alt=""
                 fill
-                sizes="(max-width: 768px) 0vw, 22vw"
+                sizes="(max-width: 768px) 80vw, 22vw"
                 className="object-contain object-bottom"
               />
             </div>
@@ -66,14 +72,19 @@ export default function PromoBanner() {
               and CTA. The bg-behind photograph fills the panel and
               the text stacks over it. */}
           <div className="relative text-ivory flex flex-col items-center justify-center text-center px-6 md:px-10 py-16 md:py-20 overflow-hidden">
-            <Image
-              src="/homebanner/bg-behind.png"
-              alt=""
-              fill
-              sizes="(max-width: 768px) 100vw, 44vw"
-              className="object-cover"
-              priority={false}
-            />
+            {/* Match the side cards' top-offset trick at md/lg (iPad)
+                so all three panels share the same top edge. `xl:inset-0`
+                restores full cover on laptop/desktop. */}
+            <div className="absolute inset-x-0 bottom-0 h-full md:h-[90%] xl:inset-0 xl:h-full">
+              <Image
+                src="/homebanner/bg-behind.png"
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, 44vw"
+                className="object-cover"
+                priority={false}
+              />
+            </div>
             <div className="relative w-full max-w-md">
               <h2
                 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05]"
@@ -117,21 +128,23 @@ export default function PromoBanner() {
           </div>
 
           {/* RIGHT — mirror arch + model, same recipe as the left. */}
-          <div className="relative hidden md:block">
-            <Image
-              src={rightImage}
-              alt=""
-              fill
-              sizes="(max-width: 768px) 0vw, 28vw"
-              className="object-cover"
-              style={{ objectPosition: '50% 0%' }}
-            />
-            <div className="absolute inset-x-0 bottom-0 h-[80%] pointer-events-none">
+          <div className="relative h-[400px] md:h-auto">
+            <div className="absolute inset-x-0 bottom-0 h-full md:h-[90%] xl:inset-0 xl:h-full">
+              <Image
+                src={rightImage}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, 28vw"
+                className="object-cover"
+                style={{ objectPosition: '50% 0%' }}
+              />
+            </div>
+            <div className="absolute inset-x-0 bottom-0 h-[80%] md:h-[70%] xl:h-[80%] pointer-events-none">
               <Image
                 src="/homebanner/women2.png"
                 alt=""
                 fill
-                sizes="(max-width: 768px) 0vw, 22vw"
+                sizes="(max-width: 768px) 80vw, 22vw"
                 className="object-contain object-bottom"
               />
             </div>

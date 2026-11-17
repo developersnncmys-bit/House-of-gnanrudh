@@ -19,6 +19,11 @@ export type BlogPost = {
   title: string;
   dek: string;
   hero: string;
+  // Optional art-directed hero for lg (≥1024px) viewports. When set,
+  // the post page renders a <picture> and desktop swaps to this crop
+  // while mobile/tablet keep `hero`. Leave undefined for a single
+  // image across all breakpoints.
+  heroLaptop?: string;
   category: string;
   tags: string[];
   publishedAt: string; // ISO date
@@ -40,7 +45,8 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: 'six-silks-every-bride-should-own',
     title: 'The Six Silks Every Bride Should Own',
     dek: 'From the temple-border Kanjeevaram to the pit-loom Banarasi — a lifetime wardrobe begins with these six heirloom weaves.',
-    hero: '/blog/bridal2.png',
+    hero: '/blog/bridal2.webp',
+    heroLaptop: '/blog/bridal.webp',
     category: 'Bridal Diary',
     tags: ['bridal', 'kanjeevaram', 'banarasi', 'heirloom'],
     publishedAt: '2026-10-28',
@@ -95,7 +101,8 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: 'spot-pure-zari',
     title: 'How to Spot Pure Zari: A House Guide',
     dek: 'Silver-gilt, tested, declared. A plain-language guide to the thread that separates a ₹40,000 saree from a ₹4,00,000 one.',
-    hero: '/blog/zari2.png',
+    hero: '/blog/zari2.webp',
+    heroLaptop: '/blog/zari.webp',
     category: 'Weave Stories',
     tags: ['zari', 'guide', 'authenticity'],
     publishedAt: '2026-10-21',
@@ -121,7 +128,8 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: 'nivi-drape-101',
     title: 'Saree Draping 101: The Nivi Style',
     dek: 'Six and a half yards, seven pleats, one pallu. The most-worn drape in India, broken down step by step.',
-    hero: '/blog/nivi-style2.png',
+    hero: '/blog/nivi-style2.webp',
+    heroLaptop: '/blog/nivi-style.webp',
     category: 'Draping Guide',
     tags: ['draping', 'nivi', 'beginner'],
     publishedAt: '2026-10-14',
@@ -152,7 +160,8 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: 'kanchipuram-triple-shuttle',
     title: 'The Loom That Shapes Kanchipuram',
     dek: 'Inside the triple-shuttle korvai — the 400-year-old mechanism behind every real Kanjeevaram.',
-    hero: '/blog/kanjeevaram2.png',
+    hero: '/blog/kanjeevaram2.webp',
+    heroLaptop: '/blog/kanjeevaram.webp',
     category: 'Weave Stories',
     tags: ['kanjeevaram', 'loom', 'korvai'],
     publishedAt: '2026-10-07',
@@ -179,6 +188,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: 'The Diwali Edit: Our Six Picks for 2026',
     dek: 'Six sarees from the house for the six nights of the festive — from the muhurtham-grade Kanjeevaram to the Monday-office Mangalagiri.',
     hero: '/ocassions/Haldi.png',
+    heroLaptop: '/blog/diwali.webp',
     category: 'The House Edit',
     tags: ['diwali', 'festive', 'edit'],
     publishedAt: '2026-09-30',
@@ -205,6 +215,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: 'Caring for Your Heirloom Silk',
     dek: 'A pre-dry-clean checklist, how often to fold-change, and why your silk saree should never see a hanger.',
     hero: '/product/Explore-Kanjeevaram.webp',
+    heroLaptop: '/blog/reception.webp',
     category: 'Care & Keeping',
     tags: ['care', 'storage', 'silk'],
     publishedAt: '2026-09-23',
@@ -230,7 +241,7 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: 'pochampally-ikat-story',
     title: 'The Story Behind Pochampally Ikat',
     dek: 'Why a weave from a single village in Telangana became the first Indian handloom with UNESCO heritage status.',
-    hero: '/blog/pochampally2.png',
+    hero: '/blog/pochampally2.webp',
     category: 'Weave Stories',
     tags: ['pochampally', 'ikat', 'telangana'],
     publishedAt: '2026-09-16',
@@ -252,6 +263,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: 'Why Every Cotton Wardrobe Needs a Mangalagiri',
     dek: 'Hand-woven, breathable, and under five thousand. The entry-point for anyone starting their handloom journey.',
     hero: '/product/Explore-baluchari.webp',
+    heroLaptop: '/blog/blog-thehouse.webp',
     category: 'The House Edit',
     tags: ['mangalagiri', 'cotton', 'everyday'],
     publishedAt: '2026-09-09',

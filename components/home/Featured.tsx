@@ -125,6 +125,11 @@ export default function Featured() {
                     className="absolute top-2.5 right-2.5 w-9 h-9"
                     size={14}
                   />
+                  <ViewSimilarButton
+                    productId={saree.id}
+                    className="sm:hidden !absolute bottom-2.5 left-2.5 w-9 h-9 z-10"
+                    size={14}
+                  />
                   {/* Hover Add-to-Bag pill — Nalli-style compact chip
                       floating at the bottom-left of the image, revealed on
                       card hover. White fill + dark text with a soft shadow
@@ -161,17 +166,12 @@ export default function Featured() {
                     <div className="flex items-baseline gap-2 flex-wrap min-w-0">
                       <span className="text-base font-bold text-ink">{formatINR(saree.price)}</span>
                       {saree.mrp > saree.price && (
-                        <>
-                          <span className="text-xs text-ink/45 line-through">{formatINR(saree.mrp)}</span>
-                          <span className="text-xs font-semibold text-scarlet tabular-nums">
-                            {discount}% Off
-                          </span>
-                        </>
+                        <span className="text-xs text-ink/45 line-through">{formatINR(saree.mrp)}</span>
                       )}
                     </div>
                     <ViewSimilarButton
                       productId={saree.id}
-                      className="w-8 h-8 shrink-0 !bg-transparent !backdrop-blur-none"
+                      className="hidden sm:inline-flex w-8 h-8 shrink-0 !bg-transparent !backdrop-blur-none"
                       size={16}
                     />
                   </div>

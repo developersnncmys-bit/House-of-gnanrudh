@@ -77,6 +77,13 @@ export default function ProductCard({
           className="absolute top-2 right-2 w-8 h-8 z-10"
           size={14}
         />
+        {showViewSimilar && (
+          <ViewSimilarButton
+            productId={saree.id}
+            className="sm:hidden !absolute bottom-2 left-2 w-8 h-8 z-10"
+            size={14}
+          />
+        )}
 
 
         {!hideBadges && badges.length > 0 && (
@@ -103,20 +110,15 @@ export default function ProductCard({
               {formatINR(saree.price)}
             </span>
             {mrp && (
-              <>
-                <span className="text-xs text-gray-500 line-through tabular-nums">
-                  {formatINR(mrp)}
-                </span>
-                <span className="text-xs font-bold text-scarlet tabular-nums">
-                  {discount}% OFF
-                </span>
-              </>
+              <span className="text-xs text-gray-500 line-through tabular-nums">
+                {formatINR(mrp)}
+              </span>
             )}
           </div>
           {showViewSimilar && (
             <ViewSimilarButton
               productId={saree.id}
-              className="w-8 h-8 shrink-0 !bg-transparent !backdrop-blur-none"
+              className="hidden sm:inline-flex w-8 h-8 shrink-0 !bg-transparent !backdrop-blur-none"
               size={16}
             />
           )}

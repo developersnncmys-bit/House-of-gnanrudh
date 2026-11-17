@@ -12,10 +12,10 @@ import clsx from 'clsx';
  * the two menus feel like one system.
  */
 
-type Tile = { label: string; href: string; image?: string };
-type Group = { id: string; label: string; tiles: Tile[] };
+export type Tile = { label: string; href: string; image?: string };
+export type Group = { id: string; label: string; tiles: Tile[] };
 
-const GROUPS: Group[] = [
+export const GROUPS: Group[] = [
   {
     id: 'wedding',
     label: 'Wedding',

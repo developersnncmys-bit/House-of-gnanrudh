@@ -71,6 +71,11 @@ export default function Tiers() {
                     className="absolute top-2.5 right-2.5 w-9 h-9"
                     size={14}
                   />
+                  <ViewSimilarButton
+                    productId={saree.id}
+                    className="sm:hidden !absolute bottom-2.5 left-2.5 w-9 h-9 z-10"
+                    size={14}
+                  />
                 </div>
                 <div className="p-3 md:p-3.5">
                   <div className="text-xs text-ink/55 font-medium mb-1">
@@ -92,7 +97,7 @@ export default function Tiers() {
                     </div>
                     <ViewSimilarButton
                       productId={saree.id}
-                      className="w-8 h-8 shrink-0 !bg-transparent !backdrop-blur-none"
+                      className="hidden sm:inline-flex w-8 h-8 shrink-0 !bg-transparent !backdrop-blur-none"
                       size={16}
                     />
                   </div>
