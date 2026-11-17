@@ -125,7 +125,7 @@ export default function CraftStory() {
             {ctaHref ? (
               <Link
                 href={ctaHref}
-                className="inline-flex items-center justify-center mt-7 bg-white text-ink px-10 py-3.5 text-sm font-bold uppercase tracking-[0.2em] hover:bg-maroon-deep hover:text-ivory transition-colors"
+                className="inline-flex items-center justify-center mt-7 bg-white text-ink px-10 py-3.5 text-sm font-bold uppercase tracking-[0.2em] hover:bg-gold hover:text-ink transition-colors"
               >
                 {feature.ctaLabel}
               </Link>

@@ -183,7 +183,7 @@ export default function Hero() {
                 </p>
                 <Link
                   href={slide.ctaHref}
-                  className="inline-flex items-center bg-white hover:bg-ivory text-ink px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-[0.18em] rounded-sm transition-colors"
+                  className="inline-flex items-center bg-white hover:bg-gold text-ink hover:text-ink px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-[0.18em] rounded-sm transition-colors"
                 >
                   {slide.ctaLabel}
                 </Link>

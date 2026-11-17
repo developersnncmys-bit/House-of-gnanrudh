@@ -18,12 +18,6 @@ type Copy = {
   body: string;
 };
 
-const TIER_LABEL: Record<string, string> = {
-  bridal: 'Wedding',
-  festive: 'Festive',
-  everyday: 'Everyday',
-};
-
 // Per-occasion intro copy. Kept short so the page leads with product.
 const OCCASION_COPY: Record<Occasion, Copy> = {
   // Wedding
@@ -110,7 +104,7 @@ const OCCASION_COPY: Record<Occasion, Copy> = {
 };
 
 export default function CategoryOccasionIntro({
-  tier,
+  tier: _tier,
   occasion,
 }: {
   tier: string;
@@ -118,38 +112,27 @@ export default function CategoryOccasionIntro({
 }) {
   const copy = OCCASION_COPY[occasion];
 
+  // Compact header — mirrors CategoryTierIntro so the occasion
+  // sub-landings (Diwali, Mehendi, Office, …) share the same tight
+  // top-strip as the tier landings (Bridal, Festive, Everyday). The
+  // longer body copy that used to sit here was overdressing a utility
+  // filter — the grid of products is the real header.
   return (
-    <section className="bg-ivory border-b border-gray-200">
-      <div className="max-w-[1720px] mx-auto px-4 lg:px-8 py-10 md:py-12 text-center">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/lotus.png"
-          alt=""
-          aria-hidden
-          className="mx-auto mb-4 h-8 md:h-9 w-auto select-none"
-          draggable={false}
-        />
-        <div className="text-[0.68rem] md:text-[0.72rem] tracking-[0.35em] uppercase font-bold text-gold-deep mb-3">
-          {TIER_LABEL[tier] ?? 'Occasions'} · {occasion.toUpperCase()}
+    <section className="bg-white border-b border-gray-200">
+      <div className="max-w-[1720px] mx-auto px-4 lg:px-8 py-5 md:py-6 text-center">
+        <div className="text-[0.62rem] md:text-[0.68rem] tracking-[0.3em] uppercase font-bold text-gold-deep mb-1.5">
+          Shop by Occasion
         </div>
         <div
           role="heading"
           aria-level={1}
-          className="font-sans text-xl md:text-2xl lg:text-[1.6rem] font-extrabold text-ink leading-tight tracking-tight"
+          className="font-sans text-lg md:text-xl font-extrabold text-ink leading-tight tracking-tight"
         >
           {copy?.title ?? `${occasion[0].toUpperCase()}${occasion.slice(1)} Sarees`}
         </div>
         {copy?.tagline && (
-          <p
-            className="mt-2 text-sm md:text-base italic text-maroon-deep"
-            style={{ fontWeight: 500 }}
-          >
+          <p className="mt-1 text-xs md:text-sm text-ink/65">
             {copy.tagline}
-          </p>
-        )}
-        {copy?.body && (
-          <p className="mt-3 text-xs md:text-sm text-ink/75 leading-relaxed max-w-[900px] mx-auto">
-            {copy.body}
           </p>
         )}
       </div>
