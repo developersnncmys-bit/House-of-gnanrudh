@@ -344,8 +344,11 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
 
           {/* Right: Find Store + search + account/wishlist/bag. `flex-1
               justify-end` fills the remaining width and anchors the
-              cluster to the right edge; `pr-[30px]` nudges inward. */}
-          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 pr-[30px]">
+              cluster to the right edge; `pr-[30px]` nudges inward.
+              Desktop gap steps up (lg:gap-6 → xl:gap-8) so Find Store,
+              the search bar and the icon cluster each read as a
+              distinct zone instead of a cramped row. */}
+          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3 lg:gap-6 xl:gap-8 pr-[30px]">
             {(() => {
               const findStoreHref = navHref('/stores');
               const findStoreCls =
@@ -370,18 +373,20 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                 </span>
               );
             })()}
-            <button
-              type="button"
-              aria-label={searchOpen ? 'Close search' : 'Open search'}
-              aria-expanded={searchOpen}
-              onClick={() => setSearchOpen((v) => !v)}
-              className="group hidden lg:flex items-center gap-2 px-2 py-2 text-ink hover:text-scarlet transition-colors whitespace-nowrap leading-none"
+            {/* Desktop inline search — Kalki-style: real input embedded
+                in the nav with a typewriter placeholder cycling through
+                categories/trending phrases. Focusing it ALSO opens the
+                full search drawer (Popular Choices + Recommended For
+                You) — React's onFocus bubbles up from the inner input,
+                so clicking anywhere in the bar triggers it. The drawer's
+                own autoFocused input takes over typing from there, so
+                the user's keystrokes land naturally in the drawer. */}
+            <div
+              className="hidden lg:block w-[240px] xl:w-[300px]"
+              onFocus={() => setSearchOpen(true)}
             >
-              <span className="inline-flex transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-110">
-                <IconSearch />
-              </span>
-              <NavSearchTeaser />
-            </button>
+              <AnimatedSearchBar variant="inline" />
+            </div>
             <button
               type="button"
               aria-label={searchOpen ? 'Close search' : 'Open search'}
@@ -393,6 +398,12 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                 <IconSearch />
               </span>
             </button>
+            {/* Icon cluster — account / wishlist / bag sit tight against
+                each other (the outer row's lg:gap-6 xl:gap-8 would spread
+                them apart and lose the "utility cluster" read). The
+                p-2 on each button already gives enough visual breathing
+                room, so this inner gap stays small. */}
+            <div className="flex items-center gap-0.5 sm:gap-1">
             <AccountMenu />
             {(() => {
               const wishlistHref = navHref('/shop?wishlist=1');
@@ -469,6 +480,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                 </span>
               )}
             </button>
+            </div>
           </div>
         </div>
       </div>
@@ -584,7 +596,11 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
           backdrop click dismisses. */}
       <div
         className={clsx(
-          'fixed inset-0 z-50 transition-opacity duration-300',
+          // Starts BELOW the promo strip (36px) so the "Hand-woven
+          // heirloom sarees" / "Free shipping" ribbon stays visible
+          // when the search panel is open — matches the Kalki pattern
+          // where the top brand ribbon never gets obscured by overlays.
+          'fixed top-[36px] inset-x-0 bottom-0 z-50 transition-opacity duration-300',
           searchOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
         )}
         aria-hidden={!searchOpen}
@@ -598,10 +614,16 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
           role="dialog"
           aria-modal="true"
           aria-label="Search"
-          className={clsx(
-            'absolute top-0 right-0 h-full w-full md:w-[70%] lg:w-[60%] xl:w-[55%] bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-out',
-            searchOpen ? 'translate-x-0' : 'translate-x-full',
-          )}
+          // Full-width overlay anchored under the promo strip. Switched
+          // from `max-h` to a *definite* `h-[min(…)]` because flexbox
+          // needs a definite parent height for `flex-1 min-h-0` on
+          // descendants to actually constrain and scroll — max-h alone
+          // only caps overflow visually, it doesn't give flex children a
+          // height to divide. Added `overflow-hidden` so content that
+          // exceeds the panel is clipped at the panel boundary (forcing
+          // the inner product grid to scroll inside rather than spilling
+          // past). Height ceiling: 85vh / 820px.
+          className="absolute top-0 inset-x-0 h-[min(85vh,820px)] bg-ivory shadow-2xl flex flex-col overflow-hidden"
         >
           <div className="flex items-center gap-4 px-5 sm:px-8 py-5 border-b border-ink/10">
             <div className="flex-1 min-w-0">
@@ -618,7 +640,7 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
             </button>
           </div>
 
-          <div className="flex-1 min-h-0 overflow-y-auto md:overflow-hidden px-5 sm:px-8 py-6">
+          <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain md:overflow-hidden px-5 sm:px-8 py-6">
             <div className="flex flex-col md:flex-row gap-8 md:gap-10 h-full min-h-0">
               {/* Popular Choices — pills, stacked vertically on desktop. */}
               <section className="md:w-64 shrink-0">
@@ -651,14 +673,17 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                 </ul>
               </section>
 
-              {/* Recommended For You — 2-up vertical grid with its own
-                  scrollbar so Popular Choices stays visible while the
-                  visitor scrolls through products. */}
+              {/* Recommended For You — multi-column grid scales to the
+                  full-width dropdown panel. Previously fixed at 2 cols
+                  (left over from when the drawer was a 55-70% side rail)
+                  which left each tile ~half the viewport wide once the
+                  drawer went full-width. Steps up through sm/lg/xl so
+                  tiles stay in a browse-sized ~220-280px range. */}
               <section className="flex-1 min-w-0 flex flex-col min-h-0">
                 <h3 className="text-xs font-bold tracking-[0.18em] uppercase text-ink mb-4">
                   Recommended For You
                 </h3>
-                <div className="grid grid-cols-2 gap-4 overflow-y-auto pr-2 search-rail-scroll">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 overflow-y-auto overscroll-contain pr-2 search-rail-scroll flex-1 min-h-0">
                   {RECOMMENDED.map((s) => {
                     const resolved = navHref(`/shop/${s.id}`);
                     const tile = (
@@ -672,11 +697,11 @@ function NavInner({ searchParams }: { searchParams: URLSearchParams | null }) {
                             draggable={false}
                           />
                         </div>
-                        <div className="pt-3">
-                          <div className="text-sm font-semibold text-ink line-clamp-1">
+                        <div className="pt-2">
+                          <div className="text-xs font-semibold text-ink line-clamp-1">
                             {s.name}
                           </div>
-                          <div className="text-sm text-ink/70 mt-1">
+                          <div className="text-xs text-ink/70 mt-0.5">
                             {formatINR(s.price)}
                           </div>
                         </div>
@@ -876,52 +901,3 @@ function IconClose() {
   return <LuX size={22} strokeWidth={1.8} aria-hidden />;
 }
 
-// Nav SEARCH teaser — "Search for" is a static prefix; only the
-// category word inside the quotes cycles, fading up/out as it swaps.
-// Pure text — the parent button still handles the click.
-const NAV_SEARCH_PHRASES = [
-  'Kanjeevaram',
-  'Banarasi',
-  'Mysore Silk',
-  'Mangalagiri',
-  'Pochampally',
-  'Gadwal',
-  'Patola',
-  'Bridal',
-];
-
-const NAV_PHRASE_HOLD_MS = 2200;
-const NAV_PHRASE_FADE_MS = 320;
-
-function NavSearchTeaser() {
-  const [idx, setIdx] = useState(0);
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    const hold = window.setTimeout(() => {
-      setVisible(false);
-      const swap = window.setTimeout(() => {
-        setIdx((i) => (i + 1) % NAV_SEARCH_PHRASES.length);
-        setVisible(true);
-      }, NAV_PHRASE_FADE_MS);
-      return () => window.clearTimeout(swap);
-    }, NAV_PHRASE_HOLD_MS);
-    return () => window.clearTimeout(hold);
-  }, [idx]);
-
-  return (
-    <span className="tracking-[0.08em] uppercase text-[0.8rem] font-bold underline underline-offset-4 decoration-ink/30 group-hover:decoration-scarlet/50 transition-colors">
-      Search for &quot;
-      <span
-        className="inline-block underline underline-offset-4 decoration-ink/30 group-hover:decoration-scarlet/50 transition-all duration-300 ease-out"
-        style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? 'translateY(0)' : 'translateY(-4px)',
-        }}
-      >
-        {NAV_SEARCH_PHRASES[idx]}
-      </span>
-      &quot;
-    </span>
-  );
-}

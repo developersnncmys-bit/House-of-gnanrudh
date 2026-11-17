@@ -75,7 +75,7 @@ export default function Hero() {
     setActive((a) => (a - 1 + SLIDES.length) % SLIDES.length);
 
   return (
-    <section className="relative w-full h-[calc(85vh-10px)] min-h-[470px] sm:min-h-[550px] md:min-h-[610px] max-h-[890px] bg-[#1B0E0A] overflow-hidden">
+    <section className="relative w-full h-[calc(78vh-10px)] min-h-[430px] sm:min-h-[510px] md:min-h-[560px] max-h-[820px] bg-[#1B0E0A] overflow-hidden">
       {SLIDES.map((slide, i) => {
         const isLeft = slide.textSide === 'left';
         return (
@@ -140,7 +140,7 @@ export default function Hero() {
                   : 'md:justify-end justify-start md:pr-20 lg:pr-32 xl:pr-44',
               )}
             >
-              <div className="max-w-lg md:max-w-[min(32rem,38vw)] text-ivory -translate-y-[17px] md:-translate-y-[33px] lg:-translate-y-[49px]">
+              <div className="max-w-lg md:max-w-[min(32rem,38vw)] text-ivory -translate-y-[11px] md:-translate-y-[27px] lg:-translate-y-[43px]">
                 {slide.badge && (
                   <span
                     className={clsx(
